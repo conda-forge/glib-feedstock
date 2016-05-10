@@ -2,7 +2,7 @@
 
 # Need to get appropriate response to g_get_system_data_dirs()
 # See the system-data-dirs.patch file
-export CFLAGS="-DCONDA_SYSTEM_DATA_DIRS=\\\"${PREFIX}/share\\\""
+export CFLAGS="-DCONDA_PREFIX=\\\"${PREFIX}\\\""
 
 if [ "$(uname)" == "Darwin" ] ; then
   # for Mac OSX

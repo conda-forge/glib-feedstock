@@ -28,14 +28,13 @@ requirements:
     - python
     - xz
     - pkg-config
-    - libffi
+    - libffi  >=3.0.0
     - gettext
     - zlib
     - pcre
     - libiconv
   run:
-    - pkg-config
-    - libffi
+    - libffi  >=3.0.0
     - gettext
     - zlib
     - pcre

@@ -2,7 +2,7 @@
 
 # Need to get appropriate response to g_get_system_data_dirs()
 # See the system-data-dirs.patch file
-export CFLAGS="-DCONDA_SYSTEM_DATA_DIRS=\\\"${PREFIX}/share\\\""
+export CFLAGS="-DCONDA_PREFIX=\\\"${PREFIX}\\\""
 
 if [ "$(uname)" == "Darwin" ] ; then
   # for Mac OSX
@@ -23,7 +23,10 @@ else
   export LDFLAGS="${LDFLAGS} -L${PREFIX}/lib"
 fi
 
-./configure --prefix=${PREFIX} --with-python="${PYTHON}" --with-libiconv=gnu \
-  || { cat config.log; exit 1; }
+./configure --prefix=${PREFIX} \
+            --with-python="${PYTHON}" \
+            --with-libiconv=gnu \
+            || { cat config.log; exit 1; }
+
 make
 make install

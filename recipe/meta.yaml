@@ -25,24 +25,24 @@ source:
     - no-cocoa-notification.patch  # [osx]
 
 build:
-  number: 3
+  number: 4
   skip: true  # [win]
   detect_binary_files_with_prefix: true
 
 requirements:
   build:
     - python
-    - xz
+    - xz 5.0.*
     - pkg-config
     - libffi  >=3.0.0
     - gettext
-    - zlib
+    - zlib 1.2.*
     - pcre
     - libiconv
   run:
     - libffi  >=3.0.0
     - gettext
-    - zlib
+    - zlib 1.2.*
     - pcre
     - libiconv
 

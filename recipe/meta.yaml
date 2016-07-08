@@ -25,24 +25,23 @@ source:
     - no-cocoa-notification.patch  # [osx]
 
 build:
-  number: 3
+  number: 4
   skip: true  # [win]
   detect_binary_files_with_prefix: true
 
 requirements:
   build:
     - python
-    - xz
     - pkg-config
     - libffi  >=3.0.0
     - gettext
-    - zlib
+    - zlib 1.2.*
     - pcre
     - libiconv
   run:
     - libffi  >=3.0.0
     - gettext
-    - zlib
+    - zlib 1.2.*
     - pcre
     - libiconv
 
@@ -50,6 +49,7 @@ test:
   commands:
     - test -f ${PREFIX}/lib/libglib-2.0.so  # [linux]
     - test -f ${PREFIX}/lib/libglib-2.0.dylib  # [osx]
+    - conda inspect linkages -n _test glib  # [linux]
 
 about:
   home: https://developer.gnome.org/glib/
@@ -61,3 +61,4 @@ extra:
     - ccordoba12
     - jakirkham
     - scopatz
+    - ocefpaf

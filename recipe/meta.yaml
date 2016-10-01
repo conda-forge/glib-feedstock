@@ -49,7 +49,7 @@ test:
   commands:
     - test -f ${PREFIX}/lib/libglib-2.0.so  # [linux]
     - test -f ${PREFIX}/lib/libglib-2.0.dylib  # [osx]
-    - conda inspect linkages -n _test glib  # [linux]
+    - conda inspect linkages -p ${PREFIX} glib  # [linux]
 
 about:
   home: https://developer.gnome.org/glib/

@@ -49,12 +49,13 @@ test:
   commands:
     - test -f ${PREFIX}/lib/libglib-2.0.so  # [linux]
     - test -f ${PREFIX}/lib/libglib-2.0.dylib  # [osx]
-    - conda inspect linkages -p ${PREFIX} glib  # [linux]
+    #- conda inspect linkages -p $PREFIX glib  # [not win]
+    #- conda inspect objects -p $PREFIX glib  # [osx]
 
 about:
   home: https://developer.gnome.org/glib/
-  license: GNU Lesser General Public License v2.1
-  summary: "Provides core application building blocks for libraries and applications written in C."
+  license: LGPL-2.1
+  summary: 'Provides core application building blocks for libraries and applications written in C.'
 
 extra:
   recipe-maintainers:

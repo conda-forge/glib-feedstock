@@ -5,7 +5,6 @@
 export CFLAGS="-DCONDA_PREFIX=\\\"${PREFIX}\\\""
 
 if [ "$(uname)" == "Darwin" ] ; then
-  # for Mac OSX
   export CC=clang
   export CXX=clang++
   # Cf. the discussion in meta.yaml -- we require 10.7.
@@ -16,8 +15,7 @@ if [ "$(uname)" == "Darwin" ] ; then
   # Pick up the Conda version of gettext/libintl:
   export CPPFLAGS="${CPPFLAGS} -I${PREFIX}/include"
   export LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib"
-else
-  # for linux
+elif [ "$(uname)" == "Linux" ] ; then
   # Pick up the Conda version of gettext/libintl:
   export CPPFLAGS="${CPPFLAGS} -I${PREFIX}/include"
   export LDFLAGS="${LDFLAGS} -L${PREFIX}/lib"
@@ -26,7 +24,12 @@ fi
 ./configure --prefix=${PREFIX} \
             --with-python="${PYTHON}" \
             --with-libiconv=gnu \
-            || { cat config.log; exit 1; }
+            --disable-libmount \
+                || { cat config.log; exit 1; }
 
 make
+# FIXME
+# ERROR: fileutils - too few tests run (expected 15, got 14)
+# ERROR: fileutils - exited with status 134 (terminated by signal 6?)
+# make check
 make install

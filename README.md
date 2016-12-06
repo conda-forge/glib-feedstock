@@ -3,7 +3,7 @@ About glib
 
 Home: https://developer.gnome.org/glib/
 
-Package license: GNU Lesser General Public License v2.1
+Package license: LGPL-2.1
 
 Feedstock license: BSD 3-Clause
 

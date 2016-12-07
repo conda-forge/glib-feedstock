@@ -21,7 +21,7 @@ source:
     - hardcoded-paths.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   detect_binary_files_with_prefix: true
 

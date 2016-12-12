@@ -33,3 +33,5 @@ make
 # ERROR: fileutils - exited with status 134 (terminated by signal 6?)
 # make check
 make install
+
+rm -rf $PREFIX/share/gdb

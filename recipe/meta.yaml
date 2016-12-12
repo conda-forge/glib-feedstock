@@ -21,8 +21,8 @@ source:
     - hardcoded-paths.patch
 
 build:
-  number: 1
-  skip: true  # [win]
+  number: 2
+  skip: True  # [win]
   detect_binary_files_with_prefix: true
 
 requirements:
@@ -45,8 +45,8 @@ test:
   commands:
     - test -f ${PREFIX}/lib/libglib-2.0.so  # [linux]
     - test -f ${PREFIX}/lib/libglib-2.0.dylib  # [osx]
-    #- conda inspect linkages -p $PREFIX glib  # [not win]
-    #- conda inspect objects -p $PREFIX glib  # [osx]
+    - conda inspect linkages -p $PREFIX glib  # [not win]
+    - conda inspect objects -p $PREFIX glib  # [osx]
 
 about:
   home: https://developer.gnome.org/glib/

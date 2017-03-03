@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Need to get appropriate response to g_get_system_data_dirs()
-# See the system-data-dirs.patch file
+# See the hardcoded-paths.patch file
 export CFLAGS="-DCONDA_PREFIX=\\\"${PREFIX}\\\""
 
 if [ "$(uname)" == "Darwin" ] ; then
@@ -28,10 +28,7 @@ fi
                 || { cat config.log; exit 1; }
 
 make
-# FIXME
-# ERROR: fileutils - too few tests run (expected 15, got 14)
-# ERROR: fileutils - exited with status 134 (terminated by signal 6?)
-# make check
+make check
 make install
 
 rm -rf $PREFIX/share/gdb

@@ -1,6 +1,6 @@
 {% set major_minor = "2.51" %}
-{% set version = major_minor + ".0" %}
-{% set sha256 = "f113b7330f4b4a43e3e401fe7849e751831060d574bd936a63e979887137a74a" %}
+{% set version = major_minor + ".4" %}
+{% set sha256 = "7c4247dfb2e8d5b596018f00ea8c05e76077a3f0bfcc07dda4492708f552c23e" %}
 
 package:
   name: glib
@@ -8,7 +8,7 @@ package:
 
 source:
   fn: glib-{{ version }}.tar.xz
-  url: http://ftp.acc.umu.se/pub/GNOME/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
+  url: http://ftp.gnome.org/pub/GNOME/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
   sha256: {{ sha256 }}
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
@@ -21,8 +21,8 @@ source:
     - hardcoded-paths.patch
 
 build:
-  number: 2
-  skip: True  # [win]
+  number: 0
+  skip: true  # [not py35 or win]
   detect_binary_files_with_prefix: true
 
 requirements:
@@ -45,8 +45,8 @@ test:
   commands:
     - test -f ${PREFIX}/lib/libglib-2.0.so  # [linux]
     - test -f ${PREFIX}/lib/libglib-2.0.dylib  # [osx]
-    - conda inspect linkages -p $PREFIX glib  # [not win]
-    - conda inspect objects -p $PREFIX glib  # [osx]
+    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
+    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
 
 about:
   home: https://developer.gnome.org/glib/
@@ -59,3 +59,4 @@ extra:
     - jakirkham
     - scopatz
     - ocefpaf
+    - pkgw

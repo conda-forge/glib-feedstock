@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Need to get appropriate response to g_get_system_data_dirs()
-# See the system-data-dirs.patch file
+# See the hardcoded-paths.patch file
 export CFLAGS="-DCONDA_PREFIX=\\\"${PREFIX}\\\""
 
 if [ "$(uname)" == "Darwin" ] ; then

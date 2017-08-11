@@ -1,37 +1,40 @@
 #!/usr/bin/env bash
 
-# Need to get appropriate response to g_get_system_data_dirs()
-# See the hardcoded-paths.patch file
-export CFLAGS="-DCONDA_PREFIX=\\\"${PREFIX}\\\""
-
-if [ "$(uname)" == "Darwin" ] ; then
+if [[ $(uname) == Darwin ]]; then
   export CC=clang
   export CXX=clang++
-  # Cf. the discussion in meta.yaml -- we require 10.7.
-  export MACOSX_DEPLOYMENT_TARGET="10.7"
-  SDK=/
-  export CFLAGS="${CFLAGS} -isysroot ${SDK}"
-  export LDFLAGS="${LDFLAGS} -Wl,-syslibroot,${SDK}"
-  # Pick up the Conda version of gettext/libintl:
-  export CPPFLAGS="${CPPFLAGS} -I${PREFIX}/include"
-  export LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib"
-elif [ "$(uname)" == "Linux" ] ; then
-  # Pick up the Conda version of gettext/libintl:
-  export CPPFLAGS="${CPPFLAGS} -I${PREFIX}/include"
-  export LDFLAGS="${LDFLAGS} -L${PREFIX}/lib"
+  export CPPFLAGS="$CPPFLAGS -I$PREFIX/include"
+  export LDFLAGS="$LDFLAGS -L$PREFIX/lib -Wl,-rpath,$PREFIX/lib -headerpad_max_install_names"
+  export LIBRARY_SEARCH_VAR=DYLD_FALLBACK_LIBRARY_PATH
+  export MACOSX_DEPLOYMENT_TARGET="10.9"
+  export CXXFLAGS="-stdlib=libc++ $CXXFLAGS"
+elif [ $(uname) == Linux ] ; then
+  export CPPFLAGS="-I${PREFIX}/include $CPPFLAGS"
+  export LDFLAGS="-L${PREFIX}/lib $LDFLAGS"
 fi
 
-./configure --prefix=${PREFIX} \
-            --with-python="${PYTHON}" \
+
+# @PYTHON@ is used in the build scripts and that breaks witht he long prefix.
+# we need to redefine that to `python`. Note that using
+_PY=$PYTHON
+export PYTHON="python"
+
+./configure --prefix="${PREFIX}" \
+            --with-python=${PYTHON} \
             --with-libiconv=gnu \
-            --disable-libmount \
-                || { cat config.log; exit 1; }
+            --disable-libmount
 
-make
-# FIXME
-# ERROR: fileutils - too few tests run (expected 15, got 14)
-# ERROR: fileutils - exited with status 134 (terminated by signal 6?)
-# make check
-make install
+make -j$CPU_COUNT
+# FIXME: sipping make check due to:
+# ERROR: appinfo - too few tests run (expected 13, got 2)
+# ERROR: appinfo - exited with status 133 (terminated by signal 5?)
+# ERROR: desktop-app-info - too few tests run (expected 9, got 0)
+# ERROR: desktop-app-info - exited with status 133 (terminated by signal 5?)
+# Too long with no output (exceeded 10m0s)
+# make check -j$CPU_COUNT
+make install -j$CPU_COUNT
 
-rm -rf $PREFIX/share/gdb
+export PYTHON=$_PY
+
+cd $PREFIX
+find . -type f -name "*.la" -exec rm -rf '{}' \; -print

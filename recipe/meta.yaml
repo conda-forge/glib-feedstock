@@ -21,7 +21,7 @@ source:
     - no_fileutils_test.patch
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win or not py36]
   detect_binary_files_with_prefix: True
 
@@ -31,21 +31,21 @@ requirements:
     - pkg-config
     - libffi >=3.0.0
     - gettext
-    - zlib 1.2.8
+    - zlib 1.2.11
     - pcre
     - libiconv
   run:
     - libffi >=3.0.0
     - gettext
-    - zlib 1.2.8
+    - zlib 1.2.11
     - pcre
     - libiconv
 
 test:
   commands:
+    - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}  # [not win]
     - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
     - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
-    - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}  # [not win]
 
 about:
   home: https://developer.gnome.org/glib/

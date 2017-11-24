@@ -1,5 +1,5 @@
-{% set major_minor = "2.53" %}
-{% set version = major_minor + ".5" %}
+{% set major_minor = "2.55" %}
+{% set version = major_minor + ".0" %}
 
 package:
   name: glib
@@ -7,7 +7,7 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/GNOME/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 991421f41a4ed4cc1637e5f9db0d03fd236d2cbd19f3c5b097a343bec5126602
+  sha256: 13fc009e68ca490f986f21a7d5d3a429486fb28a1f4e06298c9ac976067518f5
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -21,7 +21,7 @@ source:
     - no_fileutils_test.patch
 
 build:
-  number: 2
+  number: 0
   skip: True  # [win or not py36]
   detect_binary_files_with_prefix: True
 

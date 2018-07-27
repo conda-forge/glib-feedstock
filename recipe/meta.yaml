@@ -21,25 +21,27 @@ source:
     - no_fileutils_test.patch
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win or not py36]
   detect_binary_files_with_prefix: True
 
 requirements:
   build:
-    - python
     - pkg-config
-    - libffi >=3.0.0
+    - {{ compiler('c') }}
+  host:
+    - python
+    - libffi
     - gettext
-    - zlib 1.2.11
+    - zlib
     - pcre
-    - libiconv 1.15
+    - libiconv
   run:
-    - libffi >=3.0.0
+    - libffi
     - gettext
-    - zlib 1.2.11
+    - zlib
     - pcre
-    - libiconv 1.15
+    - libiconv
 
 test:
   commands:

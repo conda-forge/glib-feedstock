@@ -14,14 +14,16 @@ Summary: Provides core application building blocks for libraries and application
 Current build status
 ====================
 
-Linux: [![Circle CI](https://circleci.com/gh/conda-forge/glib-feedstock.svg?style=shield)](https://circleci.com/gh/conda-forge/glib-feedstock)
-OSX: [![TravisCI](https://travis-ci.org/conda-forge/glib-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/glib-feedstock)
-Windows: ![](https://cdn.rawgit.com/conda-forge/conda-smithy/90845bba35bec53edac7a16638aa4d77217a3713/conda_smithy/static/disabled.svg)
+[![Linux](https://img.shields.io/circleci/project/github/conda-forge/glib-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/glib-feedstock)
+[![OSX](https://img.shields.io/travis/conda-forge/glib-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/glib-feedstock)
+![Windows disabled](https://img.shields.io/badge/Windows-disabled-lightgrey.svg)
 
 Current release info
 ====================
-Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/glib/badges/version.svg)](https://anaconda.org/conda-forge/glib)
-Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/glib/badges/downloads.svg)](https://anaconda.org/conda-forge/glib)
+
+| Name | Downloads | Version | Platforms |
+| --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-glib-green.svg)](https://anaconda.org/conda-forge/glib) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/glib.svg)](https://anaconda.org/conda-forge/glib) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/glib.svg)](https://anaconda.org/conda-forge/glib) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/glib.svg)](https://anaconda.org/conda-forge/glib) |
 
 Installing glib
 ===============

@@ -1,19 +1,5 @@
 #!/usr/bin/env bash
 
-if [[ $(uname) == Darwin ]]; then
-  export CC=clang
-  export CXX=clang++
-  export CPPFLAGS="$CPPFLAGS -I$PREFIX/include"
-  export LDFLAGS="$LDFLAGS -L$PREFIX/lib -Wl,-rpath,$PREFIX/lib -headerpad_max_install_names"
-  export LIBRARY_SEARCH_VAR=DYLD_FALLBACK_LIBRARY_PATH
-  export MACOSX_DEPLOYMENT_TARGET="10.9"
-  export CXXFLAGS="-stdlib=libc++ $CXXFLAGS"
-elif [ $(uname) == Linux ] ; then
-  export CPPFLAGS="-I${PREFIX}/include $CPPFLAGS"
-  export LDFLAGS="-L${PREFIX}/lib $LDFLAGS"
-fi
-
-
 # @PYTHON@ is used in the build scripts and that breaks witht he long prefix.
 # we need to redefine that to `python`. Note that using
 _PY=$PYTHON
@@ -38,3 +24,7 @@ export PYTHON=$_PY
 
 cd $PREFIX
 find . -type f -name "*.la" -exec rm -rf '{}' \; -print
+
+# gdb folder has a nested folder structure similar to our host prefix 
+# (255 chars) which causes installation issues so remove it.
+rm -rf $PREFIX/share/gdb

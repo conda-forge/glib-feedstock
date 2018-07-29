@@ -38,26 +38,27 @@ requirements:
     - pkg-config
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - {{ cdt('gettext-devel') }}  # [linux]
     - automake
     - autoconf
     - libtool
     # gettext here is so that msgfmt is on PATH, which is required for the configure tests
-    - gettext                     # [linux]
+    - gettext  # [linux]
     - make
     - python
     - pkg-config
   host:
     - libffi >=3.0.0
-    - gettext
+    - gettext  # [not linux]
     - zlib
     - pcre
-    - libiconv
+    - libiconv  # [not linux and not win]
   run:
     - libffi >=3.0.0
     - gettext
     - zlib
     - pcre
-    - libiconv
+    - libiconv  # [not linux and not win]
 
 test:
   commands:

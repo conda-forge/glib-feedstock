@@ -1,0 +1,36 @@
+From f3fb8ae8eac6e123a815590f652dae70b6ec5549 Mon Sep 17 00:00:00 2001
+From: Mike Sarahan <msarahan@gmail.com>
+Date: Mon, 2 Apr 2018 16:57:50 +0000
+Subject: [PATCH] F_SETPIPE_SZ absence workaround
+
+---
+ gio/gfile.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/gio/gfile.c b/gio/gfile.c
+index 334ad8e..91babc3 100644
+--- a/gio/gfile.c
++++ b/gio/gfile.c
+@@ -3014,11 +3014,19 @@ splice_stream_with_progress (GInputStream           *in,
+ 
+   /* Try a 1MiB buffer for improved throughput. If that fails, use the default
+    * pipe size. See: https://bugzilla.gnome.org/791457 */
++#ifdef F_SETPIPE_SZ
+   buffer_size = fcntl (buffer[1], F_SETPIPE_SZ, 1024 * 1024);
++#else
++  buffer_size = 1024 * 1024;
++#endif
+   if (buffer_size <= 0)
+     {
+       int errsv;
++#ifdef F_GETPIPE_SZ
+       buffer_size = fcntl (buffer[1], F_GETPIPE_SZ);
++#else
++      buffer_size = 1024 * 1024;
++#endif
+       errsv = errno;
+ 
+       if (buffer_size <= 0)
+-- 
+2.16.1
+

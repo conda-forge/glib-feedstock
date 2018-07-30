@@ -2,8 +2,8 @@ MACOSX_DEPLOYMENT_TARGET:
 - '10.9'
 c_compiler:
 - toolchain_c
-libffi:
-- '3.2'
+cxx_compiler:
+- toolchain_cxx
 libiconv:
 - '1.15'
 macos_machine:
@@ -11,16 +11,9 @@ macos_machine:
 macos_min_version:
 - '10.9'
 pin_run_as_build:
-  libffi:
-    max_pin: x.x
   libiconv:
     max_pin: x.x
-  python:
-    max_pin: x.x
-    min_pin: x.x
   zlib:
     max_pin: x.x
-python:
-- '3.6'
 zlib:
 - '1.2'

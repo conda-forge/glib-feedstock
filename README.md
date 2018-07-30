@@ -9,6 +9,10 @@ Feedstock license: BSD 3-Clause
 
 Summary: Provides core application building blocks for libraries and applications written in C.
 
+GLib provides the core application building blocks for libraries and
+applications written in C. It provides the core object system used in
+GNOME, the main loop implementation, and a large set of utility functions
+functions for strings and common data structures.
 
 
 Current build status

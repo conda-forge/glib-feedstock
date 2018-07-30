@@ -1,5 +1,5 @@
-{% set major_minor = "2.55" %}
-{% set version = major_minor + ".0" %}
+{% set major_minor = "2.56" %}
+{% set version = major_minor + ".1" %}
 
 package:
   name: glib
@@ -7,7 +7,7 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/GNOME/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 13fc009e68ca490f986f21a7d5d3a429486fb28a1f4e06298c9ac976067518f5
+  sha256: 40ef3f44f2c651c7a31aedee44259809b6f03d3d20be44545cd7d177221c0b8d
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -19,46 +19,70 @@ source:
     - hardcoded-paths.patch
     # Not sure why test_stdio_wrappers do not pass, skipping it for now.
     - no_fileutils_test.patch
+    - 0001-F_SETPIPE_SZ-absence-workaround.patch
+    - 0001-Revert-Stop-using-ptrctl-for-thread-names.patch
 
 build:
-  number: 2
-  skip: True  # [win or not py36]
+  number: 0
+  skip: True  # [win]
   detect_binary_files_with_prefix: True
+  run_exports:
+    # remove symbols at minor versions.
+    #    https://abi-laboratory.pro/tracker/timeline/glib/
+    - {{ pin_subpackage('glib', max_pin='x.x') }}
+  missing_dso_whitelist:          # [osx]
+    - /usr/lib/libresolv.9.dylib  # [osx]
 
 requirements:
   build:
     - pkg-config
     - {{ compiler('c') }}
-  host:
+    - {{ compiler('cxx') }}
+    - {{ cdt('gettext-devel') }}  # [linux]
+    - automake
+    - autoconf
+    - libtool
+    # gettext here is so that msgfmt is on PATH, which is required for the configure tests
+    - gettext  # [linux]
+    - make
     - python
-    - libffi
-    - gettext
+    - pkg-config
+  host:
+    - libffi >=3.0.0
+    - gettext  # [not linux]
     - zlib
     - pcre
-    - libiconv
+    - libiconv  # [not linux and not win]
   run:
-    - libffi
+    - libffi >=3.0.0
     - gettext
     - zlib
     - pcre
-    - libiconv
+    - libiconv  # [not linux and not win]
 
 test:
   commands:
     - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}  # [not win]
-    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
-    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
 
 about:
   home: https://developer.gnome.org/glib/
   license: LGPL-2.1
-  license_file: COPYING
   summary: 'Provides core application building blocks for libraries and applications written in C.'
+  description: |
+    GLib provides the core application building blocks for libraries and
+    applications written in C. It provides the core object system used in
+    GNOME, the main loop implementation, and a large set of utility functions
+    functions for strings and common data structures.
+  doc_url: https://developer.gnome.org/glib/unstable/
+  dev_url: https://git.gnome.org/browse/glib/
+  doc_source_url: https://git.gnome.org/browse/glib/tree/docs
 
 extra:
   recipe-maintainers:
     - ccordoba12
     - jakirkham
+    - mingwandroid
     - scopatz
     - ocefpaf
     - pkgw
+    - msarahan

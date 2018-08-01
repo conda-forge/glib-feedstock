@@ -22,6 +22,9 @@ make install -j$CPU_COUNT
 
 export PYTHON=$_PY
 
+# remove libtool files
+find $PREFIX -name '*.la' -delete
+
 # gdb folder has a nested folder structure similar to our host prefix
 # (255 chars) which causes installation issues so remove it.
 rm -rf $PREFIX/share/gdb

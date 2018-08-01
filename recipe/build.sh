@@ -22,9 +22,6 @@ make install -j$CPU_COUNT
 
 export PYTHON=$_PY
 
-cd $PREFIX
-find . -type f -name "*.la" -exec rm -rf '{}' \; -print
-
-# gdb folder has a nested folder structure similar to our host prefix 
+# gdb folder has a nested folder structure similar to our host prefix
 # (255 chars) which causes installation issues so remove it.
 rm -rf $PREFIX/share/gdb

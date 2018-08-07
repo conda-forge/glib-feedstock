@@ -30,6 +30,7 @@ requirements:
     - make
     - autoconf
     - automake
+    - libtool
     - pkg-config
     - {{ compiler('c') }}
   host:

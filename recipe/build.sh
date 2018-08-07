@@ -5,6 +5,7 @@
 _PY=$PYTHON
 export PYTHON="python"
 
+autoreconf -i -f
 ./configure --prefix="${PREFIX}" \
             --with-python=${PYTHON} \
             --with-libiconv=gnu \

@@ -18,7 +18,7 @@ source:
     #
     - hardcoded-paths.patch
     # Not sure why test_stdio_wrappers do not pass, skipping it for now.
-    - no_fileutils_test.patch
+    #- no_fileutils_test.patch
 
 build:
   number: 2
@@ -27,6 +27,10 @@ build:
 
 requirements:
   build:
+    - make
+    - autoconf
+    - automake
+    - libtool
     - pkg-config
     - {{ compiler('c') }}
   host:
@@ -46,6 +50,7 @@ requirements:
 test:
   commands:
     - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}  # [not win]
+    - test -f ${PREFIX}/include/gio-unix-2.0/gio/gdesktopappinfo.h  # [not win]
     - test ! -f ${PREFIX}/lib/libgobject-2.0.la  # [not win]
     - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
     - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]

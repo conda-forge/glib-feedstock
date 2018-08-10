@@ -22,7 +22,7 @@ source:
 
 build:
   number: 3
-  skip: false  # [win or not py36]
+  skip: true  # [not py36]
   detect_binary_files_with_prefix: True
 
 requirements:

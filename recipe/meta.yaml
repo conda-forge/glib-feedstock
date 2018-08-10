@@ -21,24 +21,28 @@ source:
     - no_fileutils_test.patch
 
 build:
-  number: 2
-  skip: True  # [win or not py36]
+  number: 3
+  skip: false  # [win or not py36]
   detect_binary_files_with_prefix: True
 
 requirements:
   build:
-    - pkg-config
+    - pkg-config            # [not win]
     - {{ compiler('c') }}
   host:
     - python
-    - libffi
-    - gettext
+    - libffi                # [not win]
+    - m2-libffi             # [win]
+    - gettext               # [not win]
+    - m2-gettext            # [win]
     - zlib
     - pcre
     - libiconv
   run:
-    - libffi
-    - gettext
+    - libffi                # [not win]
+    - m2-libffi             # [win]
+    - gettext               # [not win]
+    - m2-gettext            # [win]
     - zlib
     - pcre
     - libiconv

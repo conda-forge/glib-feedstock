@@ -1,5 +1,7 @@
 {% set major_minor = "2.55" %}
 {% set version = major_minor + ".0" %}
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: glib
@@ -19,17 +21,24 @@ source:
     - hardcoded-paths.patch
     # Not sure why test_stdio_wrappers do not pass, skipping it for now.
     - no_fileutils_test.patch
+    # Windows:
+    - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
+    - 0002-Fix-missing-include-paths-in-glib-gnulib.patch             # [win]
+    - 0003-Increase-some-test-timeouts.patch                          # [win]
 
 build:
   number: 2
-  skip: True  # [win or not py36]
+  skip: True  # [not py36]
   detect_binary_files_with_prefix: True
 
 requirements:
   build:
-    - pkg-config
+    - {{posix}}patch  # [win]
+    - ninja           # [win]
+    - {{native}}pkg-config
     - {{ compiler('c') }}
   host:
+    - meson  # [win]
     - python
     - libffi
     - gettext

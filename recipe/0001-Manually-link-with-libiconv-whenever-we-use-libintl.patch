@@ -1,0 +1,201 @@
+From 7f452d8aaf25c34579528f9efa6b800e70a9f2c3 Mon Sep 17 00:00:00 2001
+From: Peter Williams <peter@newton.cx>
+Date: Mon, 3 Sep 2018 22:27:48 -0400
+Subject: [PATCH 1/3] Manually link with libiconv whenever we use libintl.
+
+Sadly our Windows libintl DLL doesn't convey that it should pull in libiconv
+as a dependency (nor does it use pkg-config). Until I figure that out, let's
+just manually link with libintl when needed.
+
+There is also some hacking of gconvert.c and the toplevel meson.build file
+needed to adjust the build system -- it assumes that on Windows you're always
+going to use an internal iconv.
+---
+ gio/meson.build       | 16 ++++++++--------
+ gio/win32/meson.build |  2 +-
+ glib/gconvert.c       |  6 ------
+ glib/meson.build      |  8 ++++----
+ gobject/meson.build   |  2 +-
+ meson.build           |  4 ++--
+ 6 files changed, 16 insertions(+), 22 deletions(-)
+
+diff --git a/gio/meson.build b/gio/meson.build
+index 4a10d49..59d70a8 100644
+--- a/gio/meson.build
++++ b/gio/meson.build
+@@ -738,7 +738,7 @@ libgio = shared_library('gio-2.0',
+   #$(SELINUX_LIBS)
+   #$(XATTR_LIBS)
+   dependencies : [libintl, libz_dep, libdl_dep, libmount_dep, libglib_dep,
+-                  libgobject_dep, libgmodule_dep] + platform_deps + network_libs,
++                  libgobject_dep, libgmodule_dep] + libiconv + platform_deps + network_libs,
+   c_args : gio_c_args,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+@@ -788,14 +788,14 @@ executable('gio', gio_tool_sources,
+   c_args : ['-DHAVE_CONFIG_H=1'] + gio_c_args,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+-  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
++  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
+ 
+ executable('gresource', 'gresource-tool.c',
+   install : true,
+   c_args : ['-DHAVE_CONFIG_H=1'],
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+-  dependencies : [libelf, libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
++  dependencies : [libelf, libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
+ 
+ executable('gio-querymodules', 'gio-querymodules.c',
+   install : true,
+@@ -810,7 +810,7 @@ glib_compile_schemas = executable('glib-compile-schemas',
+   c_args : ['-DHAVE_CONFIG_H=1'],
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+-  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
++  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
+ 
+ glib_compile_resources = executable('glib-compile-resources',
+   [gconstructor_as_data_h, 'gvdb/gvdb-builder.c', 'glib-compile-resources.c'],
+@@ -818,14 +818,14 @@ glib_compile_resources = executable('glib-compile-resources',
+   c_args : ['-DHAVE_CONFIG_H=1'] + gio_c_args,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+-  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
++  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
+ 
+ executable('gsettings', 'gsettings-tool.c',
+   install : true,
+   c_args : ['-DHAVE_CONFIG_H=1'] + gio_c_args,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+-  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
++  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
+ install_data('gschema.dtd',
+   install_dir : join_paths(get_option('datadir'), 'glib-2.0/schemas'))
+ 
+@@ -837,7 +837,7 @@ executable('gdbus', 'gdbus-tool.c',
+   c_args : ['-DHAVE_CONFIG_H=1'] + gio_c_args,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+-  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
++  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
+ 
+ if host_system != 'windows'
+   executable('gapplication', 'gapplication-tool.c',
+@@ -845,7 +845,7 @@ if host_system != 'windows'
+     c_args : ['-DHAVE_CONFIG_H=1'] + gio_c_args,
+     # intl.lib is not compatible with SAFESEH
+     link_args : noseh_link_args,
+-    dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
++    dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
+ endif
+ 
+ if enable_systemtap
+diff --git a/gio/win32/meson.build b/gio/win32/meson.build
+index 3f6af82..d46b82e 100644
+--- a/gio/win32/meson.build
++++ b/gio/win32/meson.build
+@@ -10,6 +10,6 @@ giowin32_sources = [
+ giowin32_lib = static_library('giowin32',
+   sources : [giowin32_sources, gioenumtypes_h],
+   include_directories : [configinc, glibinc, gioinc, gmoduleinc],
+-  dependencies : [libintl],
++  dependencies : [libintl] + libiconv,
+   pic : true,
+   c_args : [ '-DHAVE_CONFIG_H', '-DG_DISABLE_DEPRECATED' ] + gio_c_args)
+diff --git a/glib/gconvert.c b/glib/gconvert.c
+index 194b2fc..5ec69d6 100644
+--- a/glib/gconvert.c
++++ b/glib/gconvert.c
+@@ -21,18 +21,12 @@
+ #include "config.h"
+ #include "glibconfig.h"
+ 
+-#ifndef G_OS_WIN32
+ #include <iconv.h>
+-#endif
+ #include <errno.h>
+ #include <stdio.h>
+ #include <string.h>
+ #include <stdlib.h>
+ 
+-#ifdef G_OS_WIN32
+-#include "win_iconv.c"
+-#endif
+-
+ #ifdef G_PLATFORM_WIN32
+ #define STRICT
+ #include <windows.h>
+diff --git a/glib/meson.build b/glib/meson.build
+index 223b7fe..d207e13 100644
+--- a/glib/meson.build
++++ b/glib/meson.build
+@@ -246,24 +246,24 @@ if host_system == 'windows'
+       gui_app : true,
+       c_args : ['-DHAVE_CONFIG_H=1'],
+       include_directories : configinc,
+-      dependencies : [libintl, libglib_dep])
++      dependencies : [libintl, libglib_dep] + libiconv)
+     executable('gspawn-win32-helper-console', 'gspawn-win32-helper.c',
+       install : true,
+       c_args : ['-DHAVE_CONFIG_H=1', '-DHELPER_CONSOLE'],
+       include_directories : configinc,
+-      dependencies : [libintl, libglib_dep])
++      dependencies : [libintl, libglib_dep] + libiconv)
+   else
+     executable('gspawn-win64-helper', 'gspawn-win32-helper.c',
+       install : true,
+       gui_app : true,
+       c_args : ['-DHAVE_CONFIG_H=1'],
+       include_directories : configinc,
+-      dependencies : [libintl, libglib_dep])
++      dependencies : [libintl, libglib_dep] + libiconv)
+     executable('gspawn-win64-helper-console', 'gspawn-win32-helper.c',
+       install : true,
+       c_args : ['-DHAVE_CONFIG_H=1', '-DHELPER_CONSOLE'],
+       include_directories : configinc,
+-      dependencies : [libintl, libglib_dep])
++      dependencies : [libintl, libglib_dep] + libiconv)
+   endif
+ else
+   gtester = executable('gtester', 'gtester.c',
+diff --git a/gobject/meson.build b/gobject/meson.build
+index 4a392c2..2474694 100644
+--- a/gobject/meson.build
++++ b/gobject/meson.build
+@@ -60,7 +60,7 @@ libgobject = shared_library('gobject-2.0',
+   soversion : soversion,
+   install : true,
+   include_directories : [configinc],
+-  dependencies : [libintl, libffi_dep, libglib_dep],
++  dependencies : [libintl, libffi_dep, libglib_dep] + libiconv,
+   c_args : ['-DG_LOG_DOMAIN="GLib-GObject"', '-DGOBJECT_COMPILATION'] + glib_hidden_visibility_args)
+ 
+ libgobject_dep = declare_dependency(link_with : libgobject,
+diff --git a/meson.build b/meson.build
+index cd9cbf2..e9899fe 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1383,7 +1383,7 @@ endif
+ # GNU implementation that ships with MinGW.
+ 
+ # On Windows, just always use the built-in implementation
+-if host_system == 'windows'
++if host_system == 'IGNOREME windows'
+   libiconv = []
+   glib_conf.set('USE_LIBICONV_NATIVE', true)
+ # Check C library; never check MinGW C library
+@@ -1525,7 +1525,7 @@ glib_conf.set('SIZEOF___INT64', 8)
+ glib_conf.set('ZLIB_LIBS', zlib_libname)
+ glib_conf.set('LIBFFI_LIBS', '-lffi')
+ if libintl.found()
+-  glib_conf.set('INTLLIBS', '-lintl')
++  glib_conf.set('INTLLIBS', '-lintl -liconv')
+ endif
+ if libiconv.length() != 0
+   glib_conf.set('ICONV_LIBS', '-liconv')
+-- 
+2.17.1
+

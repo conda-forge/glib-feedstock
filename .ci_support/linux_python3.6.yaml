@@ -1,5 +1,11 @@
 c_compiler:
 - toolchain_c
+channel_sources:
+- conda-forge,defaults
+channel_targets:
+- conda-forge main
+docker_image:
+- condaforge/linux-anvil
 libffi:
 - '3.2'
 libiconv:
@@ -10,8 +16,8 @@ pin_run_as_build:
   libiconv:
     max_pin: x.x
   python:
-    max_pin: x.x
     min_pin: x.x
+    max_pin: x.x
   zlib:
     max_pin: x.x
 python:

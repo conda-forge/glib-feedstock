@@ -15,7 +15,7 @@ cd forgebuild
 FOR /F "delims=" %%i IN ('cygpath.exe -m "%LIBRARY_PREFIX%"') DO set "LIBRARY_PREFIX_M=%%i"
 set PKG_CONFIG_PATH=%LIBRARY_PREFIX_M%/lib/pkgconfig
 
-%PYTHON% %PREFIX%\Scripts\meson --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dwith-docs=no ..
+%PYTHON% %PREFIX%\Scripts\meson --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Diconv=gnu -Dselinux=false -Dxattr=false -Dlibmount=false ..
 if errorlevel 1 exit 1
 
 ninja -v

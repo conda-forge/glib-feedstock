@@ -1,5 +1,7 @@
-{% set major_minor = "2.55" %}
-{% set version = major_minor + ".0" %}
+{% set major_minor = "2.56" %}
+{% set version = major_minor + ".2" %}
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: glib
@@ -7,7 +9,7 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/GNOME/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 13fc009e68ca490f986f21a7d5d3a429486fb28a1f4e06298c9ac976067518f5
+  sha256: d64abd16813501c956c4e123ae79f47f1b58de573df9fdd3b0795f1e2c1aa789
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -19,17 +21,23 @@ source:
     - hardcoded-paths.patch
     # Not sure why test_stdio_wrappers do not pass, skipping it for now.
     - no_fileutils_test.patch
+    # Windows:
+    - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
+    - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 2
-  skip: True  # [win or not py36]
+  number: 0
+  skip: True  # [not py36]
   detect_binary_files_with_prefix: True
 
 requirements:
   build:
-    - pkg-config
+    - {{posix}}patch  # [win]
+    - ninja           # [win]
+    - {{native}}pkg-config
     - {{ compiler('c') }}
   host:
+    - meson  # [win]
     - python
     - libffi
     - gettext

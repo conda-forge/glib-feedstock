@@ -26,7 +26,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 0
+  number: 1000
   skip: True  # [not py36]
   detect_binary_files_with_prefix: True
 
@@ -37,7 +37,9 @@ requirements:
     - {{native}}pkg-config
     - {{ compiler('c') }}
   host:
-    - meson  # [win]
+    # The meson version pin is to avoid a buggy package; see
+    # meson-feedstock issue #11.
+    - meson <0.48  # [win]
     - python
     - libffi
     - gettext

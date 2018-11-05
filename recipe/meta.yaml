@@ -26,9 +26,11 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1000
+  number: 1001
   skip: True  # [not py36]
   detect_binary_files_with_prefix: True
+  run_exports:
+    - {{ pin_subpackage('glib') }}
 
 requirements:
   build:

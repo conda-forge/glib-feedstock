@@ -1,4 +1,4 @@
-{% set major_minor = "2.56" %}
+{% set major_minor = "2.58" %}
 {% set version = major_minor + ".2" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/GNOME/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: d64abd16813501c956c4e123ae79f47f1b58de573df9fdd3b0795f1e2c1aa789
+  sha256: c7b24ed6536f1a10fc9bce7994e55c427b727602e78342821f1f07fb48753d4b
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -19,29 +19,29 @@ source:
     # https://github.com/Homebrew/legacy-homebrew/blob/21ce7a56cb3fc40fe93d731cc654c69268796772/Library/Formula/glib.rb#L33-L39
     #
     - hardcoded-paths.patch
-    # Not sure why test_stdio_wrappers do not pass, skipping it for now.
-    - no_fileutils_test.patch
+    - skip-some-tests.patch
     # Windows:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1001
+  number: 1000
   skip: True  # [not py36]
-  detect_binary_files_with_prefix: True
   run_exports:
     - {{ pin_subpackage('glib') }}
 
 requirements:
   build:
     - {{posix}}patch  # [win]
-    - ninja           # [win]
+    - ninja
     - {{native}}pkg-config
     - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
   host:
     # The meson version pin is to avoid a buggy package; see
     # meson-feedstock issue #11.
     - meson <0.48  # [win]
+    - meson        # [not win]
     - python
     - libffi
     - gettext

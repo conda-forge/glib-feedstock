@@ -11,99 +11,7 @@ There is also some hacking of gconvert.c and the toplevel meson.build file
 needed to adjust the build system -- it assumes that on Windows you're always
 going to use an internal iconv.
 ---
- gio/meson.build       | 16 ++++++++--------
- gio/win32/meson.build |  2 +-
- glib/gconvert.c       |  6 ------
- glib/meson.build      |  8 ++++----
- gobject/meson.build   |  2 +-
- meson.build           |  4 ++--
- 6 files changed, 16 insertions(+), 22 deletions(-)
 
-diff --git a/gio/meson.build b/gio/meson.build
-index c83d840..9fafb9c 100644
---- a/gio/meson.build
-+++ b/gio/meson.build
-@@ -797,7 +797,7 @@ libgio = library('gio-2.0',
-   #libgio_2_0_la_LDFLAGS = $(GLIB_LINK_FLAGS)',
-   #  '$(gio_win32_res_ldflag)',
-   dependencies : [libintl, libz_dep, libdl_dep, libmount_dep, libglib_dep,
--                  libgobject_dep, libgmodule_dep, selinux_dep, xattr_dep,
-+                  libgobject_dep, libgmodule_dep, libiconv, selinux_dep, xattr_dep,
-                   platform_deps, network_libs],
-   c_args : gio_c_args,
-   # intl.lib is not compatible with SAFESEH
-@@ -856,13 +856,13 @@ executable('gio', gio_tool_sources,
-   c_args : gio_c_args,
-   # intl.lib is not compatible with SAFESEH
-   link_args : noseh_link_args,
--  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
-+  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
- 
- executable('gresource', 'gresource-tool.c',
-   install : true,
-   # intl.lib is not compatible with SAFESEH
-   link_args : noseh_link_args,
--  dependencies : [libelf, libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
-+  dependencies : [libelf, libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
- 
- executable('gio-querymodules', 'gio-querymodules.c', 'giomodule-priv.c',
-   install : true,
-@@ -876,7 +876,7 @@ glib_compile_schemas = executable('glib-compile-schemas',
-   install : true,
-   # intl.lib is not compatible with SAFESEH
-   link_args : noseh_link_args,
--  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
-+  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
- 
- glib_compile_resources = executable('glib-compile-resources',
-   [gconstructor_as_data_h, 'gvdb/gvdb-builder.c', 'glib-compile-resources.c'],
-@@ -884,14 +884,14 @@ glib_compile_resources = executable('glib-compile-resources',
-   c_args : gio_c_args,
-   # intl.lib is not compatible with SAFESEH
-   link_args : noseh_link_args,
--  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
-+  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
- 
- executable('gsettings', 'gsettings-tool.c',
-   install : true,
-   c_args : gio_c_args,
-   # intl.lib is not compatible with SAFESEH
-   link_args : noseh_link_args,
--  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
-+  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
- install_data('gschema.dtd',
-   install_dir : join_paths(get_option('datadir'), 'glib-2.0/schemas'))
- 
-@@ -903,7 +903,7 @@ executable('gdbus', 'gdbus-tool.c',
-   c_args : gio_c_args,
-   # intl.lib is not compatible with SAFESEH
-   link_args : noseh_link_args,
--  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
-+  dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
- 
- if host_system != 'windows'
-   executable('gapplication', 'gapplication-tool.c',
-@@ -911,7 +911,7 @@ if host_system != 'windows'
-     c_args : gio_c_args,
-     # intl.lib is not compatible with SAFESEH
-     link_args : noseh_link_args,
--    dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
-+    dependencies : [libintl, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep] + libiconv)
- endif
- 
- if enable_systemtap
-diff --git a/gio/win32/meson.build b/gio/win32/meson.build
-index c1841cb..dc84cca 100644
---- a/gio/win32/meson.build
-+++ b/gio/win32/meson.build
-@@ -10,6 +10,6 @@ giowin32_sources = [
- giowin32_lib = static_library('giowin32',
-   sources : [giowin32_sources, gioenumtypes_h],
-   include_directories : [configinc, glibinc, gioinc, gmoduleinc],
--  dependencies : [libintl],
-+  dependencies : [libintl] + libiconv,
-   pic : true,
-   c_args : [ '-DG_DISABLE_DEPRECATED' ] + gio_c_args)
 diff --git a/glib/gconvert.c b/glib/gconvert.c
 index 5028647..f685a06 100644
 --- a/glib/gconvert.c
@@ -127,56 +35,11 @@ index 5028647..f685a06 100644
  #ifdef G_PLATFORM_WIN32
  #define STRICT
  #include <windows.h>
-diff --git a/glib/meson.build b/glib/meson.build
-index 9df77b6..1968a77 100644
---- a/glib/meson.build
-+++ b/glib/meson.build
-@@ -256,23 +256,23 @@ if host_system == 'windows'
-       install : true,
-       gui_app : true,
-       include_directories : configinc,
--      dependencies : [libintl, libglib_dep])
-+      dependencies : [libintl, libglib_dep] + libiconv)
-     executable('gspawn-win32-helper-console', 'gspawn-win32-helper.c',
-       install : true,
-       c_args : ['-DHELPER_CONSOLE'],
-       include_directories : configinc,
--      dependencies : [libintl, libglib_dep])
-+      dependencies : [libintl, libglib_dep] + libiconv)
-   else
-     executable('gspawn-win64-helper', 'gspawn-win32-helper.c',
-       install : true,
-       gui_app : true,
-       include_directories : configinc,
--      dependencies : [libintl, libglib_dep])
-+      dependencies : [libintl, libglib_dep] + libiconv)
-     executable('gspawn-win64-helper-console', 'gspawn-win32-helper.c',
-       install : true,
-       c_args : ['-DHELPER_CONSOLE'],
-       include_directories : configinc,
--      dependencies : [libintl, libglib_dep])
-+      dependencies : [libintl, libglib_dep] + libiconv)
-   endif
- else
-   gtester = executable('gtester', 'gtester.c',
-diff --git a/gobject/meson.build b/gobject/meson.build
-index f1ab8fd..c4b89d7 100644
---- a/gobject/meson.build
-+++ b/gobject/meson.build
-@@ -68,7 +68,7 @@ libgobject = library('gobject-2.0',
-   soversion : soversion,
-   install : true,
-   include_directories : [configinc],
--  dependencies : [libintl, libffi_dep, libglib_dep],
-+  dependencies : [libintl, libffi_dep, libglib_dep] + libiconv,
-   c_args : ['-DG_LOG_DOMAIN="GLib-GObject"', '-DGOBJECT_COMPILATION'] + glib_hidden_visibility_args)
- 
- libgobject_dep = declare_dependency(link_with : libgobject,
 diff --git a/meson.build b/meson.build
-index de18f19..933260a 100644
+index 0cc6e94..f256075 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1474,7 +1474,7 @@ endif
+@@ -1673,7 +1673,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
  # GNU implementation that ships with MinGW.
  
  # On Windows, just always use the built-in implementation
@@ -185,15 +48,33 @@ index de18f19..933260a 100644
    libiconv = []
    glib_conf.set('USE_LIBICONV_NATIVE', true)
  else
-@@ -1666,7 +1666,7 @@ glib_conf.set('SIZEOF___INT64', 8)
- glib_conf.set('ZLIB_LIBS', zlib_libname)
- glib_conf.set('LIBFFI_LIBS', '-lffi')
- if libintl.found()
--  glib_conf.set('INTLLIBS', '-lintl')
-+  glib_conf.set('INTLLIBS', '-lintl -liconv')
- endif
- if libiconv.length() != 0
-   glib_conf.set('ICONV_LIBS', '-liconv')
--- 
-2.17.1
-
+diff --git a/glib/meson.build b/glib/meson.build
+index 6fc56da..66db78c 100644
+--- a/glib/meson.build
++++ b/glib/meson.build
+@@ -268,11 +268,11 @@ libglib_dep = declare_dependency(
+   link_with : libglib,
+   # thread_dep doesn't get pulled in from libglib atm,
+   # see https://github.com/mesonbuild/meson/issues/1426
+-  dependencies : [thread_dep, libintl],
++  dependencies : [thread_dep, libintl] + libiconv,
+   # We sadly need to export configinc here because everyone includes <glib/*.h>
+   include_directories : [configinc, glibinc])
+ 
+-pkg.generate(libraries : [libglib, libintl],
++pkg.generate(libraries : [libglib, libintl] + libiconv,
+   libraries_private : [osx_ldflags, win32_ldflags],
+   subdirs : ['glib-2.0'],
+   extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
+diff --git a/gio/win32/meson.build b/gio/win32/meson.build
+index c1841cb..dc84cca 100644
+--- a/gio/win32/meson.build
++++ b/gio/win32/meson.build
+@@ -10,6 +10,6 @@ giowin32_sources = [
+ giowin32_lib = static_library('giowin32',
+   sources : [giowin32_sources, gioenumtypes_h],
+   include_directories : [configinc, glibinc, gioinc, gmoduleinc],
+-  dependencies : [libintl],
++  dependencies : [libintl] + libiconv,
+   pic : true,
+   c_args : [ '-DG_DISABLE_DEPRECATED' ] + gio_c_args)

@@ -2,12 +2,6 @@
 
 set -ex
 
-if [[ $(uname) == Linux && "$c_compiler" = toolchain_c ]] ; then
-    # Need to tidy up our environment variables
-    export CC="$(eval echo $GCC)"
-    export CXX="$(eval echo $GXX)"
-fi
-
 if [[ $(uname) = Darwin ]] ; then
     # Meson automatically adds the necessary rpath arguments on macOS, but the
     # current version has a bug which causes a build failure if the argument

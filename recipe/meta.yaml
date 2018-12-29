@@ -20,12 +20,13 @@ source:
     #
     - hardcoded-paths.patch
     - skip-some-tests.patch
+    - meson-rpaths.patch
     # Windows:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1000
+  number: 1001
   skip: True  # [not py36]
   run_exports:
     - {{ pin_subpackage('glib') }}

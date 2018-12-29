@@ -1,0 +1,72 @@
+As per https://github.com/conda-forge/glib-feedstock/issues/40, the new Meson
+build system can cause an obscure problem on Linux. When installing
+executables (including shared libraries), Meson edits their RPATHs. When no
+"install_rpath" setting has been configured, Meson removes the RPATH entry. The
+way it does so is legal, but ends up altering the file structure in a way that
+a few naive programs can't handle. One of those programs is ldconfig, and its
+confusion can result in it trying to create files with junk names, which then
+confuse downstream tools.
+
+By setting the install rpath to something nonempty, the deletion codepath is
+avoided and everything is copacetic.
+
+diff --git a/glib/meson.build b/glib/meson.build
+index 6fc56da..623236d 100644
+--- a/glib/meson.build
++++ b/glib/meson.build
+@@ -257,6 +257,7 @@ libglib = library('glib-2.0',
+   version : library_version,
+   soversion : soversion,
+   install : true,
++  install_rpath : glib_libdir,
+   # intl.lib is not compatible with SAFESEH
+   link_args : [noseh_link_args, glib_link_flags, win32_ldflags],
+   include_directories : configinc,
+diff --git a/gio/meson.build b/gio/meson.build
+index 7f2c08e..f001a20 100644
+--- a/gio/meson.build
++++ b/gio/meson.build
+@@ -798,6 +798,7 @@ libgio = library('gio-2.0',
+   version : library_version,
+   soversion : soversion,
+   install : true,
++  install_rpath : glib_libdir,
+   include_directories : [configinc, gioinc],
+   #  '$(gio_win32_res_ldflag)',
+   dependencies : [libz_dep, libdl_dep, libmount_dep, libglib_dep,
+diff --git a/gobject/meson.build b/gobject/meson.build
+index d8d421d..b16cf1d 100644
+--- a/gobject/meson.build
++++ b/gobject/meson.build
+@@ -67,6 +67,7 @@ libgobject = library('gobject-2.0',
+   version : library_version,
+   soversion : soversion,
+   install : true,
++  install_rpath : glib_libdir,
+   include_directories : [configinc],
+   dependencies : [libffi_dep, libglib_dep],
+   c_args : ['-DG_LOG_DOMAIN="GLib-GObject"', '-DGOBJECT_COMPILATION'] + glib_hidden_visibility_args,
+diff --git a/gmodule/meson.build b/gmodule/meson.build
+index 8bb6189..be254f3 100644
+--- a/gmodule/meson.build
++++ b/gmodule/meson.build
+@@ -100,6 +100,7 @@ libgmodule = library('gmodule-2.0',
+   version : library_version,
+   soversion : soversion,
+   install : true,
++  install_rpath : glib_libdir,
+   include_directories : [configinc, gmoduleinc],
+   dependencies : [libdl_dep, libglib_dep],
+   c_args : ['-DG_LOG_DOMAIN="GModule"', '-DG_DISABLE_DEPRECATED'] + glib_hidden_visibility_args,
+diff --git a/gthread/meson.build b/gthread/meson.build
+index 515479b..0761b04 100644
+--- a/gthread/meson.build
++++ b/gthread/meson.build
+@@ -17,6 +17,7 @@ libgthread = library('gthread-2.0',
+   version : library_version,
+   soversion : soversion,
+   install : true,
++  install_rpath : glib_libdir,
+   dependencies : [libglib_dep],
+   c_args : ['-DG_LOG_DOMAIN="GThread"' ] + glib_hidden_visibility_args,
+   link_args : glib_link_flags,

@@ -18,10 +18,16 @@ mkdir forgebuild
 cd forgebuild
 meson --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib \
       -Diconv=gnu -Dlibmount=false -Dselinux=false -Dxattr=false ..
-ninja -v
+ninja -j${CPU_COUNT} -v
+
+if [ "${target_platform}" == 'linux-aarch64' ] || [ "${target_platform}" == "linux-ppc64le" ]; then
+    export MESON_TEST_TIMEOUT_MULTIPLIER=16
+else
+    export MESON_TEST_TIMEOUT_MULTIPLIER=2
+fi
 
 if [[ $(uname) != Darwin ]] ; then  # too many tests fail on macOS
-    ninja test
+    meson test --no-suite flaky --timeout-multiplier ${MESON_TEST_TIMEOUT_MULTIPLIER}
 fi
 
 ninja install

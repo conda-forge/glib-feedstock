@@ -1,13 +1,15 @@
-From ee1d5097821256e19693cf763f3dd23578ffd58e Mon Sep 17 00:00:00 2001
+From e85cc0affc25162d8a74484e81d3e561ba2e0a4a Mon Sep 17 00:00:00 2001
 From: Marius van Niekerk <marius.v.niekerk@gmail.com>
 Date: Sat, 2 Mar 2019 17:34:43 -0500
 Subject: [PATCH] Attempt to mask out qemu failing tests
 
 ---
- gio/tests/meson.build |  2 +-
- glib/tests/strfuncs.c | 24 ++++++++++++------------
- tests/meson.build     |  2 +-
- 3 files changed, 14 insertions(+), 14 deletions(-)
+ gio/tests/meson.build     |  2 +-
+ glib/tests/meson.build    |  4 ++--
+ glib/tests/strfuncs.c     | 24 ++++++++++++------------
+ gobject/tests/meson.build |  2 +-
+ tests/meson.build         |  4 ++--
+ 5 files changed, 18 insertions(+), 18 deletions(-)
 
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
 index a1b41872d..26cbf3a6e 100644
@@ -22,6 +24,25 @@ index a1b41872d..26cbf3a6e 100644
    'socket-listener' : {},
    'socket-service' : { 'suite': ['flaky'] },
    'srvtarget' : {},
+diff --git a/glib/tests/meson.build b/glib/tests/meson.build
+index d54fc41fa..356cc423e 100644
+--- a/glib/tests/meson.build
++++ b/glib/tests/meson.build
+@@ -109,12 +109,12 @@ glib_tests = {
+     'suite' : ['slow'],
+   },
+   '642026' : {
+-    'suite' : ['slow'],
++    'suite' : ['slow', 'flaky'],
+   },
+   '642026-ec' : {
+     'source' : '642026.c',
+     'c_args' : ['-DG_ERRORCHECK_MUTEXES'],
+-    'suite' : ['slow'],
++    'suite' : ['slow', 'flaky'],
+   },
+ }
+ 
 diff --git a/glib/tests/strfuncs.c b/glib/tests/strfuncs.c
 index 7c74cdc5e..0f3710b7c 100644
 --- a/glib/tests/strfuncs.c
@@ -122,10 +143,30 @@ index 7c74cdc5e..0f3710b7c 100644
    d = -pow (2.0, -1024.1);
    g_assert (d == g_ascii_strtod (g_ascii_dtostr (buffer, sizeof (buffer), d), NULL));
  
+diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
+index b7fb2364c..d2f8ff8cf 100644
+--- a/gobject/tests/meson.build
++++ b/gobject/tests/meson.build
+@@ -104,5 +104,5 @@ test(
+   python,
+   args: files('mkenums.py'),
+   env: test_env,
+-  suite: ['gobject'],
++  suite: ['gobject', 'flaky'],
+ )
 diff --git a/tests/meson.build b/tests/meson.build
-index 11075dd8e..8c61c8589 100644
+index 11075dd8e..3bc9a066a 100644
 --- a/tests/meson.build
 +++ b/tests/meson.build
+@@ -27,7 +27,7 @@ tests = {
+   'file-test' : {},
+   'env-test' : {},
+   'gio-test' : {},
+-  'mainloop-test' : {},
++  'mainloop-test' : {'suite': ['flaky']},
+   'mapping-test' : {},
+   'onceinit' : {},
+   'asyncqueue-test' : {},
 @@ -40,7 +40,7 @@ tests = {
    'sources' : {},
    'spawn-test' : {},

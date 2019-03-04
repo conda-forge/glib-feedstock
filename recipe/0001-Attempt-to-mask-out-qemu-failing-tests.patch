@@ -1,15 +1,15 @@
-From e85cc0affc25162d8a74484e81d3e561ba2e0a4a Mon Sep 17 00:00:00 2001
+From 41a15be2e45ccfdfac236cc043a1e2c7d5f73bfa Mon Sep 17 00:00:00 2001
 From: Marius van Niekerk <marius.v.niekerk@gmail.com>
 Date: Sat, 2 Mar 2019 17:34:43 -0500
 Subject: [PATCH] Attempt to mask out qemu failing tests
 
 ---
  gio/tests/meson.build     |  2 +-
- glib/tests/meson.build    |  4 ++--
+ glib/tests/meson.build    |  8 ++++----
  glib/tests/strfuncs.c     | 24 ++++++++++++------------
  gobject/tests/meson.build |  2 +-
  tests/meson.build         |  4 ++--
- 5 files changed, 18 insertions(+), 18 deletions(-)
+ 5 files changed, 20 insertions(+), 20 deletions(-)
 
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
 index a1b41872d..26cbf3a6e 100644
@@ -25,9 +25,27 @@ index a1b41872d..26cbf3a6e 100644
    'socket-service' : { 'suite': ['flaky'] },
    'srvtarget' : {},
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index d54fc41fa..356cc423e 100644
+index d54fc41fa..4a5bfddf4 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
+@@ -25,7 +25,7 @@ glib_tests = {
+   },
+   'guuid' : {},
+   'gvariant' : {
+-    'suite' : ['slow'],
++    'suite' : ['slow', 'flaky'],
+   },
+   'gwakeup' : {
+     'source' : ['gwakeuptest.c', '../gwakeup.c'],
+@@ -86,7 +86,7 @@ glib_tests = {
+   'sort' : {},
+   'spawn-multithreaded' : {},
+   'spawn-singlethread' : {},
+-  'strfuncs' : {},
++  'strfuncs' : {'suite': ['flaky']},
+   'string' : {},
+   'testing' : {},
+   'test-printf' : {},
 @@ -109,12 +109,12 @@ glib_tests = {
      'suite' : ['slow'],
    },

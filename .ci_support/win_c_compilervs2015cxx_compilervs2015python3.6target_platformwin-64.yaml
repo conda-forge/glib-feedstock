@@ -1,13 +1,11 @@
 c_compiler:
-- gcc
+- vs2015
 channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- gxx
-docker_image:
-- condaforge/linux-anvil-ppc64le
+- vs2015
 libffi:
 - '3.2'
 libiconv:
@@ -24,5 +22,11 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - '3.6'
+target_platform:
+- win-64
+zip_keys:
+- - python
+  - c_compiler
+  - cxx_compiler
 zlib:
 - '1.2'

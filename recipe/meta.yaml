@@ -27,10 +27,8 @@ source:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
-
-
 build:
-  number: 1001
+  number: 1002
   skip: True  # [not py36]
   run_exports:
     - {{ pin_subpackage('glib') }}
@@ -63,6 +61,16 @@ test:
     - test ! -f ${PREFIX}/lib/libgobject-2.0.la  # [not win]
     - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
     - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
+    # Check that binaries can run -- instigated by Meson Linux rpath issue
+    - gapplication help
+    - gdbus help
+    - gio version
+    - gio-querymodules .
+    - glib-compile-resources --help
+    - glib-compile-schemas --help
+    - gobject-query --help
+    - gresource help
+    - gtester --help
 
 about:
   home: https://developer.gnome.org/glib/

@@ -62,7 +62,7 @@ test:
     - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
     - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
     # Check that binaries can run -- instigated by Meson Linux rpath issue
-    - gapplication help
+    - gapplication help  # [linux]
     - gdbus help
     - gio version
     - gio-querymodules .

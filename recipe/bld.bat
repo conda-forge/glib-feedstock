@@ -15,6 +15,10 @@ cd forgebuild
 FOR /F "delims=" %%i IN ('cygpath.exe -m "%LIBRARY_PREFIX%"') DO set "LIBRARY_PREFIX_M=%%i"
 set PKG_CONFIG_PATH=%LIBRARY_PREFIX_M%/lib/pkgconfig
 
+@REM Avoid a Meson issue - https://github.com/mesonbuild/meson/issues/4827
+set "PYTHONLEGACYWINDOWSSTDIO=1"
+set "PYTHONIOENCODING=UTF-8"
+
 %PYTHON% %PREFIX%\Scripts\meson --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Diconv=gnu -Dselinux=false -Dxattr=false -Dlibmount=false ..
 if errorlevel 1 exit 1
 

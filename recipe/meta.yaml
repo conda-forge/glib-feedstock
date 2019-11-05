@@ -26,6 +26,8 @@ source:
 build:
   number: 0
   skip: True  # [not py36]
+  missing_dso_whitelist:          # [osx]
+    - /usr/lib/libresolv.9.dylib  # [osx]
   run_exports:
     - {{ pin_subpackage('glib') }}
 

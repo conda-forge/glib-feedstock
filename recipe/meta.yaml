@@ -59,8 +59,6 @@ test:
   commands:
     - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}  # [not win]
     - test ! -f ${PREFIX}/lib/libgobject-2.0.la  # [not win]
-    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
-    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
     # Check that binaries can run -- instigated by Meson Linux rpath issue
     - gapplication help  # [linux]
     - gdbus help

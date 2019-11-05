@@ -1,0 +1,25 @@
+From 3ba11a1008ad5c653a87f9feec19058a99cde075 Mon Sep 17 00:00:00 2001
+From: Peter Williams <peter@newton.cx>
+Date: Mon, 3 Sep 2018 23:20:56 -0400
+Subject: [PATCH 5/5] Increase some test timeouts.
+
+---
+ tests/refcount/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/refcount/meson.build b/tests/refcount/meson.build
+index 02571fe..aa96b1c 100644
+--- a/tests/refcount/meson.build
++++ b/tests/refcount/meson.build
+@@ -4,7 +4,7 @@ refcount_tests = {
+   'properties' : {},
+   'properties2' : {'suite' : ['slow']},
+   'properties3' : {'suite' : ['slow']},
+-  'properties4' : {},
++  'properties4' : {'suite' : ['slow']},
+   'signal1' : {
+     'source' : 'signals.c',
+     'c_args' : ['-DTESTNUM=1'],
+-- 
+2.20.1
+

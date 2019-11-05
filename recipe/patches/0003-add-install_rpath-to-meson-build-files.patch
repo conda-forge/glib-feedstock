@@ -1,0 +1,177 @@
+From e5f90e06d10fc3f64c4951a032bc6ecdb94aa723 Mon Sep 17 00:00:00 2001
+From: Jonathan Helmus <jjhelmus@gmail.com>
+Date: Tue, 5 Nov 2019 09:01:44 -0600
+Subject: [PATCH 3/5] add install_rpath to meson build files
+
+As per https://github.com/conda-forge/glib-feedstock/issues/40, the new Meson
+build system can cause problems on Linux. When installing executables
+(including shared libraries), Meson edits their RPATHs. When no
+"install_rpath" setting has been configured, Meson removes the RPATH entry.
+First, this can break our executables. Second, historically, the way that
+Meson does so was legal, but ends up altering the file structure in a way
+that a few naive programs can't handle. One of those programs is ldconfig, and
+its confusion can result in it trying to create files with junk names, which
+then confuse downstream tools.
+
+So we the install rpath to something nonempty.
+
+original patch by Peter Williams
+https://github.com/conda-forge/glib-feedstock/blob/082ae2bfe3d8758aa1773d6a2521e29255063784/recipe/meson-rpaths.patch
+---
+ gio/meson.build     | 10 ++++++++++
+ glib/meson.build    |  2 ++
+ gmodule/meson.build |  1 +
+ gobject/meson.build |  2 ++
+ gthread/meson.build |  1 +
+ 5 files changed, 16 insertions(+)
+
+diff --git a/gio/meson.build b/gio/meson.build
+index 173000f..91cd7df 100644
+--- a/gio/meson.build
++++ b/gio/meson.build
+@@ -428,6 +428,7 @@ if host_system != 'windows'
+ 
+     executable('gio-launch-desktop', 'gio-launch-desktop.c',
+       install : true,
++      install_rpath : glib_libdir,
+       c_args : gio_c_args,
+       # intl.lib is not compatible with SAFESEH
+       link_args : noseh_link_args)
+@@ -806,6 +807,7 @@ libgio = library('gio-2.0',
+   soversion : soversion,
+   darwin_versions : darwin_versions,
+   install : true,
++  install_rpath : glib_libdir,
+   include_directories : [configinc, gioinc],
+   #  '$(gio_win32_res_ldflag)',
+   dependencies : [libz_dep, libdl_dep, libmount_dep, libglib_dep,
+@@ -931,6 +933,7 @@ gio_tool_sources = [
+ 
+ executable('gio', gio_tool_sources,
+   install : true,
++  install_rpath : glib_libdir,
+   c_args : gio_c_args,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+@@ -938,12 +941,14 @@ executable('gio', gio_tool_sources,
+ 
+ executable('gresource', 'gresource-tool.c',
+   install : true,
++  install_rpath : glib_libdir,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+   dependencies : [libelf, libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
+ 
+ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodule-priv.c',
+   install : true,
++  install_rpath : glib_libdir,
+   c_args : gio_c_args,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+@@ -952,6 +957,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
+ glib_compile_schemas = executable('glib-compile-schemas',
+   [gconstructor_as_data_h, 'gvdb/gvdb-builder.c', 'glib-compile-schemas.c'],
+   install : true,
++  install_rpath : glib_libdir,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+   dependencies : [libgio_dep, libgobject_dep, libgmodule_dep, libglib_dep])
+@@ -959,6 +965,7 @@ glib_compile_schemas = executable('glib-compile-schemas',
+ glib_compile_resources = executable('glib-compile-resources',
+   [gconstructor_as_data_h, 'gvdb/gvdb-builder.c', 'glib-compile-resources.c'],
+   install : true,
++  install_rpath : glib_libdir,
+   c_args : gio_c_args,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+@@ -974,6 +981,7 @@ endif
+ 
+ executable('gsettings', 'gsettings-tool.c',
+   install : true,
++  install_rpath : glib_libdir,
+   c_args : gio_c_args,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+@@ -986,6 +994,7 @@ install_data(['gschema.loc', 'gschema.its'],
+ 
+ executable('gdbus', 'gdbus-tool.c',
+   install : true,
++  install_rpath : glib_libdir,
+   c_args : gio_c_args,
+   # intl.lib is not compatible with SAFESEH
+   link_args : noseh_link_args,
+@@ -994,6 +1003,7 @@ executable('gdbus', 'gdbus-tool.c',
+ if host_system != 'windows' and not glib_have_cocoa
+   executable('gapplication', 'gapplication-tool.c',
+     install : true,
++    install_rpath : glib_libdir,
+     c_args : gio_c_args,
+     # intl.lib is not compatible with SAFESEH
+     link_args : noseh_link_args,
+diff --git a/glib/meson.build b/glib/meson.build
+index aaf5f00..7219b40 100644
+--- a/glib/meson.build
++++ b/glib/meson.build
+@@ -353,6 +353,7 @@ libglib = library('glib-2.0',
+   soversion : soversion,
+   darwin_versions : darwin_versions,
+   install : true,
++  install_rpath : glib_libdir,
+   # intl.lib is not compatible with SAFESEH
+   link_args : [noseh_link_args, glib_link_flags, win32_ldflags],
+   include_directories : configinc,
+@@ -413,6 +414,7 @@ if host_system == 'windows'
+ else
+   gtester = executable('gtester', 'gtester.c',
+     install : true,
++    install_rpath : glib_libdir,
+     c_args : ['-UG_DISABLE_ASSERT'],
+     include_directories : configinc,
+     dependencies : [libglib_dep])
+diff --git a/gmodule/meson.build b/gmodule/meson.build
+index 9801c94..a6bdbd3 100644
+--- a/gmodule/meson.build
++++ b/gmodule/meson.build
+@@ -78,6 +78,7 @@ libgmodule = library('gmodule-2.0',
+   soversion : soversion,
+   darwin_versions : darwin_versions,
+   install : true,
++  install_rpath : glib_libdir,
+   include_directories : [configinc, gmoduleinc],
+   dependencies : [libdl_dep, libglib_dep],
+   c_args : ['-DG_LOG_DOMAIN="GModule"'] + glib_hidden_visibility_args,
+diff --git a/gobject/meson.build b/gobject/meson.build
+index 85e283b..23fe166 100644
+--- a/gobject/meson.build
++++ b/gobject/meson.build
+@@ -124,6 +124,7 @@ libgobject = library('gobject-2.0',
+   soversion : soversion,
+   darwin_versions : darwin_versions,
+   install : true,
++  install_rpath : glib_libdir,
+   include_directories : [configinc],
+   dependencies : [libffi_dep, libglib_dep],
+   c_args : ['-DG_LOG_DOMAIN="GLib-GObject"', '-DGOBJECT_COMPILATION'] + glib_hidden_visibility_args,
+@@ -145,6 +146,7 @@ libgobject_dep = declare_dependency(link_with : libgobject,
+ 
+ executable('gobject-query', 'gobject-query.c',
+   install : true,
++  install_rpath : glib_libdir,
+   dependencies : [libglib_dep, libgobject_dep])
+ 
+ install_data('gobject_gdb.py', install_dir : join_paths(glib_pkgdatadir, 'gdb'))
+diff --git a/gthread/meson.build b/gthread/meson.build
+index d4fca40..043a259 100644
+--- a/gthread/meson.build
++++ b/gthread/meson.build
+@@ -18,6 +18,7 @@ libgthread = library('gthread-2.0',
+   soversion : soversion,
+   darwin_versions : darwin_versions,
+   install : true,
++  install_rpath : glib_libdir,
+   dependencies : [libglib_dep],
+   c_args : ['-DG_LOG_DOMAIN="GThread"' ] + glib_hidden_visibility_args,
+   link_args : glib_link_flags,
+-- 
+2.20.1
+

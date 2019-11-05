@@ -1,0 +1,64 @@
+From 2fbb8518dd755aeac4c0c1872143432070db2e09 Mon Sep 17 00:00:00 2001
+From: Jonathan Helmus <jjhelmus@gmail.com>
+Date: Tue, 5 Nov 2019 08:48:38 -0600
+Subject: [PATCH 1/5] replace hardcoded paths
+
+original patch by Peter Williams <peter@newton.cx>
+https://github.com/conda-forge/glib-feedstock/blob/e49ed442dc60c84c8aaddb7e18570d6f634a3f5d/recipe/hardcoded-paths.patch
+---
+ gio/gdbusprivate.c    | 4 ++--
+ gio/xdgmime/xdgmime.c | 2 +-
+ glib/gutils.c         | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/gio/gdbusprivate.c b/gio/gdbusprivate.c
+index 302c30b..7d277cd 100644
+--- a/gio/gdbusprivate.c
++++ b/gio/gdbusprivate.c
+@@ -2471,7 +2471,7 @@ _g_dbus_get_machine_id (GError **error)
+   /* TODO: use PACKAGE_LOCALSTATEDIR ? */
+   ret = NULL;
+   first_error = NULL;
+-  if (!g_file_get_contents ("/var/lib/dbus/machine-id",
++  if (!g_file_get_contents ("@@CONDA_PREFIX@@/var/lib/dbus/machine-id",
+                             &ret,
+                             NULL,
+                             &first_error) &&
+@@ -2481,7 +2481,7 @@ _g_dbus_get_machine_id (GError **error)
+                             NULL))
+     {
+       g_propagate_prefixed_error (error, first_error,
+-                                  _("Unable to load /var/lib/dbus/machine-id or /etc/machine-id: "));
++                                  _("Unable to load @@CONDA_PREFIX@@ or /etc/machine-id: "));
+     }
+   else
+     {
+diff --git a/gio/xdgmime/xdgmime.c b/gio/xdgmime/xdgmime.c
+index 9bb93f7..34fb04e 100644
+--- a/gio/xdgmime/xdgmime.c
++++ b/gio/xdgmime/xdgmime.c
+@@ -235,7 +235,7 @@ xdg_init_dirs (void)
+   xdg_data_dirs = getenv ("XDG_DATA_DIRS");
+ 
+   if (xdg_data_dirs == NULL)
+-    xdg_data_dirs = "/usr/local/share/:/usr/share/";
++    xdg_data_dirs = "@@CONDA_PREFIX@@/share/:/usr/share/";
+ 
+   /* Work out how many dirs we’re dealing with. */
+   if (xdg_data_home != NULL || home != NULL)
+diff --git a/glib/gutils.c b/glib/gutils.c
+index 4aadf76..530794f 100644
+--- a/glib/gutils.c
++++ b/glib/gutils.c
+@@ -2493,7 +2493,7 @@ g_build_system_data_dirs (void)
+    */
+ #ifndef G_OS_WIN32
+   if (!data_dirs || !data_dirs[0])
+-    data_dirs = "/usr/local/share/:/usr/share/";
++    data_dirs = "@@CONDA_PREFIX@@/share/:/usr/share/";
+ 
+   data_dir_vector = g_strsplit (data_dirs, G_SEARCHPATH_SEPARATOR_S, 0);
+ #else
+-- 
+2.20.1
+

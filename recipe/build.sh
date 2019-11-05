@@ -3,10 +3,15 @@
 set -ex
 
 if [[ $(uname) = Darwin ]] ; then
+    export iconv_arg="external"
     # Meson automatically adds the necessary rpath arguments on macOS, but the
     # current version has a bug which causes a build failure if the argument
     # is duplicated in $LDFLAGS. (It's fixed in 0.49.). So, strip that out.
     export LDFLAGS="$(echo $LDFLAGS |sed -e "s| -Wl,-rpath,$PREFIX/lib||")"
+else
+    export iconv_arg="libc"
+    # objcopy needs to be on PATH, the system version it too old
+    ln -s ${OBJCOPY} ${BUILD_PREFIX}/bin/objcopy
 fi
 
 # @PYTHON@ is used in the build scripts and that breaks with the long prefix.
@@ -17,7 +22,7 @@ export PYTHON="python"
 mkdir forgebuild
 cd forgebuild
 meson --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib \
-      -Diconv=gnu -Dlibmount=false -Dselinux=false -Dxattr=false ..
+      -Diconv=$iconv_arg -Dlibmount=false -Dselinux=disabled -Dxattr=false ..
 ninja -j${CPU_COUNT} -v
 
 if [ "${target_platform}" == 'linux-aarch64' ] || [ "${target_platform}" == "linux-ppc64le" ]; then

@@ -44,16 +44,16 @@ requirements:
     - meson
     - python
     - libffi
-    - gettext
+    - gettext   # [osx]
     - zlib
     - pcre
-    - libiconv
+    - libiconv  # [osx]
   run:
     - libffi
-    - gettext
+    - gettext   # [osx]
     - zlib
     - pcre
-    - libiconv
+    - libiconv  # [osx]
 
 test:
   commands:

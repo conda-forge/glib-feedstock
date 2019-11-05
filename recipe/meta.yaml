@@ -75,6 +75,15 @@ about:
   license: LGPL-2.1
   license_file: COPYING
   summary: 'Provides core application building blocks for libraries and applications written in C.'
+  description: |
+    GLib provides the core application building blocks for libraries and
+    applications written in C. It provides the core object system used in
+    GNOME, the main loop implementation, and a large set of utility functions
+    functions for strings and common data structures.
+  doc_url: https://developer.gnome.org/glib/unstable/
+  dev_url: https://git.gnome.org/browse/glib/
+  doc_source_url: https://git.gnome.org/browse/glib/tree/docs
+
 
 extra:
   recipe-maintainers:

@@ -9,20 +9,17 @@ Feedstock license: BSD 3-Clause
 
 Summary: Provides core application building blocks for libraries and applications written in C.
 
+GLib provides the core application building blocks for libraries and
+applications written in C. It provides the core object system used in
+GNOME, the main loop implementation, and a large set of utility functions
+functions for strings and common data structures.
 
 
 Current build status
 ====================
 
 
-<table><tr>
-    <td>Appveyor</td>
-    <td>
-      <a href="https://ci.appveyor.com/project/conda-forge/glib-feedstock/branch/master">
-        <img alt="windows" src="https://img.shields.io/appveyor/ci/conda-forge/glib-feedstock/master.svg?label=Windows">
-      </a>
-    </td>
-  </tr>
+<table>
     
   <tr>
     <td>Azure</td>

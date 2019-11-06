@@ -14,12 +14,8 @@ docker_image:
 - condaforge/linux-anvil-ppc64le
 libffi:
 - '3.2'
-libiconv:
-- '1.15'
 pin_run_as_build:
   libffi:
-    max_pin: x.x
-  libiconv:
     max_pin: x.x
   python:
     min_pin: x.x

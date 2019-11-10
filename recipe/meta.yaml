@@ -34,21 +34,16 @@ build:
 
 # Note that Python is in fact a runtime dependency because this package
 # provides a couple of developer support tools that are Python scripts.
-#
-# Note also that Meson is listed as a host dependency on Windows since that's
-# the only way I (@pkgw) can get it to work. I'm probably doing something
-# wrong.
 
 requirements:
   build:
     - {{posix}}patch  # [win]
-    - meson  # [not win]
+    - meson
     - ninja
     - {{native}}pkg-config
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - meson  # [win]
     - python
     - libffi
     - gettext

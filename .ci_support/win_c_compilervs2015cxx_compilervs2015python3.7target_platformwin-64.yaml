@@ -1,0 +1,32 @@
+c_compiler:
+- vs2015
+channel_sources:
+- conda-forge,defaults
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- vs2015
+libffi:
+- '3.2'
+libiconv:
+- '1.15'
+pin_run_as_build:
+  libffi:
+    max_pin: x.x
+  libiconv:
+    max_pin: x.x
+  python:
+    min_pin: x.x
+    max_pin: x.x
+  zlib:
+    max_pin: x.x
+python:
+- '3.7'
+target_platform:
+- win-64
+zip_keys:
+- - python
+  - c_compiler
+  - cxx_compiler
+zlib:
+- '1.2'

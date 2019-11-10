@@ -29,19 +29,21 @@ source:
 
 build:
   number: 1002
-  skip: True  # [not py36]
   run_exports:
     - {{ pin_subpackage('glib') }}
+
+# Note that Python is in fact a runtime dependency because this package
+# provides a couple of developer support tools that are Python scripts.
 
 requirements:
   build:
     - {{posix}}patch  # [win]
+    - meson
     - ninja
     - {{native}}pkg-config
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - meson
     - python
     - libffi
     - gettext
@@ -49,6 +51,7 @@ requirements:
     - pcre
     - libiconv
   run:
+    - python
     - libffi
     - gettext
     - zlib
@@ -59,8 +62,6 @@ test:
   commands:
     - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}  # [not win]
     - test ! -f ${PREFIX}/lib/libgobject-2.0.la  # [not win]
-    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
-    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
     # Check that binaries can run -- instigated by Meson Linux rpath issue
     - gapplication help  # [linux]
     - gdbus help

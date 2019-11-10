@@ -29,6 +29,7 @@ source:
 
 build:
   number: 1002
+  skip: true  # [win and py < 30] - Py27 on Windows requires VS2008 which gettext doesn't support anymore
   run_exports:
     - {{ pin_subpackage('glib') }}
 

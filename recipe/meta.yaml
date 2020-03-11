@@ -28,7 +28,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1002
+  number: 1003
   skip: true  # [win and py < 30] - Py27 on Windows requires VS2008 which gettext doesn't support anymore
   run_exports:
     - {{ pin_subpackage('glib') }}

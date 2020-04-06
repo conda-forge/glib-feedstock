@@ -20,7 +20,6 @@ source:
     #
     - hardcoded-paths.patch
     - skip-some-tests.patch
-    - meson-rpaths.patch
 
     #- 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
     # Windows:

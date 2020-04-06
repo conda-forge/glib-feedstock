@@ -2,7 +2,7 @@
 
 set -ex
 
-if [[ $(uname) = Darwin ]] ; then
+if [[ "$target_platform" == osx* ]] ; then
     # Meson automatically adds the necessary rpath arguments on macOS, but the
     # current version has a bug which causes a build failure if the argument
     # is duplicated in $LDFLAGS. (It's fixed in 0.49.). So, strip that out.
@@ -14,10 +14,10 @@ fi
 _PY=$PYTHON
 export PYTHON="python"
 
-mkdir forgebuild
+mkdir -p forgebuild
 cd forgebuild
 meson --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib \
-      -Diconv=gnu -Dlibmount=false -Dselinux=false -Dxattr=false ..
+      -Diconv=external -Dlibmount=disabled -Dselinux=disabled -Dxattr=false ..
 ninja -j${CPU_COUNT} -v
 
 if [ "${target_platform}" == 'linux-aarch64' ] || [ "${target_platform}" == "linux-ppc64le" ]; then

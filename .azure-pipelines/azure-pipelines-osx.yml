@@ -10,17 +10,8 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-      osx_python3.6.____73_pypytarget_platformosx-64:
-        CONFIG: osx_python3.6.____73_pypytarget_platformosx-64
-        UPLOAD_PACKAGES: True
-      osx_python3.6.____cpythontarget_platformosx-64:
-        CONFIG: osx_python3.6.____cpythontarget_platformosx-64
-        UPLOAD_PACKAGES: True
-      osx_python3.7.____cpythontarget_platformosx-64:
-        CONFIG: osx_python3.7.____cpythontarget_platformosx-64
-        UPLOAD_PACKAGES: True
-      osx_python3.8.____cpythontarget_platformosx-64:
-        CONFIG: osx_python3.8.____cpythontarget_platformosx-64
+      osx_target_platformosx-64:
+        CONFIG: osx_target_platformosx-64
         UPLOAD_PACKAGES: True
 
   steps:

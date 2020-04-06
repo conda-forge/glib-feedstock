@@ -10,54 +10,10 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-      linux_python3.6.____73_pypytarget_platformlinux-64:
-        CONFIG: linux_python3.6.____73_pypytarget_platformlinux-64
+      linux_target_platformlinux-64:
+        CONFIG: linux_target_platformlinux-64
         UPLOAD_PACKAGES: True
         DOCKER_IMAGE: condaforge/linux-anvil-comp7
-      linux_python3.6.____cpythontarget_platformlinux-64:
-        CONFIG: linux_python3.6.____cpythontarget_platformlinux-64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-comp7
-      linux_python3.7.____cpythontarget_platformlinux-64:
-        CONFIG: linux_python3.7.____cpythontarget_platformlinux-64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-comp7
-      linux_python3.8.____cpythontarget_platformlinux-64:
-        CONFIG: linux_python3.8.____cpythontarget_platformlinux-64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-comp7
-      linux_aarch64_python3.6.____73_pypytarget_platformlinux-aarch64:
-        CONFIG: linux_aarch64_python3.6.____73_pypytarget_platformlinux-aarch64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
-      linux_aarch64_python3.6.____cpythontarget_platformlinux-aarch64:
-        CONFIG: linux_aarch64_python3.6.____cpythontarget_platformlinux-aarch64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
-      linux_aarch64_python3.7.____cpythontarget_platformlinux-aarch64:
-        CONFIG: linux_aarch64_python3.7.____cpythontarget_platformlinux-aarch64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
-      linux_aarch64_python3.8.____cpythontarget_platformlinux-aarch64:
-        CONFIG: linux_aarch64_python3.8.____cpythontarget_platformlinux-aarch64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
-      linux_ppc64le_python3.6.____73_pypytarget_platformlinux-ppc64le:
-        CONFIG: linux_ppc64le_python3.6.____73_pypytarget_platformlinux-ppc64le
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-ppc64le
-      linux_ppc64le_python3.6.____cpythontarget_platformlinux-ppc64le:
-        CONFIG: linux_ppc64le_python3.6.____cpythontarget_platformlinux-ppc64le
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-ppc64le
-      linux_ppc64le_python3.7.____cpythontarget_platformlinux-ppc64le:
-        CONFIG: linux_ppc64le_python3.7.____cpythontarget_platformlinux-ppc64le
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-ppc64le
-      linux_ppc64le_python3.8.____cpythontarget_platformlinux-ppc64le:
-        CONFIG: linux_ppc64le_python3.8.____cpythontarget_platformlinux-ppc64le
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-ppc64le
   steps:
   # configure qemu binfmt-misc running.  This allows us to run docker containers
   # embedded qemu-static

@@ -26,7 +26,7 @@ else
     export MESON_TEST_TIMEOUT_MULTIPLIER=2
 fi
 
-if [[ $(uname) != Darwin ]] ; then  # too many tests fail on macOS
+if [[ "$target_platform" != osx-64 ]] ; then  # too many tests fail on macOS
     meson test --no-suite flaky --timeout-multiplier ${MESON_TEST_TIMEOUT_MULTIPLIER}
 fi
 

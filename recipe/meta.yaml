@@ -1,4 +1,4 @@
-{% set version = "2.58.3" %}
+{% set version = "2.64.1" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/GNOME/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481
+  sha256: 17967603bcb44b6dbaac47988d80c29a3d28519210b28157c2bd10997595bbc7
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -22,7 +22,7 @@ source:
     - skip-some-tests.patch
     - meson-rpaths.patch
 
-    - 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
+    #- 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
     # Windows:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
     - 0002-Increase-some-test-timeouts.patch                          # [win]
@@ -44,15 +44,15 @@ requirements:
     - {{native}}pkg-config
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - python *
   host:
-    - python
     - libffi
     - gettext
     - zlib
     - pcre
     - libiconv
   run:
-    - python
+    - python *
     - libffi
     - gettext
     - zlib

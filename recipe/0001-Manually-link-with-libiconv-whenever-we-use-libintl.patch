@@ -1,19 +1,5 @@
-From 373f953aa1a2009f05a6c1d6ee73fda21d9cabfc Mon Sep 17 00:00:00 2001
-From: Peter Williams <peter@newton.cx>
-Date: Mon, 3 Sep 2018 22:27:48 -0400
-Subject: [PATCH 1/2] Manually link with libiconv whenever we use libintl.
-
-Sadly our Windows libintl DLL doesn't convey that it should pull in libiconv
-as a dependency (nor does it use pkg-config). Until I figure that out, let's
-just manually link with libintl when needed.
-
-There is also some hacking of gconvert.c and the toplevel meson.build file
-needed to adjust the build system -- it assumes that on Windows you're always
-going to use an internal iconv.
----
-
 diff --git a/glib/gconvert.c b/glib/gconvert.c
-index 5028647..f685a06 100644
+index 7078679..8dc85d2 100644
 --- a/glib/gconvert.c
 +++ b/glib/gconvert.c
 @@ -21,18 +21,12 @@
@@ -36,10 +22,10 @@ index 5028647..f685a06 100644
  #define STRICT
  #include <windows.h>
 diff --git a/meson.build b/meson.build
-index 0cc6e94..f256075 100644
+index 03168cf..ea9bdee 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1673,7 +1673,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
+@@ -1681,7 +1681,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
  # GNU implementation that ships with MinGW.
  
  # On Windows, just always use the built-in implementation
@@ -49,10 +35,10 @@ index 0cc6e94..f256075 100644
    glib_conf.set('USE_LIBICONV_NATIVE', true)
  else
 diff --git a/glib/meson.build b/glib/meson.build
-index 6fc56da..66db78c 100644
+index 6c6786f..5e96a6d 100644
 --- a/glib/meson.build
 +++ b/glib/meson.build
-@@ -268,11 +268,11 @@ libglib_dep = declare_dependency(
+@@ -280,12 +280,12 @@ libglib_dep = declare_dependency(
    link_with : libglib,
    # thread_dep doesn't get pulled in from libglib atm,
    # see https://github.com/mesonbuild/meson/issues/1426
@@ -61,8 +47,9 @@ index 6fc56da..66db78c 100644
    # We sadly need to export configinc here because everyone includes <glib/*.h>
    include_directories : [configinc, glibinc])
  
--pkg.generate(libraries : [libglib, libintl],
-+pkg.generate(libraries : [libglib, libintl] + libiconv,
+ pkg.generate(libglib,
+-  libraries : [libintl],
++  libraries : [libintl] + libiconv,
    libraries_private : [osx_ldflags, win32_ldflags],
    subdirs : ['glib-2.0'],
    extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,

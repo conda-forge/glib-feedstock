@@ -1,0 +1,28 @@
+diff --git a/gio/meson.build b/gio/meson.build
+index d7f4f3f311628ffa5ab88a4377e66520bd295017..8f989bfe9ddd8859e731b6c5d7dc92ff3e7dcc9c 100644
+--- a/gio/meson.build
++++ b/gio/meson.build
+@@ -754,7 +754,7 @@ gioenumtypes_c = custom_target('gioenumtypes_c',
+              '--template', files('gioenumtypes.c.template'),
+              '@INPUT@', gnetworking_h])
+ 
+-gioenumtypes_dep = declare_dependency(sources : [gioenumtypes_h])
++gioenumtypes_dep = declare_dependency(sources : [gioenumtypes_h, gobjectenumtypes_h])
+ 
+ # inotify
+ if glib_conf.has('HAVE_SYS_INOTIFY_H') and have_func_inotify_init1
+diff --git a/gio/win32/meson.build b/gio/win32/meson.build
+index c1841cb64b9de54f8e0686e5f325a7bbcd459a45..f0fc307ba2bbd1e81428636f882b296b3a821d03 100644
+--- a/gio/win32/meson.build
++++ b/gio/win32/meson.build
+@@ -8,8 +8,8 @@ giowin32_sources = [
+ ]
+ 
+ giowin32_lib = static_library('giowin32',
+-  sources : [giowin32_sources, gioenumtypes_h],
++  sources : [giowin32_sources],
+   include_directories : [configinc, glibinc, gioinc, gmoduleinc],
+-  dependencies : [libintl],
++  dependencies : [libintl, gioenumtypes_dep],
+   pic : true,
+   c_args : [ '-DG_DISABLE_DEPRECATED' ] + gio_c_args)

@@ -12,7 +12,7 @@ index b4ca2d3..6097362 100644
  
    return g_test_run ();
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index a1b4187..6d72474 100644
+index a1b4187..62bfb0a 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
 @@ -39,7 +39,6 @@ gio_tests = {
@@ -54,3 +54,12 @@ index a1b4187..6d72474 100644
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
+@@ -533,7 +515,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
+ 
+   # Create object file containing resource data
+   # for testing the external data option
+-  if build_machine.system() == 'linux'
++  if build_machine.system() == 'linux_DISABLED_MISSING_OBJCOPY_FLAG_GITLAB#1895'
+     test_gresource_binary = custom_target('test5.gresource',
+       input : 'test5.gresource.xml',
+       output : 'test5.gresource',

@@ -63,3 +63,16 @@ index a1b4187..62bfb0a 100644
      test_gresource_binary = custom_target('test5.gresource',
        input : 'test5.gresource.xml',
        output : 'test5.gresource',
+diff --git a/gio/tests/resources.c b/gio/tests/resources.c
+index 6e9c7c5..f89f89c 100644
+--- a/gio/tests/resources.c
++++ b/gio/tests/resources.c
+@@ -565,7 +565,7 @@ test_resource_manual2 (void)
+ static void
+ test_resource_binary_linked (void)
+ {
+-  #ifndef __linux__
++  #ifndef __linux_DISABLED_MISSING_OBJCOPY_FLAG__
+   g_test_skip ("--external-data test only works on Linux");
+   return;
+   #else /* if __linux__ */

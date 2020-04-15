@@ -23,7 +23,7 @@ index 8d58998..4388c34 100644
    sources : [giowin32_sources],
    include_directories : [configinc, glibinc, gioinc, gmoduleinc],
 -  dependencies : [libintl, gioenumtypes_dep],
-+  dependencies : [libintl, gioenumtypes_dep] + libintl,
++  dependencies : [libintl, gioenumtypes_dep] + libiconv,
    pic : true,
    c_args : gio_c_args)
 diff --git a/glib/gconvert.c b/glib/gconvert.c

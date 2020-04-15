@@ -16,7 +16,7 @@ index 1e8e1d6..5ad928e 100644
      {
        g_propagate_prefixed_error (error, first_error,
 -                                  _("Unable to load /var/lib/dbus/machine-id or /etc/machine-id: "));
-+                                  _("Unable to load $CONDA_PREFIX/var/lib/dbus/machine-id or /etc/machine-id: "));
++                                  _("Unable to load " CONDA_PREFIX "/var/lib/dbus/machine-id or /etc/machine-id: "));
      }
    else
      {

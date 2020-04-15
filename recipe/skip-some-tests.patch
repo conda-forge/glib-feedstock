@@ -50,6 +50,19 @@ index 788cf97..963704a 100644
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
+diff --git a/gio/tests/resources.c b/gio/tests/resources.c
+index c44d214..7e0f5a5 100644
+--- a/gio/tests/resources.c
++++ b/gio/tests/resources.c
+@@ -573,7 +573,7 @@ test_resource_manual2 (void)
+ static void
+ test_resource_binary_linked (void)
+ {
+-  #ifndef __linux__
++  #ifndef __linux_and_objcopy_has_add_symbols__
+   g_test_skip ("--external-data test only works on Linux");
+   return;
+   #else /* if __linux__ */
 diff --git a/glib/tests/fileutils.c b/glib/tests/fileutils.c
 index 0c84e32..ee308d2 100644
 --- a/glib/tests/fileutils.c

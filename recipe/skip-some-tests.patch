@@ -19,6 +19,14 @@ index 788cf97..963704a 100644
    'fileattributematcher' : {},
    'filter-streams' : {},
    'giomodule' : {},
+@@ -78,7 +78,6 @@ gio_tests = {
+   'tls-certificate' : {'extra_sources' : ['gtesttlsbackend.c']},
+   'tls-interaction' : {'extra_sources' : ['gtesttlsbackend.c']},
+   'tls-database' : {'extra_sources' : ['gtesttlsbackend.c']},
+-  'gdbus-address-get-session' : {},
+   'win32-appinfo' : {},
+ }
+ 
 @@ -135,10 +134,6 @@ endif
  if host_machine.system() != 'windows'
    gio_tests += {

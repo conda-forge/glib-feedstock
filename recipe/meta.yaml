@@ -1,4 +1,4 @@
-{% set version = "2.58.3" %}
+{% set version = "2.60.5" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/GNOME/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481
+  sha256: 3edf1df576ee82b2ecb8ba85c343644e48ee62e68290e71e6084b00d6ba2622e
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -28,8 +28,8 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1004
-  skip: true  # [win and py < 30] - Py27 on Windows requires VS2008 which gettext doesn't support anymore
+  number: 0
+  skip: true  # [win and py < 30]
   run_exports:
     - {{ pin_subpackage('glib') }}
 
@@ -78,7 +78,7 @@ about:
   home: https://developer.gnome.org/glib/
   license: LGPL-2.1-or-later
   license_file: COPYING
-  summary: 'Provides core application building blocks for libraries and applications written in C.'
+  summary: Provides core application building blocks for libraries and applications written in C.
 
 extra:
   recipe-maintainers:

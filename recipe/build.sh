@@ -9,6 +9,11 @@ if [[ "$target_platform" == osx* ]] ; then
     export LDFLAGS="$(echo $LDFLAGS |sed -e "s| -Wl,-rpath,$PREFIX/lib||")"
 fi
 
+# There are a couple of places in the source that hardcode a system prefix;
+# in hardcoded-paths.patch we edit them to refer to the Conda prefix so
+# that they will get appropriately rewritten.
+export CPPFLAGS="$CPPFLAGS -DCONDA_PREFIX=\\\"$PREFIX\\\""
+
 # @PYTHON@ is used in the build scripts and that breaks with the long prefix.
 # we need to redefine that to `python`.
 _PY=$PYTHON

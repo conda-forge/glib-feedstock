@@ -1,19 +1,33 @@
-From 373f953aa1a2009f05a6c1d6ee73fda21d9cabfc Mon Sep 17 00:00:00 2001
-From: Peter Williams <peter@newton.cx>
-Date: Mon, 3 Sep 2018 22:27:48 -0400
-Subject: [PATCH 1/2] Manually link with libiconv whenever we use libintl.
+commit 7bb34f6eaf691d9fc18c1a75df8f70713a9d8108
+Author: Isuru Fernando <isuruf@gmail.com>
+Date:   Sun Apr 5 23:57:06 2020 +0000
 
-Sadly our Windows libintl DLL doesn't convey that it should pull in libiconv
-as a dependency (nor does it use pkg-config). Until I figure that out, let's
-just manually link with libintl when needed.
+    Manually link with libiconv whenever we use libintl.
+    
+    Sadly our Windows libintl DLL doesn't convey that it should pull in libiconv
+    as a dependency (nor does it use pkg-config). Until I figure that out, let's
+    just manually link with libintl when needed.
+    
+    There is also some hacking of gconvert.c and the toplevel meson.build file
+    needed to adjust the build system -- it assumes that on Windows you're always
+    going to use an internal iconv.
+    
+    Original Author: Peter Williams <peter@newton.cx>
 
-There is also some hacking of gconvert.c and the toplevel meson.build file
-needed to adjust the build system -- it assumes that on Windows you're always
-going to use an internal iconv.
----
-
+diff --git a/gio/win32/meson.build b/gio/win32/meson.build
+index 8d58998..4388c34 100644
+--- a/gio/win32/meson.build
++++ b/gio/win32/meson.build
+@@ -10,6 +10,6 @@ giowin32_sources = [
+ giowin32_lib = static_library('giowin32',
+   sources : [giowin32_sources],
+   include_directories : [configinc, glibinc, gioinc, gmoduleinc],
+-  dependencies : [libintl, gioenumtypes_dep],
++  dependencies : [libintl, gioenumtypes_dep] + libiconv,
+   pic : true,
+   c_args : gio_c_args)
 diff --git a/glib/gconvert.c b/glib/gconvert.c
-index 5028647..f685a06 100644
+index c5857df..98d4b36 100644
 --- a/glib/gconvert.c
 +++ b/glib/gconvert.c
 @@ -21,18 +21,12 @@
@@ -35,24 +49,11 @@ index 5028647..f685a06 100644
  #ifdef G_PLATFORM_WIN32
  #define STRICT
  #include <windows.h>
-diff --git a/meson.build b/meson.build
-index 0cc6e94..f256075 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1673,7 +1673,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
- # GNU implementation that ships with MinGW.
- 
- # On Windows, just always use the built-in implementation
--if host_system == 'windows'
-+if host_system == 'IGNOREME windows'
-   libiconv = []
-   glib_conf.set('USE_LIBICONV_NATIVE', true)
- else
 diff --git a/glib/meson.build b/glib/meson.build
-index 6fc56da..66db78c 100644
+index 46a7093..1883611 100644
 --- a/glib/meson.build
 +++ b/glib/meson.build
-@@ -268,11 +268,11 @@ libglib_dep = declare_dependency(
+@@ -366,12 +366,12 @@ libglib_dep = declare_dependency(
    link_with : libglib,
    # thread_dep doesn't get pulled in from libglib atm,
    # see https://github.com/mesonbuild/meson/issues/1426
@@ -61,20 +62,22 @@ index 6fc56da..66db78c 100644
    # We sadly need to export configinc here because everyone includes <glib/*.h>
    include_directories : [configinc, glibinc])
  
--pkg.generate(libraries : [libglib, libintl],
-+pkg.generate(libraries : [libglib, libintl] + libiconv,
+ pkg.generate(libglib,
+-  libraries : [libintl],
++  libraries : [libintl] + libiconv,
    libraries_private : [osx_ldflags, win32_ldflags],
    subdirs : ['glib-2.0'],
    extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
-diff --git a/gio/win32/meson.build b/gio/win32/meson.build
-index c1841cb..dc84cca 100644
---- a/gio/win32/meson.build
-+++ b/gio/win32/meson.build
-@@ -10,6 +10,6 @@ giowin32_sources = [
- giowin32_lib = static_library('giowin32',
-   sources : [giowin32_sources, gioenumtypes_h],
-   include_directories : [configinc, glibinc, gioinc, gmoduleinc],
--  dependencies : [libintl],
-+  dependencies : [libintl] + libiconv,
-   pic : true,
-   c_args : [ '-DG_DISABLE_DEPRECATED' ] + gio_c_args)
+diff --git a/meson.build b/meson.build
+index e1b4b79..9860697 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1815,7 +1815,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
+ # available in the actual runtime environment. On Windows, we always use
+ # the built-in implementation
+ iconv_opt = get_option('iconv')
+-if host_system == 'windows'
++if host_system == 'IGNOREME windows'
+   libiconv = []
+   # We have a #include "win_iconv.c" in gconvert.c on Windows, so we don't need
+   # any external library for it

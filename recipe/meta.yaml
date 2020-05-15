@@ -37,10 +37,10 @@ build:
 
 requirements:
   build:
-    - {{posix}}patch  # [win]
+    - {{ posix }}patch  # [win]
     - meson
     - ninja
-    - {{native}}pkg-config
+    - {{ native }}pkg-config
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - python >=2.7

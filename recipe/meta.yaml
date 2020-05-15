@@ -43,7 +43,7 @@ requirements:
     - {{native}}pkg-config
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - python *
+    - python >=2.7
   host:
     - libffi
     - gettext
@@ -51,7 +51,7 @@ requirements:
     - pcre
     - libiconv
   run:
-    - python *
+    - python >=2.7
     - libffi
     - gettext
     - zlib

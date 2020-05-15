@@ -27,7 +27,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and py < 30]
   run_exports:
     - {{ pin_subpackage('glib') }}
@@ -37,13 +37,13 @@ build:
 
 requirements:
   build:
-    - {{posix}}patch  # [win]
+    - {{ posix }}patch  # [win]
     - meson
     - ninja
-    - {{native}}pkg-config
+    - {{ native }}pkg-config
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - python *
+    - python >=2.7
   host:
     - libffi
     - gettext
@@ -51,7 +51,7 @@ requirements:
     - pcre
     - libiconv
   run:
-    - python *
+    - python >=2.7
     - libffi
     - gettext
     - zlib

@@ -49,25 +49,6 @@ index c5857df..98d4b36 100644
  #ifdef G_PLATFORM_WIN32
  #define STRICT
  #include <windows.h>
-diff --git a/glib/meson.build b/glib/meson.build
-index 46a7093..1883611 100644
---- a/glib/meson.build
-+++ b/glib/meson.build
-@@ -366,12 +366,12 @@ libglib_dep = declare_dependency(
-   link_with : libglib,
-   # thread_dep doesn't get pulled in from libglib atm,
-   # see https://github.com/mesonbuild/meson/issues/1426
--  dependencies : [thread_dep, libintl],
-+  dependencies : [thread_dep, libintl] + libiconv,
-   # We sadly need to export configinc here because everyone includes <glib/*.h>
-   include_directories : [configinc, glibinc])
- 
- pkg.generate(libglib,
--  libraries : [libintl],
-+  libraries : [libintl] + libiconv,
-   libraries_private : [osx_ldflags, win32_ldflags],
-   subdirs : ['glib-2.0'],
-   extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
 diff --git a/meson.build b/meson.build
 index e1b4b79..9860697 100644
 --- a/meson.build

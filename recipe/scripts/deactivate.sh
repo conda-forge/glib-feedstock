@@ -4,3 +4,9 @@ if [ -z $GSETTINGS_SCHEMA_DIR ]; then
     unset GSETTINGS_SCHEMA_DIR
 fi
 
+export GIO_MODULE_DIR=$GIO_MODULE_DIR_CONDA_BACKUP
+unset GIO_MODULE_DIR_CONDA_BACKUP
+if [ -z $GIO_MODULE_DIR ]; then
+    unset GIO_MODULE_DIR
+fi
+

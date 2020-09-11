@@ -1,9 +1,9 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '10.9'
+- '10.10'
 c_compiler:
 - clang
 c_compiler_version:
-- '9'
+- '10'
 channel_sources:
 - conda-forge,defaults
 channel_targets:
@@ -11,15 +11,13 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '9'
+- '10'
 libffi:
 - '3.2'
 libiconv:
-- '1.15'
+- '1.16'
 macos_machine:
 - x86_64-apple-darwin13.4.0
-macos_min_version:
-- '10.9'
 pin_run_as_build:
   libffi:
     max_pin: x.x

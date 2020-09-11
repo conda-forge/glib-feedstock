@@ -1,0 +1,11 @@
+--- gio/tests/resources.c.orig	2020-09-10 17:12:52.695367227 -0700
++++ gio/tests/resources.c	2020-09-10 17:13:54.805094054 -0700
+@@ -573,7 +573,7 @@
+ static void
+ test_resource_binary_linked (void)
+ {
+-  #ifndef __linux__
++  #ifndef __linux_and_objcopy_has_add_symbols__
+   g_test_skip ("--external-data test only works on Linux");
+   return;
+   #else /* if __linux__ */

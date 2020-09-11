@@ -1,0 +1,10 @@
+--- glib/tests/fileutils.c.orig	2020-09-10 17:15:50.197224792 -0700
++++ glib/tests/fileutils.c	2020-09-10 17:16:24.752144067 -0700
+@@ -1802,7 +1802,6 @@
+   g_test_add_func ("/fileutils/set-contents-full/read-only-file", test_set_contents_full_read_only_file);
+   g_test_add_func ("/fileutils/set-contents-full/read-only-directory", test_set_contents_full_read_only_directory);
+   g_test_add_func ("/fileutils/read-link", test_read_link);
+-  g_test_add_func ("/fileutils/stdio-wrappers", test_stdio_wrappers);
+   g_test_add_func ("/fileutils/fopen-modes", test_fopen_modes);
+ 
+   return g_test_run ();

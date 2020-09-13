@@ -1,5 +1,5 @@
-About glib
-==========
+About glib-split
+================
 
 Home: https://developer.gnome.org/glib/
 
@@ -43,38 +43,38 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64_target_platformlinux-64</td>
+              <td>linux_64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=369&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/glib-feedstock?branchName=master&jobName=linux&configuration=linux_64_target_platformlinux-64" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/glib-feedstock?branchName=master&jobName=linux&configuration=linux_64_" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_aarch64_target_platformlinux-aarch64</td>
+              <td>linux_aarch64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=369&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/glib-feedstock?branchName=master&jobName=linux&configuration=linux_aarch64_target_platformlinux-aarch64" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/glib-feedstock?branchName=master&jobName=linux&configuration=linux_aarch64_" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_ppc64le_target_platformlinux-ppc64le</td>
+              <td>linux_ppc64le</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=369&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/glib-feedstock?branchName=master&jobName=linux&configuration=linux_ppc64le_target_platformlinux-ppc64le" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/glib-feedstock?branchName=master&jobName=linux&configuration=linux_ppc64le_" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_target_platformosx-64</td>
+              <td>osx_64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=369&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/glib-feedstock?branchName=master&jobName=osx&configuration=osx_64_target_platformosx-64" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/glib-feedstock?branchName=master&jobName=osx&configuration=osx_64_" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>win_64_target_platformwin-64</td>
+              <td>win_64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=369&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/glib-feedstock?branchName=master&jobName=win&configuration=win_64_target_platformwin-64" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/glib-feedstock?branchName=master&jobName=win&configuration=win_64_" alt="variant">
                 </a>
               </td>
             </tr>
@@ -91,20 +91,21 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-glib-green.svg)](https://anaconda.org/conda-forge/glib) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/glib.svg)](https://anaconda.org/conda-forge/glib) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/glib.svg)](https://anaconda.org/conda-forge/glib) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/glib.svg)](https://anaconda.org/conda-forge/glib) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libglib-green.svg)](https://anaconda.org/conda-forge/libglib) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libglib.svg)](https://anaconda.org/conda-forge/libglib) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libglib.svg)](https://anaconda.org/conda-forge/libglib) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libglib.svg)](https://anaconda.org/conda-forge/libglib) |
 
-Installing glib
-===============
+Installing glib-split
+=====================
 
-Installing `glib` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `glib-split` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `glib` can be installed with:
+Once the `conda-forge` channel has been enabled, `glib, libglib` can be installed with:
 
 ```
-conda install glib
+conda install glib libglib
 ```
 
 It is possible to list all of the versions of `glib` available on your platform with:
@@ -152,17 +153,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating glib-feedstock
-=======================
+Updating glib-split-feedstock
+=============================
 
-If you would like to improve the glib recipe or build a new
+If you would like to improve the glib-split recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/glib-feedstock are
+Note that all branches in the conda-forge/glib-split-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.
@@ -183,4 +184,5 @@ Feedstock Maintainers
 * [@ocefpaf](https://github.com/ocefpaf/)
 * [@pkgw](https://github.com/pkgw/)
 * [@scopatz](https://github.com/scopatz/)
+* [@xhochy](https://github.com/xhochy/)
 

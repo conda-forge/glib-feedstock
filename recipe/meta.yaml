@@ -83,7 +83,7 @@ outputs:
         - libiconv
       run_constrained:
         # Avoid colliding with older glib builds that didn't have a libglib output
-        - {{ pin_subpackage("glib", max_pin="x.x.x") }}
+        - {{ pin_subpackage("glib", exact=True) }}
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
     test:
       commands:

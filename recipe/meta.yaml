@@ -130,6 +130,7 @@ about:
   summary: Provides core application building blocks for libraries and applications written in C.
 
 extra:
+  feedstock-name: glib
   recipe-maintainers:
     - ccordoba12
     - jakirkham

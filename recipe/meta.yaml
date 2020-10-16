@@ -4,7 +4,7 @@
 {% set native = 'm2w64-' if win else '' %}
 
 package:
-  name: glib
+  name: glib-split
   version: {{ version }}
 
 source:
@@ -31,13 +31,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 0
-  skip: true  # [win and py < 30]
-  run_exports:
-    - {{ pin_subpackage('glib') }}
-
-# Note that Python is in fact a runtime dependency because this package
-# provides a couple of developer support tools that are Python scripts.
+  number: 1
 
 requirements:
   build:
@@ -64,20 +58,70 @@ requirements:
   run_constrained:
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
 
-test:
-  commands:
-    - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}  # [not win]
-    - test ! -f ${PREFIX}/lib/libgobject-2.0.la  # [not win]
-    # Check that binaries can run -- instigated by Meson Linux rpath issue
-    - gapplication help  # [linux]
-    - gdbus help
-    - gio version
-    - gio-querymodules .
-    - glib-compile-resources --help
-    - glib-compile-schemas --help
-    - gobject-query --help
-    - gresource help
-    - gtester --help  # [not win]
+outputs:
+  - name: libglib
+    script: install.sh  # [unix]
+    script: install.bat  # [not unix]
+    build:
+      run_exports:
+        - {{ pin_subpackage("libglib") }}
+    requirements:
+      build:
+        - {{ posix }}patch  # [win]
+        - meson
+        - ninja
+        - {{ native }}pkg-config
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - ninja
+        - python >=2.7
+      host:
+        - libffi
+        - gettext
+        - zlib
+        - pcre
+        - libiconv
+      run_constrained:
+        # Avoid colliding with older glib builds that didn't have a libglib output
+        - glib {{ version }} *_{{ PKG_BUILDNUM }}
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+    test:
+      commands:
+        - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}  # [not win]
+        - test ! -f ${PREFIX}/lib/libgobject-2.0.la  # [not win]
+  - name: glib
+    script: install.sh  # [unix]
+    script: install.bat  # [not unix]
+    build:
+      run_exports:
+          - {{ pin_subpackage("libglib") }}
+    requirements:
+      build:
+        - {{ posix }}patch  # [win]
+        - meson
+        - ninja
+        - {{ native }}pkg-config
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - ninja
+        - python >=2.7
+      host:
+        - {{ pin_subpackage("libglib", exact=True) }}
+      run:
+        - python *
+        - {{ pin_subpackage("libglib", exact=True) }}
+    test:
+      commands:
+        # Check that binaries can run -- instigated by Meson Linux rpath issue
+        - gapplication help  # [linux]
+        - gdbus help
+        - gio version
+        - gio-querymodules .
+        - glib-compile-resources --help
+        - glib-compile-schemas --help
+        - gobject-query --help
+        - gresource help
+        - gtester --help  # [not win]
 
 about:
   home: https://developer.gnome.org/glib/
@@ -86,6 +130,7 @@ about:
   summary: Provides core application building blocks for libraries and applications written in C.
 
 extra:
+  feedstock-name: glib
   recipe-maintainers:
     - ccordoba12
     - jakirkham
@@ -93,3 +138,4 @@ extra:
     - ocefpaf
     - pkgw
     - isuruf
+    - xhochy

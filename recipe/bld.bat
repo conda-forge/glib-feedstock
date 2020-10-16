@@ -31,8 +31,3 @@ if errorlevel 1 exit 1
 @REM Lots of tests fail right now
 @REM ninja test
 @REM if errorlevel 1 exit 1
-
-ninja install
-if errorlevel 1 exit 1
-
-del %LIBRARY_PREFIX%\bin\*.pdb

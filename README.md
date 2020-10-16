@@ -5,11 +5,9 @@ Home: https://developer.gnome.org/glib/
 
 Package license: LGPL-2.1-or-later
 
-Feedstock license: BSD-3-Clause
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/glib-feedstock/blob/master/LICENSE.txt)
 
 Summary: Provides core application building blocks for libraries and applications written in C.
-
-
 
 Current build status
 ====================

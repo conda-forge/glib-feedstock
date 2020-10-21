@@ -9,6 +9,16 @@ if [[ "$target_platform" == osx* ]] ; then
     export LDFLAGS="$(echo $LDFLAGS |sed -e "s| -Wl,-rpath,$PREFIX/lib||")"
 fi
 
+if [[ "$target_platform" == "osx-arm64" && "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]]; then
+    # TODO: create this in the compiler activation recipe
+    echo "[target_machine]" > cross_file.txt
+    echo "system = 'darwin'" >> cross_file.txt
+    echo "cpu_family = 'aarch64'" >> cross_file.txt
+    echo "cpu = 'arm64'" >> cross_file.txt
+    echo "endian = 'little'" >> cross_file.txt
+    MESON_ARGS="$MESON_ARGS --cross-file cross_file.txt"
+fi
+
 # There are a couple of places in the source that hardcode a system prefix;
 # in hardcoded-paths.patch we edit them to refer to the Conda prefix so
 # that they will get appropriately rewritten.
@@ -22,7 +32,7 @@ export PYTHON="python"
 mkdir -p forgebuild
 cd forgebuild
 meson --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib \
-      -Diconv=external -Dlibmount=disabled -Dselinux=disabled -Dxattr=false .. \
+      -Diconv=external -Dlibmount=disabled -Dselinux=disabled -Dxattr=false $MESON_ARGS .. \
       || { cat meson-logs/meson-log.txt ; exit 1 ; }
 ninja -j${CPU_COUNT} -v
 
@@ -32,6 +42,6 @@ else
     export MESON_TEST_TIMEOUT_MULTIPLIER=2
 fi
 
-if [[ "$target_platform" != osx-64 ]] ; then  # too many tests fail on macOS
+if [[ "$target_platform" != osx-* && "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]] ; then  # too many tests fail on macOS
     meson test --no-suite flaky --timeout-multiplier ${MESON_TEST_TIMEOUT_MULTIPLIER}
 fi

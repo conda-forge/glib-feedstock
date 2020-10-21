@@ -30,6 +30,9 @@ if [[ "$target_platform" == "osx-arm64" && "$CONDA_BUILD_CROSS_COMPILATION" == "
     echo "cpu = 'arm64'" >> cross_file.txt
     echo "endian = 'little'" >> cross_file.txt
     MESON_ARGS="$MESON_ARGS --cross-file cross_file.txt"
+    # TODO: do this in the compiler activation recipe as well
+    export OBJC=$CC
+    export OBJC_FOR_BUILD=$CC_FOR_BUILD
 fi
 
 meson --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib \

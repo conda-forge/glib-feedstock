@@ -22,7 +22,8 @@ export PYTHON="python"
 mkdir -p forgebuild
 cd forgebuild
 meson --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib \
-      -Diconv=external -Dlibmount=disabled -Dselinux=disabled -Dxattr=false ..
+      -Diconv=external -Dlibmount=disabled -Dselinux=disabled -Dxattr=false .. \
+      || { cat meson-logs/meson-log.txt ; exit 1 ; }
 ninja -j${CPU_COUNT} -v
 
 if [ "${target_platform}" == 'linux-aarch64' ] || [ "${target_platform}" == "linux-ppc64le" ]; then

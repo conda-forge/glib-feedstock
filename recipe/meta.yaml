@@ -31,7 +31,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -89,6 +89,7 @@ outputs:
       commands:
         - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}  # [not win]
         - test ! -f ${PREFIX}/lib/libgobject-2.0.la  # [not win]
+        - test -f ${PREFIX}/lib/pkgconfig/glib-2.0.pc  # [unix]
   - name: glib
     script: install.sh  # [unix]
     script: install.bat  # [not unix]

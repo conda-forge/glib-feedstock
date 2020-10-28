@@ -19,7 +19,6 @@ if [[ "$PKG_NAME" == glib ]]; then
 else
     rm $PREFIX/bin/gdbus* $PREFIX/bin/gio* $PREFIX/bin/glib* $PREFIX/bin/gobject* $PREFIX/bin/gresource $PREFIX/bin/gsettings $PREFIX/bin/gtester*
     rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*
-    rm -r $PREFIX/lib/pkgconfig/{gio*,glib*,gmodule*,gobject*,gthread*}
     rm -r $PREFIX/share/aclocal/{glib*,gsettings*}
     rm -r $PREFIX/share/bash-completion/completions/{gapplication,gdbus,gio,gresource,gsettings}
     rm -r $PREFIX/share/glib-*

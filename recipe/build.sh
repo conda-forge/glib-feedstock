@@ -25,7 +25,7 @@ cd forgebuild
 
 if [[ "$target_platform" == "osx-arm64" && "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]]; then
     # TODO: create this in the compiler activation recipe
-    echo "[target_machine]" > cross_file.txt
+    echo "[host_machine]" > cross_file.txt
     echo "system = 'darwin'" >> cross_file.txt
     echo "cpu_family = 'aarch64'" >> cross_file.txt
     echo "cpu = 'arm64'" >> cross_file.txt
@@ -34,6 +34,7 @@ if [[ "$target_platform" == "osx-arm64" && "$CONDA_BUILD_CROSS_COMPILATION" == "
     # TODO: do this in the compiler activation recipe as well
     export OBJC=$CC
     export OBJC_FOR_BUILD=$CC_FOR_BUILD
+    export PKG_CONFIG=$BUILD_PREFIX/bin/pkg-config
 fi
 
 meson --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib \

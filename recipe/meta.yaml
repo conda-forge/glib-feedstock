@@ -37,6 +37,8 @@ requirements:
   build:
     - {{ posix }}patch  # [win]
     - meson
+    # see https://github.com/mesonbuild/meson/issues/7611
+    - meson !=0.56.*  # [win]
     - ninja
     - {{ native }}pkg-config
     - {{ compiler('c') }}

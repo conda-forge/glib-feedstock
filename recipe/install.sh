@@ -1,6 +1,8 @@
 #!/bin/bash
+
+unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 cd forgebuild
-ninja install
+ninja install || (cat meson-logs/meson-log.txt; false)
 # remove libtool files
 find $PREFIX -name '*.la' -delete
 

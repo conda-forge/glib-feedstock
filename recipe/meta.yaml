@@ -1,4 +1,6 @@
-{% set version = "2.66.3" %}
+# Previous built 2.58.3 Version was hash
+# https://github.com/conda-forge/glib-feedstock/blob/c1fb9a888690e674395fe7b8ce94f3fb67bd22bc/recipe/meta.yaml
+{% set version = "2.58.3" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +11,7 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/GNOME/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 79f31365a99cb1cc9db028625635d1438890702acde9e2802eae0acebcf7b5b1
+  sha256: 8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -31,7 +33,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1
+  number: 1005
   ignore_run_exports_from:
     - python
 

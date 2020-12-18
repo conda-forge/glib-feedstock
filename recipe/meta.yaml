@@ -31,7 +31,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports_from:
     - python
 
@@ -60,8 +60,6 @@ requirements:
     - zlib
     - pcre
     - libiconv
-  run_constrained:
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
 
 outputs:
   - name: libglib

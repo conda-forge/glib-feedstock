@@ -44,6 +44,7 @@ requirements:
     - ninja
     - {{ native }}pkg-config
     - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
     - python >=2.7
     - setuptools
   host:
@@ -73,6 +74,7 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
         - setuptools
@@ -110,6 +112,7 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
         - setuptools

@@ -8,10 +8,6 @@ channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
-cxx_compiler:
-- gxx
-cxx_compiler_version:
-- '9'
 docker_image:
 - quay.io/condaforge/linux-anvil-ppc64le
 libffi:
@@ -32,8 +28,5 @@ python:
 - 3.8.* *_cpython
 target_platform:
 - linux-ppc64le
-zip_keys:
-- - c_compiler_version
-  - cxx_compiler_version
 zlib:
 - '1.2'

@@ -144,10 +144,12 @@ outputs:
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
+        - {{ pin_subpackage("glib-tools", exact=True) }}
         - gettext
       run:
         - python *
         - {{ pin_subpackage("libglib", exact=True) }}
+        - {{ pin_subpackage("glib-tools", exact=True) }}
     test:
       commands:
         # Check that binaries can run -- instigated by Meson Linux rpath issue

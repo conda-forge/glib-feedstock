@@ -2,18 +2,22 @@ cd forgebuild
 ninja install
 if errorlevel 1 exit 1
 
-if [%PKG_NAME%] == [libglib] (
+if NOT [%PKG_NAME%] == [glib] (
+  if [%PKG_NAME%] == [libglib] (
+      del %LIBRARY_PREFIX%\bin\gio-querymodules.exe
+      if errorlevel 1 exit 1
+      del %LIBRARY_PREFIX%\bin\gio.exe
+      if errorlevel 1 exit 1
+      del %LIBRARY_PREFIX%\bin\glib-compile-resources.exe
+      if errorlevel 1 exit 1
+      del %LIBRARY_PREFIX%\bin\glib-compile-schemas.exe
+      if errorlevel 1 exit 1
+      del %LIBRARY_PREFIX%\share\bash-completion\completions\gio
+      if errorlevel 1 exit 1
+  )
   del %LIBRARY_PREFIX%\bin\gdbus-codegen
   if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\bin\gdbus.exe
-  if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\bin\gio-querymodules.exe
-  if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\bin\gio.exe
-  if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\bin\glib-compile-resources.exe
-  if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\bin\glib-compile-schemas.exe
   if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\bin\glib-genmarshal
   if errorlevel 1 exit 1
@@ -49,8 +53,6 @@ if [%PKG_NAME%] == [libglib] (
   del %LIBRARY_PREFIX%\share\bash-completion\completions\gapplication
   if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\share\bash-completion\completions\gdbus
-  if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\share\bash-completion\completions\gio
   if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\share\bash-completion\completions\gresource
   if errorlevel 1 exit 1

@@ -194,6 +194,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-glib-green.svg)](https://anaconda.org/conda-forge/glib) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/glib.svg)](https://anaconda.org/conda-forge/glib) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/glib.svg)](https://anaconda.org/conda-forge/glib) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/glib.svg)](https://anaconda.org/conda-forge/glib) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-glib--tools-green.svg)](https://anaconda.org/conda-forge/glib-tools) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/glib-tools.svg)](https://anaconda.org/conda-forge/glib-tools) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/glib-tools.svg)](https://anaconda.org/conda-forge/glib-tools) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/glib-tools.svg)](https://anaconda.org/conda-forge/glib-tools) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libglib-green.svg)](https://anaconda.org/conda-forge/libglib) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libglib.svg)](https://anaconda.org/conda-forge/libglib) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libglib.svg)](https://anaconda.org/conda-forge/libglib) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libglib.svg)](https://anaconda.org/conda-forge/libglib) |
 
 Installing glib
@@ -205,10 +206,10 @@ Installing `glib` from the `conda-forge` channel can be achieved by adding `cond
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `glib, libglib` can be installed with:
+Once the `conda-forge` channel has been enabled, `glib, glib-tools, libglib` can be installed with:
 
 ```
-conda install glib libglib
+conda install glib glib-tools libglib
 ```
 
 It is possible to list all of the versions of `glib` available on your platform with:

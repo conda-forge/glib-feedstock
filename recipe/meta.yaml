@@ -31,9 +31,9 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 2
+  number: 3
   ignore_run_exports_from:
-    - python
+    - python *
 
 requirements:
   build:
@@ -62,7 +62,7 @@ outputs:
     script: install.bat  # [not unix]
     build:
       ignore_run_exports_from:
-        - python
+        - python *
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:
@@ -97,7 +97,7 @@ outputs:
     script: install.bat  # [not unix]
     build:
       ignore_run_exports_from:
-        - python
+        - python *
     requirements:
       build:
         - {{ posix }}patch  # [win]
@@ -126,7 +126,7 @@ outputs:
     script: install.bat  # [not unix]
     build:
       ignore_run_exports_from:
-        - python
+        - python *
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:

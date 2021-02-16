@@ -1,4 +1,4 @@
-{% set version = "2.66.7" %}
+{% set version = "2.67.4" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://download.gnome.org/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 09f158769f6f26b31074e15b1ac80ec39b13b53102dfae66cfe826fb2cc65502
+  sha256: 8d87b962032dadfcae8df62d248aa91fed2c7a43faf2c6d8b9107eb6c50e5b14
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own

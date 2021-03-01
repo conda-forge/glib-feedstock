@@ -10,6 +10,8 @@ libffi:
 - '3.3'
 libiconv:
 - '1.16'
+pcre:
+- '8'
 pin_run_as_build:
   libffi:
     max_pin: x.x

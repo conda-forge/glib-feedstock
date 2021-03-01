@@ -22,7 +22,7 @@ set "PYTHONIOENCODING=UTF-8"
 @REM See hardcoded-paths.patch
 set "CPPFLAGS=%CPPFLAGS% -D^"%LIBRARY_PREFIX_M%^""
 
-%BUILD_PREFIX%\python.exe %BUILD_PREFIX%\Scripts\meson --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Diconv=external -Dselinux=disabled -Dxattr=false -Dlibmount=disabled ..
+meson --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Diconv=external -Dselinux=disabled -Dxattr=false -Dlibmount=disabled ..
 if errorlevel 1 exit 1
 
 ninja -v

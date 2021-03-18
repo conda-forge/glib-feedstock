@@ -37,7 +37,7 @@ if [[ "$target_platform" == "osx-arm64" && "$CONDA_BUILD_CROSS_COMPILATION" == "
     export PKG_CONFIG=$BUILD_PREFIX/bin/pkg-config
 fi
 
-meson --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib \
+meson --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib -Dlocalstatedir="$PREFIX/var" \
       -Diconv=external -Dlibmount=disabled -Dselinux=disabled -Dxattr=false $MESON_ARGS .. \
       || { cat meson-logs/meson-log.txt ; exit 1 ; }
 ninja -j${CPU_COUNT} -v

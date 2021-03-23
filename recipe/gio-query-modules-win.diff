@@ -1,0 +1,14 @@
+diff --git a/gio/gio-querymodules.c b/gio/gio-querymodules.c
+index eb5094f4d..36f290320 100644
+--- a/gio/gio-querymodules.c
++++ b/gio/gio-querymodules.c
+@@ -116,8 +116,6 @@ query_dir (const char *dirname)
+ 		  g_strfreev (extension_points);
+ 		}
+ 	    }
+-
+-	  g_module_close (module);
+ 	}
+     }
+ 
+

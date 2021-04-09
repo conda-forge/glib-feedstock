@@ -99,6 +99,7 @@ Installing `glib` from the `conda-forge` channel can be achieved by adding `cond
 
 ```
 conda config --add channels conda-forge
+conda config --set channel_priority strict
 ```
 
 Once the `conda-forge` channel has been enabled, `glib, glib-tools, libglib` can be installed with:

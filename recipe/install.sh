@@ -34,7 +34,6 @@ else
         mv .keep/glib-compile* $PREFIX/bin
     fi
     rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*
-    rm -r $PREFIX/lib/pkgconfig/{gio*,glib*,gmodule*,gobject*,gthread*}
     rm -r $PREFIX/share/aclocal/{glib*,gsettings*}
     rm -r $PREFIX/share/bash-completion/completions/{gapplication,gdbus,gresource,gsettings}
     rm -r $PREFIX/share/glib-*

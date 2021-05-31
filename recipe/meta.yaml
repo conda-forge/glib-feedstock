@@ -90,7 +90,8 @@ outputs:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
     test:
       commands:
-        - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}  # [not win]
+        - test -f ${PREFIX}/lib/libglib-2.0.0{{ SHLIB_EXT }}  # [osx]
+        - test -f ${PREFIX}/lib/libglib-2.0{{ SHLIB_EXT }}.0  # [linux]
         - test ! -f ${PREFIX}/lib/libgobject-2.0.la  # [not win]
         - test ! -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}  # [not win]
         - test -f ${PREFIX}/lib/pkgconfig/glib-2.0.pc  # [unix]

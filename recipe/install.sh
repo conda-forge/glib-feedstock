@@ -37,4 +37,5 @@ else
     rm -r $PREFIX/share/aclocal/{glib*,gsettings*}
     rm -r $PREFIX/share/bash-completion/completions/{gapplication,gdbus,gresource,gsettings}
     rm -r $PREFIX/share/glib-*
+    rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio}-2.0${SHLIB_EXT}
 fi

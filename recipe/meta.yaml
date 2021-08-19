@@ -1,4 +1,4 @@
-{% set version = "2.68.3" %}
+{% set version = "2.68.4" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://download.gnome.org/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: e7e1a3c20c026109c45c9ec4a31d8dcebc22e86c69486993e565817d64be3138
+  sha256: 62fd061d08a75492617e625a73e2c05e259f831acbb8e1f8b9c81f23f7993a3b
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -39,8 +39,6 @@ requirements:
   build:
     - {{ posix }}patch  # [win]
     - meson
-    # see https://github.com/mesonbuild/meson/issues/7611
-    - meson !=0.56.*  # [win]
     - ninja
     - {{ native }}pkg-config
     - {{ compiler('c') }}
@@ -69,8 +67,6 @@ outputs:
       build:
         - {{ posix }}patch  # [win]
         - meson
-        # see https://github.com/mesonbuild/meson/issues/7611
-        - meson !=0.56.*  # [win]
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
@@ -105,8 +101,6 @@ outputs:
       build:
         - {{ posix }}patch  # [win]
         - meson
-        # see https://github.com/mesonbuild/meson/issues/7611
-        - meson !=0.56.*  # [win]
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
@@ -136,8 +130,6 @@ outputs:
       build:
         - {{ posix }}patch  # [win]
         - meson
-        # see https://github.com/mesonbuild/meson/issues/7611
-        - meson !=0.56.*  # [win]
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}

@@ -7,7 +7,7 @@ channel_targets:
 cxx_compiler:
 - vs2017
 libffi:
-- '3.3'
+- '3.4'
 libiconv:
 - '1.16'
 pcre:

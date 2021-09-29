@@ -16,16 +16,6 @@ if NOT [%PKG_NAME%] == [glib] (
       if errorlevel 1 exit 1
       del %LIBRARY_PREFIX%\bin\gsettings.exe
       if errorlevel 1 exit 1
-      del %LIBRARY_PREFIX%\share\bash-completion\completions\gapplication
-      if errorlevel 1 exit 1
-      del %LIBRARY_PREFIX%\share\bash-completion\completions\gdbus
-      if errorlevel 1 exit 1
-      del %LIBRARY_PREFIX%\share\bash-completion\completions\gio
-      if errorlevel 1 exit 1
-      del %LIBRARY_PREFIX%\share\bash-completion\completions\gresource
-      if errorlevel 1 exit 1
-      del %LIBRARY_PREFIX%\share\bash-completion\completions\gsettings
-      if errorlevel 1 exit 1
   )
   del %LIBRARY_PREFIX%\bin\gdbus-codegen
   if errorlevel 1 exit 1
@@ -44,9 +34,9 @@ if NOT [%PKG_NAME%] == [glib] (
   del %LIBRARY_PREFIX%\bin\gtester*
   if errorlevel 1 exit 1
 
-  del %LIBRARY_PREFIX%\include\gio-win32-2.0
+  del /q %LIBRARY_PREFIX%\include\gio-win32-2.0
   if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\include\glib-2.0
+  del /q %LIBRARY_PREFIX%\include\glib-2.0
   if errorlevel 1 exit 1
 
   del %LIBRARY_PREFIX%\lib\pkgconfig\gio-*
@@ -64,10 +54,20 @@ if NOT [%PKG_NAME%] == [glib] (
   if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\share\aclocal\gsettings.m4
   if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\share\gettext\its
+  del /q %LIBRARY_PREFIX%\share\gettext\its
   if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\share\glib-2.0
+  del /q %LIBRARY_PREFIX%\share\glib-2.0
   if errorlevel 1 exit 1
 )
+
+rem We don't have bash as a dependency so these shouldn't exist, but
+rem sometimes a system bash will be picked up and they will get installed.
+rem Just delete them, but don't check for errors in case they do not exist.
+rem If we do want them in the future, they should go in glib-tools.
+del %LIBRARY_PREFIX%\share\bash-completion\completions\gapplication
+del %LIBRARY_PREFIX%\share\bash-completion\completions\gdbus
+del %LIBRARY_PREFIX%\share\bash-completion\completions\gio
+del %LIBRARY_PREFIX%\share\bash-completion\completions\gresource
+del %LIBRARY_PREFIX%\share\bash-completion\completions\gsettings
 
 del %LIBRARY_PREFIX%\bin\*.pdb

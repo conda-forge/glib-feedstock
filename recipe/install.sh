@@ -21,21 +21,26 @@ if [[ "$PKG_NAME" == glib ]]; then
 else
     if [[ "$PKG_NAME" == glib-tools ]]; then
         mkdir .keep
-        # We ship glib-compile-* and gio-* binaries as part of the libglib packages
-        # as they are native binaries and also come along inside of libglib
-        # in other distributions.
-        mv $PREFIX/bin/glib-compile* .keep
+        # We ship these binaries as part of the glib-tools package because
+        # they can be depended on separately by other packages, e.g. gtk
+        # (equivalent to Debian's libglib2.0-bin)
+        mv $PREFIX/bin/gdbus .keep
+        mv $PREFIX/bin/glib-compile-schemas .keep
     else
+        rm -f $PREFIX/bin/gapplication
         rm $PREFIX/bin/gio*
-        rm -r $PREFIX/share/bash-completion/completions/gio
+        rm $PREFIX/bin/gresource
+        rm $PREFIX/bin/gsettings
+        rm $PREFIX/share/bash-completion/completions/{gapplication,gdbus,gio,gresource,gsettings}
     fi
-    rm $PREFIX/bin/gdbus* $PREFIX/bin/glib* $PREFIX/bin/gobject* $PREFIX/bin/gresource $PREFIX/bin/gsettings $PREFIX/bin/gtester*
+    rm $PREFIX/bin/{gdbus*,glib-*,gobject*,gtester*}
     if [[ "$PKG_NAME" == glib-tools ]]; then
-        mv .keep/glib-compile* $PREFIX/bin
+        mv .keep/* $PREFIX/bin
     fi
     rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*
-    rm -r $PREFIX/share/aclocal/{glib*,gsettings*}
-    rm -r $PREFIX/share/bash-completion/completions/{gapplication,gdbus,gresource,gsettings}
-    rm -r $PREFIX/share/glib-*
+    rm -r $PREFIX/lib/glib-*
     rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio}-2.0${SHLIB_EXT}
+    rm -r $PREFIX/share/aclocal/{glib-*,gsettings*}
+    rm -r $PREFIX/share/gettext/its
+    rm -r $PREFIX/share/glib-*
 fi

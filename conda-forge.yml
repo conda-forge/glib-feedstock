@@ -1,3 +1,4 @@
+azure: {store_build_artifacts: true}
 build_platform:
   osx_arm64: osx_64
   linux_ppc64le: linux_64

@@ -39,6 +39,8 @@ if NOT [%PKG_NAME%] == [glib] (
   rmdir /s /q %LIBRARY_PREFIX%\include\glib-2.0
   if errorlevel 1 exit 1
 
+  rmdir /s /q %LIBRARY_PREFIX%\lib\glib-2.0\include
+  if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\lib\pkgconfig\gio-*
   if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\lib\pkgconfig\glib-*

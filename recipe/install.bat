@@ -34,9 +34,9 @@ if NOT [%PKG_NAME%] == [glib] (
   del %LIBRARY_PREFIX%\bin\gtester*
   if errorlevel 1 exit 1
 
-  del /q %LIBRARY_PREFIX%\include\gio-win32-2.0
+  rmdir /s /q %LIBRARY_PREFIX%\include\gio-win32-2.0
   if errorlevel 1 exit 1
-  del /q %LIBRARY_PREFIX%\include\glib-2.0
+  rmdir /s /q %LIBRARY_PREFIX%\include\glib-2.0
   if errorlevel 1 exit 1
 
   del %LIBRARY_PREFIX%\lib\pkgconfig\gio-*
@@ -54,9 +54,9 @@ if NOT [%PKG_NAME%] == [glib] (
   if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\share\aclocal\gsettings.m4
   if errorlevel 1 exit 1
-  del /q %LIBRARY_PREFIX%\share\gettext\its
+  rmdir /s /q %LIBRARY_PREFIX%\share\gettext\its
   if errorlevel 1 exit 1
-  del /q %LIBRARY_PREFIX%\share\glib-2.0
+  rmdir /s /q %LIBRARY_PREFIX%\share\glib-2.0
   if errorlevel 1 exit 1
 )
 

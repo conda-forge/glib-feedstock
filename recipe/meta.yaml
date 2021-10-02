@@ -31,7 +31,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1
+  number: 2
   ignore_run_exports_from:
     - python *
 
@@ -114,10 +114,13 @@ outputs:
         - {{ pin_subpackage("libglib", exact=True) }}
     test:
       commands:
-        - glib-compile-schemas --help
-        - glib-compile-resources --help
+        # Check that binaries can run -- instigated by Meson Linux rpath issue
+        - gapplication help  # [linux]
+        - gdbus help
         - gio version
         - gio-querymodules .
+        - glib-compile-schemas --help
+        - gresource help
   - name: glib
     script: install.sh  # [unix]
     script: install.bat  # [not unix]
@@ -148,11 +151,8 @@ outputs:
     test:
       commands:
         - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}  # [not win]
-        # Check that binaries can run -- instigated by Meson Linux rpath issue
-        - gapplication help  # [linux]
-        - gdbus help
+        - glib-compile-resources --help
         - gobject-query --help
-        - gresource help
         - gtester --help  # [not win]
 
 about:

@@ -66,7 +66,7 @@ else
 
     ( startgroup "Uploading packages" ) 2> /dev/null
 
-    if [[ "${UPLOAD_PACKAGES}" != "False" ]] && [[ "${IS_PR_BUILD}" == "False" ]]; then
+    if [[ "${UPLOAD_PACKAGES}" != "False" ]]; then
         upload_package --validate --feedstock-name="${FEEDSTOCK_NAME}"  "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
     fi
 

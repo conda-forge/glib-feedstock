@@ -24,6 +24,7 @@ source:
     - skip-gio-tests-meson.build.patch
     - skip-gio-tests-resources.c.patch
     - skip-glib-tests-fileutils.c.patch
+    - skip-glib-tests-gdatetime.c.patch
 
     #- 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
     # Windows:
@@ -110,6 +111,7 @@ outputs:
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
+        - zlib
       run:
         - {{ pin_subpackage("libglib", exact=True) }}
     test:
@@ -144,6 +146,7 @@ outputs:
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
         - gettext
+        - zlib
       run:
         - python *
         - {{ pin_subpackage("libglib", exact=True) }}

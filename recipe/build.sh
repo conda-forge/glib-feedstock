@@ -2,13 +2,6 @@
 
 set -ex
 
-if [[ "$target_platform" == osx* ]] ; then
-    # Meson automatically adds the necessary rpath arguments on macOS, but the
-    # current version has a bug which causes a build failure if the argument
-    # is duplicated in $LDFLAGS. (It's fixed in 0.49.). So, strip that out.
-    export LDFLAGS="$(echo $LDFLAGS |sed -e "s| -Wl,-rpath,$PREFIX/lib||")"
-fi
-
 # There are a couple of places in the source that hardcode a system prefix;
 # in hardcoded-paths.patch we edit them to refer to the Conda prefix so
 # that they will get appropriately rewritten.

@@ -26,7 +26,7 @@ source:
     - skip-glib-tests-fileutils.c.patch
     - skip-glib-tests-gdatetime.c.patch
 
-    #- 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
+    - 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
     # Windows:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
     - 0002-Increase-some-test-timeouts.patch                          # [win]

@@ -38,6 +38,7 @@ build:
 
 requirements:
   build:
+    - gettext  # [osx and arm64]
     - {{ posix }}patch  # [win]
     - meson
     - ninja

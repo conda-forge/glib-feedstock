@@ -29,8 +29,6 @@ if NOT [%PKG_NAME%] == [glib] (
   if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\bin\gobject-query.exe
   if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\bin\gspawn*
-  if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\bin\gtester*
   if errorlevel 1 exit 1
 

@@ -12,15 +12,7 @@ find $PREFIX -name '*.la' -delete
 # (255 chars) which causes installation issues so remove it.
 rm -rf $PREFIX/share/gdb
 
-if [[ "$PKG_NAME" == glib ]]; then
-    # Copy the [de]activate scripts to $PREFIX/etc/conda/[de]activate.d.
-    # This will allow them to be run on environment activation.
-    for CHANGE in "activate" "deactivate"
-    do
-        mkdir -p "${PREFIX}/etc/conda/${CHANGE}.d"
-        cp "${RECIPE_DIR}/scripts/${CHANGE}.sh" "${PREFIX}/etc/conda/${CHANGE}.d/${PKG_NAME}_${CHANGE}.sh"
-     done
-else
+if [[ "$PKG_NAME" != glib ]]; then
     if [[ "$PKG_NAME" == glib-tools ]]; then
         mkdir .keep
         # We ship these binaries as part of the glib-tools package because
@@ -34,6 +26,14 @@ else
         rm $PREFIX/bin/gresource
         rm $PREFIX/bin/gsettings
         rm $PREFIX/share/bash-completion/completions/{gapplication,gdbus,gio,gresource,gsettings}
+
+        # Copy the [de]activate scripts to $PREFIX/etc/conda/[de]activate.d.
+        # This will allow them to be run on environment activation.
+        for CHANGE in "activate" "deactivate"
+        do
+            mkdir -p "${PREFIX}/etc/conda/${CHANGE}.d"
+            cp "${RECIPE_DIR}/scripts/${CHANGE}.sh" "${PREFIX}/etc/conda/${CHANGE}.d/${PKG_NAME}_${CHANGE}.sh"
+        done
     fi
     rm $PREFIX/bin/{gdbus*,glib-*,gobject*,gtester*}
     if [[ "$PKG_NAME" == glib-tools ]]; then

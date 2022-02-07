@@ -32,7 +32,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1
+  number: 2
   ignore_run_exports_from:
     - python *
 
@@ -92,6 +92,8 @@ outputs:
         - test ! -f ${PREFIX}/lib/libgobject-2.0.la  # [not win]
         - test ! -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}  # [not win]
         - test -f ${PREFIX}/lib/pkgconfig/glib-2.0.pc  # [unix]
+        - test -f ${PREFIX}/etc/conda/activate.d/libglib_activate.sh  # [not win]
+        - test -f ${PREFIX}/etc/conda/deactivate.d/libglib_deactivate.sh  # [not win]
   - name: glib-tools
     script: install.sh  # [unix]
     script: install.bat  # [not unix]

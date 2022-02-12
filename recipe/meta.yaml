@@ -32,7 +32,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 3
+  number: 4
   ignore_run_exports_from:
     - python *
 

@@ -6,18 +6,18 @@ language: generic
 env:
   global:
     # The BINSTAR_TOKEN secure variable. This is defined canonically in conda-forge.yml.
-    - secure: "Bg1WMK6KdXQ0jIA99Dhns/RW8WWTkgnboGIOPvy+c5qHAP3uktIMtMnMthGmnrwWuohk7pPnPbljGsk6sHzEsf0ZfgsIHO+u/DS6O9hZKbJjOHg2pH0QZSV4yMuO9hRu5x8BK7gSMHZnYluDeLWxdj7ZWb19J8oripxwhT2teCOtaWv6hI45D3qCJD7+a2ipOAhiuqGvWwrQ12l+CZkYRkmxsHdmViJGMUXzQC8p9V3oLiKq4hSnWIdVzXiafC/0s2ZN3lE8gJ/N0mAKy1K4J34IdCPzY0Curv6LK36CxWUpmZ1ciP8hQ7tsi3e2D3XHB/flOBqpYfWmndKTwPYdNiIV0oJHN1qqSa53vuLTkVmb3+PxVfpV9u2hdEqNpMrefOFORtO1LOIB9A2DKKtMp3NQeU6iXn+NEUn3KlRTypDB6uFb5ashqWEvSqwNq5bo16gF/z6Xr+2RhDYmvzmPSFTrvIfONJrgsPCOaBICV4gnp7STvdb4NbnmCBEshGSZztvVq1RUyBwfrkxPSzGHtkgX2vQ815HbmySD2JetHq8OA7DeRnGcdXRP0ONq4gkipHpb+omtkp62seC90CusSILSUYjHTFAhAMnvyBHBvPB7D4TSZGthFdXw3QH3nTG0FFojk4e2qifZvHIch3aoMoQi9iDACIXdpLyHyxOJgA8="
+  - secure: Bg1WMK6KdXQ0jIA99Dhns/RW8WWTkgnboGIOPvy+c5qHAP3uktIMtMnMthGmnrwWuohk7pPnPbljGsk6sHzEsf0ZfgsIHO+u/DS6O9hZKbJjOHg2pH0QZSV4yMuO9hRu5x8BK7gSMHZnYluDeLWxdj7ZWb19J8oripxwhT2teCOtaWv6hI45D3qCJD7+a2ipOAhiuqGvWwrQ12l+CZkYRkmxsHdmViJGMUXzQC8p9V3oLiKq4hSnWIdVzXiafC/0s2ZN3lE8gJ/N0mAKy1K4J34IdCPzY0Curv6LK36CxWUpmZ1ciP8hQ7tsi3e2D3XHB/flOBqpYfWmndKTwPYdNiIV0oJHN1qqSa53vuLTkVmb3+PxVfpV9u2hdEqNpMrefOFORtO1LOIB9A2DKKtMp3NQeU6iXn+NEUn3KlRTypDB6uFb5ashqWEvSqwNq5bo16gF/z6Xr+2RhDYmvzmPSFTrvIfONJrgsPCOaBICV4gnp7STvdb4NbnmCBEshGSZztvVq1RUyBwfrkxPSzGHtkgX2vQ815HbmySD2JetHq8OA7DeRnGcdXRP0ONq4gkipHpb+omtkp62seC90CusSILSUYjHTFAhAMnvyBHBvPB7D4TSZGthFdXw3QH3nTG0FFojk4e2qifZvHIch3aoMoQi9iDACIXdpLyHyxOJgA8=
 
 matrix:
   include:
-    - env: CONFIG=linux_ppc64le_ UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=condaforge/linux-anvil-ppc64le
-      os: linux
-      arch: ppc64le
+  - env: CONFIG=linux_ppc64le_ UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=condaforge/linux-anvil-ppc64le
+    os: linux
+    arch: ppc64le
 
 script:
-  - export CI=travis
-  - export GIT_BRANCH="$TRAVIS_BRANCH"
-  - export FEEDSTOCK_NAME=$(basename ${TRAVIS_REPO_SLUG})
+- export CI=travis
+- export GIT_BRANCH="$TRAVIS_BRANCH"
+- export FEEDSTOCK_NAME=$(basename ${TRAVIS_REPO_SLUG})
 
 
-  - if [[ ${PLATFORM} =~ .*linux.* ]]; then ./.scripts/run_docker_build.sh; fi
+- if [[ ${PLATFORM} =~ .*linux.* ]]; then ./.scripts/run_docker_build.sh; fi

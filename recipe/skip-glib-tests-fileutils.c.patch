@@ -1,6 +1,8 @@
---- glib/tests/fileutils.c.orig	2020-09-10 17:15:50.197224792 -0700
-+++ glib/tests/fileutils.c	2020-09-10 17:16:24.752144067 -0700
-@@ -1802,7 +1802,6 @@
+diff --git a/glib/tests/fileutils.c b/glib/tests/fileutils.c
+index ae25578..f5d92e0 100644
+--- a/glib/tests/fileutils.c
++++ b/glib/tests/fileutils.c
+@@ -2446,7 +2446,6 @@ main (int   argc,
    g_test_add_func ("/fileutils/set-contents-full/read-only-file", test_set_contents_full_read_only_file);
    g_test_add_func ("/fileutils/set-contents-full/read-only-directory", test_set_contents_full_read_only_directory);
    g_test_add_func ("/fileutils/read-link", test_read_link);

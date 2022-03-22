@@ -6,10 +6,10 @@ Subject: [PATCH 2/2] Increase some test timeouts.
 ---
 
 diff --git a/tests/refcount/meson.build b/tests/refcount/meson.build
-index 68c23cc..71d9bcb 100644
+index 02571fe..aa96b1c 100644
 --- a/tests/refcount/meson.build
 +++ b/tests/refcount/meson.build
-@@ -5,7 +5,7 @@ refcount_tests = {
+@@ -4,7 +4,7 @@ refcount_tests = {
    'properties' : {},
    'properties2' : {'suite' : ['slow']},
    'properties3' : {'suite' : ['slow']},

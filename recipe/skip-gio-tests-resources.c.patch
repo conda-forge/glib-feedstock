@@ -1,6 +1,8 @@
---- gio/tests/resources.c.orig	2020-09-10 17:12:52.695367227 -0700
-+++ gio/tests/resources.c	2020-09-10 17:13:54.805094054 -0700
-@@ -573,7 +573,7 @@
+diff --git a/gio/tests/resources.c b/gio/tests/resources.c
+index 7ba5896..0b72278 100644
+--- a/gio/tests/resources.c
++++ b/gio/tests/resources.c
+@@ -640,7 +640,7 @@ test_resource_manual2 (void)
  static void
  test_resource_binary_linked (void)
  {

@@ -1,4 +1,4 @@
-{% set version = "2.70.2" %}
+{% set version = "2.72.0" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://download.gnome.org/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 0551459c85cd3da3d58ddc9016fd28be5af503f5e1615a71ba5b512ac945806f
+  sha256: d7bef0d4c4e7a62e08efb8e5f252a01357007b9588a87ff2b463a3857011f79d
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -32,7 +32,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 4
+  number: 0
   ignore_run_exports_from:
     - python *
 

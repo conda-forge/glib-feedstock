@@ -1,3 +1,4 @@
+Updated March 2022 for glib 2.72.0 by @pkgw
 Updated November 2021 for glib 2.70.1 by @pkgw
 
 From 41a15be2e45ccfdfac236cc043a1e2c7d5f73bfa Mon Sep 17 00:00:00 2001
@@ -6,10 +7,10 @@ Date: Sat, 2 Mar 2019 17:34:43 -0500
 Subject: [PATCH] Attempt to mask out qemu failing tests
 
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index c77ccdd..08b720d 100644
+index a0c64af..282540a 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
-@@ -28,7 +28,7 @@ glib_tests = {
+@@ -35,7 +35,7 @@ glib_tests = {
    },
    'guuid' : {},
    'gvariant' : {
@@ -18,7 +19,7 @@ index c77ccdd..08b720d 100644
    },
    'gwakeup' : {
      'source' : ['gwakeuptest.c', '../gwakeup.c'],
-@@ -94,7 +94,7 @@ glib_tests = {
+@@ -102,7 +102,7 @@ glib_tests = {
    'spawn-multithreaded' : {},
    'spawn-path-search' : {},
    'spawn-singlethread' : {},
@@ -27,7 +28,7 @@ index c77ccdd..08b720d 100644
    'string' : {},
    'strvbuilder' : {},
    'testing' : {},
-@@ -119,12 +119,12 @@ glib_tests = {
+@@ -128,12 +128,12 @@ glib_tests = {
      'suite' : ['slow'],
    },
    '642026' : {
@@ -43,23 +44,22 @@ index c77ccdd..08b720d 100644
  }
  
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 35ce233..08bd40b 100644
+index 055cade..858600c 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -80,7 +80,7 @@ gio_tests = {
-   'simple-async-result' : {},
-   'simple-proxy' : {},
-   'sleepy-stream' : {},
--  'socket' : {},
-+  'socket' : { 'suite': ['flaky'] },
+@@ -101,6 +101,7 @@ gio_tests = {
+   'socket' : {
+     # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
+     'should_fail' : host_system == 'darwin',
++    'suite': ['flaky']
+   },
    'socket-listener' : {},
    'socket-service' : {},
-   'srvtarget' : {},
 diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
-index e97e1bc..c84b7f6 100644
+index 8d568f0..43b916f 100644
 --- a/gobject/tests/meson.build
 +++ b/gobject/tests/meson.build
-@@ -119,7 +119,7 @@ foreach test_name : python_tests
+@@ -124,7 +124,7 @@ foreach test_name : python_tests
      python,
      args: ['-B', files(test_name)],
      env: test_env,

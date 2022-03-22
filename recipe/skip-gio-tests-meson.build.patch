@@ -1,35 +1,8 @@
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 5dbfb8e..35ce233 100644
+index 81ff551..055cade 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -54,7 +54,6 @@ gio_tests = {
-   'credentials' : {},
-   'data-input-stream' : {},
-   'data-output-stream' : {},
--  'defaultvalue' : {'extra_sources' : [giotypefuncs_inc]},
-   'fileattributematcher' : {},
-   'filter-streams' : {},
-   'giomodule' : {},
-@@ -95,7 +94,6 @@ gio_tests = {
-   'tls-interaction' : {'extra_sources' : ['gtesttlsbackend.c']},
-   'tls-database' : {'extra_sources' : ['gtesttlsbackend.c']},
-   'tls-bindings' : {'extra_sources' : ['gtesttlsbackend.c']},
--  'gdbus-address-get-session' : {},
-   'win32-appinfo' : {},
- }
- 
-@@ -152,10 +150,6 @@ endif
- if host_machine.system() != 'windows'
-   gio_tests += {
-     'file' : {},
--    'gdbus-peer' : {
--      'dependencies' : [libgdbus_example_objectmanager_dep],
--      'install_rpath' : installed_tests_execdir
--    },
-     'gdbus-peer-object-manager' : {},
-     'live-g-file' : {},
-     'socket-address' : {},
-@@ -191,19 +185,6 @@ if host_machine.system() != 'windows'
+@@ -216,19 +216,6 @@ if host_machine.system() != 'windows'
      }
    endif
  
@@ -49,7 +22,7 @@ index 5dbfb8e..35ce233 100644
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
-@@ -387,19 +368,6 @@ if host_machine.system() != 'windows'
+@@ -414,19 +401,6 @@ if host_machine.system() != 'windows'
      },
    }
  

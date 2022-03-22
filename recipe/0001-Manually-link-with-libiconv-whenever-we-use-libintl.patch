@@ -50,10 +50,10 @@ index c5857df..98d4b36 100644
  #define STRICT
  #include <windows.h>
 diff --git a/meson.build b/meson.build
-index e1b4b79..9860697 100644
+index 7dc6ff8..b51d2c9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1815,7 +1815,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
+@@ -2001,7 +2001,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
  # available in the actual runtime environment. On Windows, we always use
  # the built-in implementation
  iconv_opt = get_option('iconv')

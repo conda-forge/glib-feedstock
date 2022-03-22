@@ -21,3 +21,15 @@ index 2853b11..319ea94 100644
    g_test_add_func ("/GDateTime/strftime", test_strftime);
    g_test_add_func ("/GDateTime/strftime/error_handling", test_GDateTime_strftime_error_handling);
    g_test_add_func ("/GDateTime/modifiers", test_modifiers);
+diff --git a/glib/tests/meson.build b/glib/tests/meson.build
+index 282540a..d69171c 100644
+--- a/glib/tests/meson.build
++++ b/glib/tests/meson.build
+@@ -22,6 +22,7 @@ glib_tests = {
+   'date' : {
+     # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
+     'should_fail' : host_system == 'darwin',
++    'suite': ['flaky'],
+   },
+   'dir' : {},
+   'environment' : {

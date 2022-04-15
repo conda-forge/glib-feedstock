@@ -28,6 +28,11 @@ if [[ "$target_platform" == "osx-arm64" && "$CONDA_BUILD_CROSS_COMPILATION" == "
     export OBJC=$CC
     export OBJC_FOR_BUILD=$CC_FOR_BUILD
     export PKG_CONFIG=$BUILD_PREFIX/bin/pkg-config
+    # Remove the executables in PREFIX to use the ones in BUILD_PREFIX
+    rm $PREFIX/bin/xgettext
+    rm $PREFIX/bin/msgfmt
+    rm $PREFIX/bin/msginit
+    rm $PREFIX/bin/msgmerge
 elif [[ "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]]; then
     # One of the tests uses objcopy to set up a special data file that can lead
     # to cross errors if we use the wrong program. Note that the way our setup

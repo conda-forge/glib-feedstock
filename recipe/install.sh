@@ -12,6 +12,14 @@ find $PREFIX -name '*.la' -delete
 # (255 chars) which causes installation issues so remove it.
 rm -rf $PREFIX/share/gdb
 
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" && "${CROSSCOMPILING_EMULATOR:-}" == "" ]]; then
+  # Remove the executables in PREFIX to use the ones in BUILD_PREFIX
+  rm $PREFIX/bin/xgettext
+  rm $PREFIX/bin/msgfmt
+  rm $PREFIX/bin/msginit
+  rm $PREFIX/bin/msgmerge
+fi
+
 if [[ "$PKG_NAME" != glib ]]; then
     if [[ "$PKG_NAME" == glib-tools ]]; then
         mkdir .keep

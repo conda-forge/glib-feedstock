@@ -3,14 +3,6 @@
 set -ex
 
 unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
-cd forgebuild
-ninja install || (cat meson-logs/meson-log.txt; false)
-# remove libtool files
-find $PREFIX -name '*.la' -delete
-
-# gdb folder has a nested folder structure similar to our host prefix
-# (255 chars) which causes installation issues so remove it.
-rm -rf $PREFIX/share/gdb
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" && "${CROSSCOMPILING_EMULATOR:-}" == "" ]]; then
   # Remove the executables in PREFIX to use the ones in BUILD_PREFIX
@@ -19,6 +11,15 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" && "${CROSSCOMPILING_EMULATOR:
   rm $PREFIX/bin/msginit
   rm $PREFIX/bin/msgmerge
 fi
+
+cd forgebuild
+ninja install || (cat meson-logs/meson-log.txt; false)
+# remove libtool files
+find $PREFIX -name '*.la' -delete
+
+# gdb folder has a nested folder structure similar to our host prefix
+# (255 chars) which causes installation issues so remove it.
+rm -rf $PREFIX/share/gdb
 
 if [[ "$PKG_NAME" != glib ]]; then
     if [[ "$PKG_NAME" == glib-tools ]]; then

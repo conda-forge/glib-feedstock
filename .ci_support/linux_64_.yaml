@@ -17,13 +17,11 @@ docker_image:
 libffi:
 - '3.4'
 libiconv:
-- '1.16'
+- '1'
 pcre:
 - '8'
 pin_run_as_build:
   libffi:
-    max_pin: x.x
-  libiconv:
     max_pin: x.x
   zlib:
     max_pin: x.x

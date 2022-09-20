@@ -1,8 +1,8 @@
 diff --git a/gio/tests/resources.c b/gio/tests/resources.c
-index 7ba5896..0b72278 100644
+index 910b189..7cb58f8 100644
 --- a/gio/tests/resources.c
 +++ b/gio/tests/resources.c
-@@ -640,7 +640,7 @@ test_resource_manual2 (void)
+@@ -642,7 +642,7 @@ test_resource_manual2 (void)
  static void
  test_resource_binary_linked (void)
  {

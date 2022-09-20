@@ -1,8 +1,8 @@
 diff --git a/glib/tests/fileutils.c b/glib/tests/fileutils.c
-index ae25578..f5d92e0 100644
+index 247bcef..5aba12c 100644
 --- a/glib/tests/fileutils.c
 +++ b/glib/tests/fileutils.c
-@@ -2446,7 +2446,6 @@ main (int   argc,
+@@ -2485,7 +2485,6 @@ main (int   argc,
    g_test_add_func ("/fileutils/set-contents-full/read-only-file", test_set_contents_full_read_only_file);
    g_test_add_func ("/fileutils/set-contents-full/read-only-directory", test_set_contents_full_read_only_directory);
    g_test_add_func ("/fileutils/read-link", test_read_link);

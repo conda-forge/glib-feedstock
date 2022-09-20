@@ -5,16 +5,16 @@ Subject: [PATCH 2/2] Increase some test timeouts.
 
 ---
 
-diff --git a/tests/refcount/meson.build b/tests/refcount/meson.build
-index 02571fe..aa96b1c 100644
---- a/tests/refcount/meson.build
-+++ b/tests/refcount/meson.build
-@@ -4,7 +4,7 @@ refcount_tests = {
-   'properties' : {},
-   'properties2' : {'suite' : ['slow']},
-   'properties3' : {'suite' : ['slow']},
--  'properties4' : {},
-+  'properties4' : {'suite' : ['slow']},
-   'signal1' : {
-     'source' : 'signals.c',
+diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
+index ef233fb..12b5408 100644
+--- a/gobject/tests/meson.build
++++ b/gobject/tests/meson.build
+@@ -79,7 +79,7 @@ gobject_tests = {
+   'properties-refcount1' : {},
+   'properties-refcount2' : {'suite' : ['slow']},
+   'properties-refcount3' : {'suite' : ['slow']},
+-  'properties-refcount4' : {},
++  'properties-refcount4' : {'suite' : ['slow']},
+   'signals-refcount1' : {
+     'source' : 'signals-refcount.c',
      'c_args' : ['-DTESTNUM=1'],

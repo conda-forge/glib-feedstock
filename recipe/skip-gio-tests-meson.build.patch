@@ -1,8 +1,8 @@
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 81ff551..055cade 100644
+index c3e4e4c..93130dc 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -216,19 +216,6 @@ if host_machine.system() != 'windows'
+@@ -235,19 +235,6 @@ if host_machine.system() != 'windows'
      }
    endif
  
@@ -22,7 +22,7 @@ index 81ff551..055cade 100644
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
-@@ -414,19 +401,6 @@ if host_machine.system() != 'windows'
+@@ -430,19 +417,6 @@ if host_machine.system() != 'windows'
      },
    }
  

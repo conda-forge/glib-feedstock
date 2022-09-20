@@ -20,11 +20,8 @@ source:
     #
     - hardcoded-paths.patch  # [unix]
 
-    # skip some problematic tests
-    - skip-gio-tests-meson.build.patch
-    - skip-gio-tests-resources.c.patch
-    - skip-glib-tests-fileutils.c.patch
-    - skip-glib-tests-gdatetime.c.patch
+    # "Fixes" for tests that apply to all platforms:
+    - crossplatform-test-tweaks.patch
 
     - 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
     # Windows:

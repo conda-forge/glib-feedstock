@@ -62,3 +62,14 @@ index 3aa1a10..878ec77 100644
    # We have a #include "win_iconv.c" in gconvert.c on Windows, so we don't need
    # any external library for it
    libiconv = []
+@@ -2102,8 +2102,8 @@ if libintl.found()
+   #
+   # Meson's builtin dependency lookup as of 0.60.0 doesn't check for
+   # pthread, so we do this manually here.
+-  if cc.has_function('ngettext', dependencies : libintl)
+-    libintl_deps += [libintl]
++  if cc.has_function('ngettext', dependencies : [libintl] + libiconv)
++    libintl_deps += [libintl] + libiconv
+   else
+     libintl_pthread = cc.find_library('pthread', required : false)
+     if libintl_pthread.found() and cc.has_function('ngettext', dependencies : [libintl, libintl_pthread])

@@ -55,7 +55,7 @@ requirements:
     - libffi
     - gettext
     - zlib
-    - pcre
+    - pcre2
     - libiconv
   run:
     - python >=2.7
@@ -84,7 +84,7 @@ outputs:
         - libffi
         - gettext
         - zlib
-        - pcre
+        - pcre2
         - libiconv
       run_constrained:
         # Avoid colliding with older glib builds that didn't have a libglib output

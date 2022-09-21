@@ -31,9 +31,9 @@ source:
     # Backports of upstream fixes not yet released:
     - backport-2.74.1-2909.patch  # [osx]
 
-    # Work around this upstream compile failure that doesn't yet have a full fix,
-    # but has a pretty clear diagnosis:
-    - workaround-upstream-2758.patch
+    # Work around upstream compile failures that don't yet have merged fixes,
+    # but have pretty clear diagnoses:
+    - workaround-upstream-2.74.0.patch
 
 build:
   number: 0

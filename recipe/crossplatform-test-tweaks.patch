@@ -1,3 +1,22 @@
+diff --git a/gio/tests/file.c b/gio/tests/file.c
+index 9a15f97..051b4bd 100644
+--- a/gio/tests/file.c
++++ b/gio/tests/file.c
+@@ -3812,10 +3812,13 @@ main (int argc, char *argv[])
+   g_test_add_func ("/file/writev/async_all-cancellation", test_writev_async_all_cancellation);
+   g_test_add_func ("/file/build-attribute-list-for-copy", test_build_attribute_list_for_copy);
+   g_test_add_func ("/file/move_async", test_move_async);
++#if 0
++  // These tests end up trying to run `update-desktop-database` which isn't
++  // reliably available in the conda-forge build environments.
+   g_test_add_func ("/file/query-default-handler-file", test_query_default_handler_file);
+   g_test_add_func ("/file/query-default-handler-file-async", test_query_default_handler_file_async);
+   g_test_add_func ("/file/query-default-handler-uri", test_query_default_handler_uri);
+   g_test_add_func ("/file/query-default-handler-uri-async", test_query_default_handler_uri_async);
+-
++#endif
+   return g_test_run ();
+ }
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
 index c3e4e4c..93130dc 100644
 --- a/gio/tests/meson.build

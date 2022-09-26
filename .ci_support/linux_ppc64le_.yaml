@@ -20,11 +20,6 @@ libiconv:
 - '1'
 pcre2:
 - '10.37'
-pin_run_as_build:
-  libffi:
-    max_pin: x.x
-  zlib:
-    max_pin: x.x
 target_platform:
 - linux-ppc64le
 zip_keys:

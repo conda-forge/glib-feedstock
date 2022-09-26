@@ -7,10 +7,10 @@ Date: Sat, 2 Mar 2019 17:34:43 -0500
 Subject: [PATCH] Attempt to mask out qemu failing tests
 
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index a0c64af..282540a 100644
+index ba1d143..fc10095 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
-@@ -35,7 +35,7 @@ glib_tests = {
+@@ -33,7 +33,7 @@ glib_tests = {
    },
    'guuid' : {},
    'gvariant' : {
@@ -19,16 +19,16 @@ index a0c64af..282540a 100644
    },
    'gwakeup' : {
      'source' : ['gwakeuptest.c', '../gwakeup.c'],
-@@ -102,7 +102,7 @@ glib_tests = {
-   'spawn-multithreaded' : {},
-   'spawn-path-search' : {},
-   'spawn-singlethread' : {},
+@@ -117,7 +117,7 @@ glib_tests = {
+     'dependencies' : [winsock2],
+   },
+   'spawn-test' : {},
 -  'strfuncs' : {},
 +  'strfuncs' : {'suite': ['flaky']},
    'string' : {},
    'strvbuilder' : {},
    'testing' : {},
-@@ -128,12 +128,12 @@ glib_tests = {
+@@ -147,12 +147,12 @@ glib_tests = {
      'suite' : ['slow'],
    },
    '642026' : {
@@ -44,10 +44,10 @@ index a0c64af..282540a 100644
  }
  
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 055cade..858600c 100644
+index 93130dc..9f8c490 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -101,6 +101,7 @@ gio_tests = {
+@@ -104,6 +104,7 @@ gio_tests = {
    'socket' : {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
      'should_fail' : host_system == 'darwin',
@@ -56,10 +56,10 @@ index 055cade..858600c 100644
    'socket-listener' : {},
    'socket-service' : {},
 diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
-index 8d568f0..43b916f 100644
+index 58cf4ab..ef233fb 100644
 --- a/gobject/tests/meson.build
 +++ b/gobject/tests/meson.build
-@@ -124,7 +124,7 @@ foreach test_name : python_tests
+@@ -168,7 +168,7 @@ foreach test_name : python_tests
      python,
      args: ['-B', files(test_name)],
      env: test_env,

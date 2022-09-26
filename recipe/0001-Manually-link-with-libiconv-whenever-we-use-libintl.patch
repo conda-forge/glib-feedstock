@@ -15,7 +15,7 @@ Date:   Sun Apr 5 23:57:06 2020 +0000
     Original Author: Peter Williams <peter@newton.cx>
 
 diff --git a/gio/win32/meson.build b/gio/win32/meson.build
-index 8d58998..4388c34 100644
+index 8d58998..e46a06d 100644
 --- a/gio/win32/meson.build
 +++ b/gio/win32/meson.build
 @@ -10,6 +10,6 @@ giowin32_sources = [
@@ -27,10 +27,10 @@ index 8d58998..4388c34 100644
    pic : true,
    c_args : gio_c_args)
 diff --git a/glib/gconvert.c b/glib/gconvert.c
-index c5857df..98d4b36 100644
+index 829fe38..d8f1947 100644
 --- a/glib/gconvert.c
 +++ b/glib/gconvert.c
-@@ -21,18 +21,12 @@
+@@ -23,18 +23,12 @@
  #include "config.h"
  #include "glibconfig.h"
  
@@ -50,15 +50,26 @@ index c5857df..98d4b36 100644
  #define STRICT
  #include <windows.h>
 diff --git a/meson.build b/meson.build
-index 7dc6ff8..b51d2c9 100644
+index 3aa1a10..878ec77 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2001,7 +2001,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
+@@ -2035,7 +2035,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
+ # We should never use the MinGW C library's iconv because it may not be
  # available in the actual runtime environment. On Windows, we always use
  # the built-in implementation
- iconv_opt = get_option('iconv')
 -if host_system == 'windows'
 +if host_system == 'IGNOREME windows'
-   libiconv = []
    # We have a #include "win_iconv.c" in gconvert.c on Windows, so we don't need
    # any external library for it
+   libiconv = []
+@@ -2102,8 +2102,8 @@ if libintl.found()
+   #
+   # Meson's builtin dependency lookup as of 0.60.0 doesn't check for
+   # pthread, so we do this manually here.
+-  if cc.has_function('ngettext', dependencies : libintl)
+-    libintl_deps += [libintl]
++  if cc.has_function('ngettext', dependencies : [libintl] + libiconv)
++    libintl_deps += [libintl] + libiconv
+   else
+     libintl_pthread = cc.find_library('pthread', required : false)
+     if libintl_pthread.found() and cc.has_function('ngettext', dependencies : [libintl, libintl_pthread])

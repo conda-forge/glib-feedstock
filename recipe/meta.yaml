@@ -28,13 +28,6 @@ source:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
-    # Backports of upstream fixes not yet released:
-    - backport-2.74.1-2909.patch  # [osx]
-
-    # Work around upstream compile failures that don't yet have merged fixes,
-    # but have pretty clear diagnoses:
-    - workaround-upstream-2.74.0.patch
-
 build:
   number: 0
   ignore_run_exports_from:

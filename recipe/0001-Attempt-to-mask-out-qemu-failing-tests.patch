@@ -7,7 +7,7 @@ Date: Sat, 2 Mar 2019 17:34:43 -0500
 Subject: [PATCH] Attempt to mask out qemu failing tests
 
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index ba1d143..fc10095 100644
+index 0c96adc..9d5508e 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -33,7 +33,7 @@ glib_tests = {
@@ -44,10 +44,10 @@ index ba1d143..fc10095 100644
  }
  
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 93130dc..9f8c490 100644
+index 3f5676e..aa728f8 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -104,6 +104,7 @@ gio_tests = {
+@@ -107,6 +107,7 @@ gio_tests = {
    'socket' : {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
      'should_fail' : host_system == 'darwin',
@@ -56,10 +56,10 @@ index 93130dc..9f8c490 100644
    'socket-listener' : {},
    'socket-service' : {},
 diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
-index 58cf4ab..ef233fb 100644
+index b7ba5b6..9579087 100644
 --- a/gobject/tests/meson.build
 +++ b/gobject/tests/meson.build
-@@ -168,7 +168,7 @@ foreach test_name : python_tests
+@@ -184,7 +184,7 @@ foreach test_name : python_tests
      python,
      args: ['-B', files(test_name)],
      env: test_env,

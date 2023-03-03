@@ -1,11 +1,11 @@
-About glib
-==========
+About glib-feedstock
+====================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/glib-feedstock/blob/main/LICENSE.txt)
 
 Home: https://developer.gnome.org/glib/
 
 Package license: LGPL-2.1-or-later
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/glib-feedstock/blob/main/LICENSE.txt)
 
 Summary: Provides core application building blocks for libraries and applications written in C.
 

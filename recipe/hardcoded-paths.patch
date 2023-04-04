@@ -1,5 +1,5 @@
 diff --git a/gio/xdgmime/xdgmime.c b/gio/xdgmime/xdgmime.c
-index 9ab6760..20e5a45 100644
+index c3c1162..d5161a0 100644
 --- a/gio/xdgmime/xdgmime.c
 +++ b/gio/xdgmime/xdgmime.c
 @@ -244,7 +244,7 @@ xdg_init_dirs (void)
@@ -12,10 +12,10 @@ index 9ab6760..20e5a45 100644
    /* Work out how many dirs we’re dealing with. */
    if (xdg_data_home != NULL || home != NULL)
 diff --git a/glib/gutils.c b/glib/gutils.c
-index 78ccd61..14078a9 100644
+index dce7cbe..5a4e42d 100644
 --- a/glib/gutils.c
 +++ b/glib/gutils.c
-@@ -2586,7 +2586,7 @@ g_build_system_data_dirs (void)
+@@ -2695,7 +2695,7 @@ g_build_system_data_dirs (void)
     */
  #ifndef G_OS_WIN32
    if (!data_dirs || !data_dirs[0])

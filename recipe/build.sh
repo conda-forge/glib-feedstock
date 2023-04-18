@@ -46,8 +46,8 @@ EOF
     MESON_ARGS="$MESON_ARGS --native-file machine_file.txt"
 fi
 
-meson --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib -Dlocalstatedir="$PREFIX/var" \
-      -Diconv=external -Dlibmount=disabled -Dselinux=disabled -Dxattr=false $MESON_ARGS .. \
+meson setup --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib -Dlocalstatedir="$PREFIX/var" \
+      -Dlibmount=disabled -Dselinux=disabled -Dxattr=false $MESON_ARGS .. \
       || { cat meson-logs/meson-log.txt ; exit 1 ; }
 ninja -j${CPU_COUNT} -v
 

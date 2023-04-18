@@ -15,17 +15,18 @@ Date:   Sun Apr 5 23:57:06 2020 +0000
     Original Author: Peter Williams <peter@newton.cx>
 
 diff --git a/gio/win32/meson.build b/gio/win32/meson.build
-index 8d58998..e46a06d 100644
+index 0a896ac..f7f291e 100644
 --- a/gio/win32/meson.build
 +++ b/gio/win32/meson.build
-@@ -10,6 +10,6 @@ giowin32_sources = [
+@@ -10,7 +10,7 @@ giowin32_sources = [
  giowin32_lib = static_library('giowin32',
    sources : [giowin32_sources],
    include_directories : [configinc, glibinc, gioinc, gmoduleinc],
 -  dependencies : [libintl, gioenumtypes_dep],
 +  dependencies : [libintl, gioenumtypes_dep] + libiconv,
+   gnu_symbol_visibility : 'hidden',
    pic : true,
-   c_args : gio_c_args)
+   c_args : [gio_c_args, gio_c_args_internal])
 diff --git a/glib/gconvert.c b/glib/gconvert.c
 index 829fe38..d8f1947 100644
 --- a/glib/gconvert.c
@@ -50,10 +51,10 @@ index 829fe38..d8f1947 100644
  #define STRICT
  #include <windows.h>
 diff --git a/meson.build b/meson.build
-index 43bb468..b6d1201 100644
+index 0cbc968..7742640 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2043,7 +2043,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
+@@ -2029,7 +2029,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
  # We should never use the MinGW C library's iconv because it may not be
  # available in the actual runtime environment. On Windows, we always use
  # the built-in implementation
@@ -62,7 +63,7 @@ index 43bb468..b6d1201 100644
    # We have a #include "win_iconv.c" in gconvert.c on Windows, so we don't need
    # any external library for it
    libiconv = []
-@@ -2110,8 +2110,8 @@ if libintl.found()
+@@ -2100,8 +2100,8 @@ if libintl.found()
    #
    # Meson's builtin dependency lookup as of 0.60.0 doesn't check for
    # pthread, so we do this manually here.

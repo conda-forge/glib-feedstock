@@ -1,8 +1,8 @@
 diff --git a/gio/tests/file.c b/gio/tests/file.c
-index 79c6d57..c26ee41 100644
+index d16eda5..c9bd6aa 100644
 --- a/gio/tests/file.c
 +++ b/gio/tests/file.c
-@@ -3862,11 +3862,14 @@ main (int argc, char *argv[])
+@@ -3942,11 +3942,14 @@ main (int argc, char *argv[])
    g_test_add_func ("/file/writev/async_all-cancellation", test_writev_async_all_cancellation);
    g_test_add_func ("/file/build-attribute-list-for-copy", test_build_attribute_list_for_copy);
    g_test_add_func ("/file/move_async", test_move_async);
@@ -19,10 +19,10 @@ index 79c6d57..c26ee41 100644
    return g_test_run ();
  }
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index e7fa812..3f5676e 100644
+index b4a6492..d1eae9d 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -250,19 +250,6 @@ if host_machine.system() != 'windows'
+@@ -304,22 +304,6 @@ if host_machine.system() != 'windows'
      }
    endif
  
@@ -32,9 +32,12 @@ index e7fa812..3f5676e 100644
 -    gio_tests += {
 -      'appinfo' : {
 -        'install' : false,
+-        'extra_programs' : ['appinfo-test'],
 -      },
 -      'desktop-app-info' : {
 -        'install' : false,
+-        'depends' : gio_launch_desktop,
+-        'extra_programs' : ['apps', 'appinfo-test'],
 -      },
 -    }
 -  endif
@@ -42,10 +45,11 @@ index e7fa812..3f5676e 100644
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
-@@ -446,19 +433,6 @@ if host_machine.system() != 'windows'
+@@ -533,21 +517,6 @@ if host_machine.system() != 'windows'
+       'extra_sources' : ['gdbus-tests.c', 'test-io-stream.c', 'test-pipe-unix.c'],
      },
    }
- 
+-
 -  # Generate test.mo from de.po using msgfmt
 -  msgfmt = find_program('msgfmt', required : false)
 -  if msgfmt.found()
@@ -56,6 +60,7 @@ index e7fa812..3f5676e 100644
 -        'c_args' : ['-DSRCDIR="@0@"'.format(meson.current_source_dir()),
 -                    '-DTEST_LOCALE_PATH="@0@"'.format(test_mo_dir)],
 -        'install' : false,
+-        'depends' : glib_compile_schemas,
 -      },
 -    }
 -  endif
@@ -63,7 +68,7 @@ index e7fa812..3f5676e 100644
  
  #  Test programs buildable on Windows only
 diff --git a/gio/tests/resources.c b/gio/tests/resources.c
-index 910b189..7cb58f8 100644
+index f567914..09e8145 100644
 --- a/gio/tests/resources.c
 +++ b/gio/tests/resources.c
 @@ -642,7 +642,7 @@ test_resource_manual2 (void)
@@ -76,19 +81,19 @@ index 910b189..7cb58f8 100644
    return;
    #else /* if __linux__ */
 diff --git a/glib/tests/fileutils.c b/glib/tests/fileutils.c
-index 5218aed..7079148 100644
+index b914972..ceb74fa 100644
 --- a/glib/tests/fileutils.c
 +++ b/glib/tests/fileutils.c
-@@ -2487,7 +2487,6 @@ main (int   argc,
+@@ -2656,7 +2656,6 @@ main (int   argc,
    g_test_add_func ("/fileutils/set-contents-full/read-only-file", test_set_contents_full_read_only_file);
    g_test_add_func ("/fileutils/set-contents-full/read-only-directory", test_set_contents_full_read_only_directory);
    g_test_add_func ("/fileutils/read-link", test_read_link);
 -  g_test_add_func ("/fileutils/stdio-wrappers", test_stdio_wrappers);
    g_test_add_func ("/fileutils/fopen-modes", test_fopen_modes);
- 
-   return g_test_run ();
+   g_test_add_func ("/fileutils/clear-fd", test_clear_fd);
+   g_test_add_func ("/fileutils/clear-fd/subprocess/ebadf", test_clear_fd_ebadf);
 diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
-index 7874d25..a3593f3 100644
+index 49390c9..69d2c2c 100644
 --- a/glib/tests/gdatetime.c
 +++ b/glib/tests/gdatetime.c
 @@ -3195,18 +3195,9 @@ main (gint   argc,
@@ -111,13 +116,13 @@ index 7874d25..a3593f3 100644
    g_test_add_func ("/GDateTime/strftime/error_handling", test_GDateTime_strftime_error_handling);
    g_test_add_func ("/GDateTime/modifiers", test_modifiers);
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index db01b54..0c96adc 100644
+index a900510..c407d36 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
-@@ -19,6 +19,7 @@ glib_tests = {
+@@ -20,6 +20,7 @@ glib_tests = {
    'date' : {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
-     'should_fail' : host_system == 'darwin',
+     'can_fail' : host_system == 'darwin',
 +    'suite': ['flaky'],
    },
    'dir' : {},

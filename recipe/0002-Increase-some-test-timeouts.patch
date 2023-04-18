@@ -6,10 +6,10 @@ Subject: [PATCH 2/2] Increase some test timeouts.
 ---
 
 diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
-index ef233fb..12b5408 100644
+index a6f5652..be18d02 100644
 --- a/gobject/tests/meson.build
 +++ b/gobject/tests/meson.build
-@@ -79,7 +79,7 @@ gobject_tests = {
+@@ -87,7 +87,7 @@ gobject_tests = {
    'properties-refcount1' : {},
    'properties-refcount2' : {'suite' : ['slow']},
    'properties-refcount3' : {'suite' : ['slow']},

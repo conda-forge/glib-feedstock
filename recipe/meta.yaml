@@ -1,4 +1,4 @@
-{% set version = "2.76.1" %}
+{% set version = "2.76.2" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://download.gnome.org/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 43dc0f6a126958f5b454136c4398eab420249c16171a769784486e25f2fda19f
+  sha256: 24f3847857b1d8674cdb0389a36edec0f13c666cd3ce727ecd340eb9da8aca9e
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -23,7 +23,6 @@ source:
     # "Fixes" for tests that apply to all platforms:
     - crossplatform-test-tweaks.patch
 
-    - linux-span-arg.patch  # [linux] backport of !3370; remove after 2.76.1
     - macos-target-conditionals.patch  # [osx] backport of !3385
 
     - 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]

@@ -15,15 +15,15 @@ Date:   Sun Apr 5 23:57:06 2020 +0000
     Original Author: Peter Williams <peter@newton.cx>
 
 diff --git a/gio/win32/meson.build b/gio/win32/meson.build
-index 0a896ac..f7f291e 100644
+index 08be6b0..9ebb556 100644
 --- a/gio/win32/meson.build
 +++ b/gio/win32/meson.build
-@@ -10,7 +10,7 @@ giowin32_sources = [
- giowin32_lib = static_library('giowin32',
-   sources : [giowin32_sources],
-   include_directories : [configinc, glibinc, gioinc, gmoduleinc],
--  dependencies : [libintl, gioenumtypes_dep],
-+  dependencies : [libintl, gioenumtypes_dep] + libiconv,
+@@ -14,7 +14,7 @@ giowin32_lib = static_library('giowin32',
+     libintl,
+     gioenumtypes_dep,
+     gmodule_inc_dep,
+-  ],
++  ] + libiconv,
    gnu_symbol_visibility : 'hidden',
    pic : true,
    c_args : [gio_c_args, gio_c_args_internal])
@@ -51,7 +51,7 @@ index 829fe38..d8f1947 100644
  #define STRICT
  #include <windows.h>
 diff --git a/meson.build b/meson.build
-index 0cbc968..7742640 100644
+index 48f3d46..c94623f 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -2029,7 +2029,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)

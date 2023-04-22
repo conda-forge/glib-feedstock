@@ -23,7 +23,6 @@ source:
     # "Fixes" for tests that apply to all platforms:
     - crossplatform-test-tweaks.patch
 
-    - linux-span-arg.patch  # [linux] backport of !3370; remove after 2.76.1
     - macos-target-conditionals.patch  # [osx] backport of !3385
 
     - 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]

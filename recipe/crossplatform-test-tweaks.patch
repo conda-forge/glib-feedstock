@@ -18,6 +18,21 @@ index 310981b..079e277 100644
    g_test_add_func ("/file/enumerator-cancellation", test_enumerator_cancellation);
    g_test_add_func ("/file/from-uri/ignores-query-string", test_from_uri_ignores_query_string);
    g_test_add_func ("/file/from-uri/ignores-fragment", test_from_uri_ignores_fragment);
+diff --git a/gio/tests/gsubprocess.c b/gio/tests/gsubprocess.c
+index 45fdf93..7612786 100644
+--- a/gio/tests/gsubprocess.c
++++ b/gio/tests/gsubprocess.c
+@@ -2006,7 +2006,10 @@ trace_children (pid_t main_child)
+   g_assert_no_errno (waitpid (main_child, &wstatus, 0));
+   g_assert_no_errno (ptrace (PTRACE_SETOPTIONS, main_child, NULL,
+                              (PTRACE_O_TRACEFORK |
++/* conda-forge's Linux builds use old headers that don't provide this */
++#ifdef PTRACE_O_EXITKILL
+                               PTRACE_O_EXITKILL |
++#endif
+                               PTRACE_O_TRACEVFORK |
+                               PTRACE_O_TRACECLONE |
+                               PTRACE_O_TRACEEXEC)));
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
 index 4ef3343..17ed971 100644
 --- a/gio/tests/meson.build

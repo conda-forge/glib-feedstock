@@ -1,4 +1,4 @@
-{% set version = "2.76.4" %}
+{% set version = "2.78.0" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://download.gnome.org/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 5a5a191c96836e166a7771f7ea6ca2b0069c603c7da3cba1cd38d1694a395dda
+  sha256: 44eaab8b720877ce303c5540b657b126f12dc94972d9880b52959f43fb537b30
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -22,8 +22,6 @@ source:
 
     # "Fixes" for tests that apply to all platforms:
     - crossplatform-test-tweaks.patch
-
-    - macos-target-conditionals.patch  # [osx] backport of !3385
 
     - 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
     # Windows:

@@ -1,8 +1,8 @@
 diff --git a/gio/tests/file.c b/gio/tests/file.c
-index d16eda5..c9bd6aa 100644
+index 310981b..079e277 100644
 --- a/gio/tests/file.c
 +++ b/gio/tests/file.c
-@@ -3942,11 +3942,14 @@ main (int argc, char *argv[])
+@@ -4016,11 +4016,15 @@ main (int argc, char *argv[])
    g_test_add_func ("/file/writev/async_all-cancellation", test_writev_async_all_cancellation);
    g_test_add_func ("/file/build-attribute-list-for-copy", test_build_attribute_list_for_copy);
    g_test_add_func ("/file/move_async", test_move_async);
@@ -14,15 +14,30 @@ index d16eda5..c9bd6aa 100644
    g_test_add_func ("/file/query-default-handler-file-async", test_query_default_handler_file_async);
    g_test_add_func ("/file/query-default-handler-uri", test_query_default_handler_uri);
    g_test_add_func ("/file/query-default-handler-uri-async", test_query_default_handler_uri_async);
--
 +#endif
-   return g_test_run ();
- }
+   g_test_add_func ("/file/enumerator-cancellation", test_enumerator_cancellation);
+   g_test_add_func ("/file/from-uri/ignores-query-string", test_from_uri_ignores_query_string);
+   g_test_add_func ("/file/from-uri/ignores-fragment", test_from_uri_ignores_fragment);
+diff --git a/gio/tests/gsubprocess.c b/gio/tests/gsubprocess.c
+index 45fdf93..7612786 100644
+--- a/gio/tests/gsubprocess.c
++++ b/gio/tests/gsubprocess.c
+@@ -2006,7 +2006,10 @@ trace_children (pid_t main_child)
+   g_assert_no_errno (waitpid (main_child, &wstatus, 0));
+   g_assert_no_errno (ptrace (PTRACE_SETOPTIONS, main_child, NULL,
+                              (PTRACE_O_TRACEFORK |
++/* conda-forge's Linux builds use old headers that don't provide this */
++#ifdef PTRACE_O_EXITKILL
+                               PTRACE_O_EXITKILL |
++#endif
+                               PTRACE_O_TRACEVFORK |
+                               PTRACE_O_TRACECLONE |
+                               PTRACE_O_TRACEEXEC)));
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index b4a6492..d1eae9d 100644
+index 4ef3343..17ed971 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -304,22 +304,6 @@ if host_machine.system() != 'windows'
+@@ -312,22 +312,6 @@ if host_machine.system() != 'windows'
      }
    endif
  
@@ -45,7 +60,7 @@ index b4a6492..d1eae9d 100644
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
-@@ -533,21 +517,6 @@ if host_machine.system() != 'windows'
+@@ -544,21 +528,6 @@ if host_machine.system() != 'windows'
        'extra_sources' : ['gdbus-tests.c', 'test-io-stream.c', 'test-pipe-unix.c'],
      },
    }
@@ -81,10 +96,10 @@ index f567914..09e8145 100644
    return;
    #else /* if __linux__ */
 diff --git a/glib/tests/fileutils.c b/glib/tests/fileutils.c
-index b914972..ceb74fa 100644
+index ab5b574..59bab5e 100644
 --- a/glib/tests/fileutils.c
 +++ b/glib/tests/fileutils.c
-@@ -2656,7 +2656,6 @@ main (int   argc,
+@@ -2669,7 +2669,6 @@ main (int   argc,
    g_test_add_func ("/fileutils/set-contents-full/read-only-file", test_set_contents_full_read_only_file);
    g_test_add_func ("/fileutils/set-contents-full/read-only-directory", test_set_contents_full_read_only_directory);
    g_test_add_func ("/fileutils/read-link", test_read_link);

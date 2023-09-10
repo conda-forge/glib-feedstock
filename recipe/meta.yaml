@@ -23,8 +23,6 @@ source:
     # "Fixes" for tests that apply to all platforms:
     - crossplatform-test-tweaks.patch
 
-    - macos-target-conditionals.patch  # [osx] backport of !3385
-
     - 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
     # Windows:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]

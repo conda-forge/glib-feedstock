@@ -7,7 +7,7 @@ Date: Sat, 2 Mar 2019 17:34:43 -0500
 Subject: [PATCH] Attempt to mask out qemu failing tests
 
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index c407d36..8bc91c8 100644
+index 8a8584c..3a705da 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -35,7 +35,7 @@ glib_tests = {
@@ -28,7 +28,7 @@ index c407d36..8bc91c8 100644
    'string' : {},
    'string-macro' : {
      'source' : 'string.c',
-@@ -168,12 +168,12 @@ glib_tests = {
+@@ -175,12 +175,12 @@ glib_tests = {
      'suite' : ['slow'],
    },
    '642026' : {
@@ -44,10 +44,10 @@ index c407d36..8bc91c8 100644
  }
  
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index d1eae9d..399e653 100644
+index 17ed971..a8df9d5 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -118,6 +118,7 @@ gio_tests = {
+@@ -119,6 +119,7 @@ gio_tests = {
    'socket' : {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
      'can_fail' : host_system == 'darwin',
@@ -56,10 +56,10 @@ index d1eae9d..399e653 100644
    'socket-listener' : {},
    'socket-service' : {},
 diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
-index 9e80746..a6f5652 100644
+index 23f131b..9f587b8 100644
 --- a/gobject/tests/meson.build
 +++ b/gobject/tests/meson.build
-@@ -199,7 +199,7 @@ endforeach
+@@ -225,7 +225,7 @@ endforeach
  
  foreach test_name, extra_args : python_tests
    depends = [extra_args.get('depends', [])]

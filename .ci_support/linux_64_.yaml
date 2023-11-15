@@ -19,7 +19,7 @@ libffi:
 libiconv:
 - '1'
 pcre2:
-- '10.40'
+- '10.42'
 target_platform:
 - linux-64
 zip_keys:

@@ -4,8 +4,6 @@ channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
-cxx_compiler:
-- vs2019
 libffi:
 - '3.4'
 libiconv:

@@ -41,12 +41,10 @@ requirements:
     - ninja
     - {{ native }}pkg-config
     - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
     - python >=2.7
     - setuptools
   host:
     - libffi
-    - gettext
     - zlib
     - pcre2
     - libiconv
@@ -69,13 +67,11 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
         - setuptools
       host:
         - libffi
-        - gettext
         - zlib
         - pcre2
         - libiconv
@@ -104,7 +100,6 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
         - setuptools
@@ -137,14 +132,12 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
-        - gettext
         - zlib
       run:
         - python *

@@ -93,6 +93,7 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
+        - zlib
     requirements:
       build:
         - {{ posix }}patch  # [win]
@@ -105,6 +106,7 @@ outputs:
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
+        - zlib
       run:
         - {{ pin_subpackage("libglib", exact=True) }}
     test:

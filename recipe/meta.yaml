@@ -124,6 +124,7 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
+        - zlib
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:

@@ -8,10 +8,6 @@ channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
-cxx_compiler:
-- clangxx
-cxx_compiler_version:
-- '16'
 libffi:
 - '3.4'
 libiconv:
@@ -22,8 +18,5 @@ pcre2:
 - '10.42'
 target_platform:
 - osx-arm64
-zip_keys:
-- - c_compiler_version
-  - cxx_compiler_version
 zlib:
 - '1.2'

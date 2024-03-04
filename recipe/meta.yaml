@@ -105,7 +105,6 @@ outputs:
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
-        - zlib
       run:
         - {{ pin_subpackage("libglib", exact=True) }}
     test:

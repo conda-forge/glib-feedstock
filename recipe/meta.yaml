@@ -29,7 +29,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1
+  number: 0
   ignore_run_exports_from:
     - python *
 
@@ -41,10 +41,12 @@ requirements:
     - ninja
     - {{ native }}pkg-config
     - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
     - python >=2.7
     - setuptools
   host:
     - libffi
+    - gettext
     - zlib
     - pcre2
     - libiconv
@@ -67,11 +69,13 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
         - setuptools
       host:
         - libffi
+        - gettext
         - zlib
         - pcre2
         - libiconv
@@ -93,7 +97,6 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
-        - zlib
     requirements:
       build:
         - {{ posix }}patch  # [win]
@@ -101,6 +104,7 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
         - setuptools
@@ -124,7 +128,6 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
-        - zlib
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:
@@ -134,12 +137,14 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
+        - gettext
         - zlib
       run:
         - python *

@@ -47,7 +47,7 @@ EOF
 fi
 
 meson setup --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib -Dlocalstatedir="$PREFIX/var" \
-      -Dlibmount=disabled -Dselinux=disabled -Dxattr=false $MESON_ARGS .. \
+      -Dlibmount=disabled -Dselinux=disabled -Dxattr=false -Dnls=enabled $MESON_ARGS .. \
       || { cat meson-logs/meson-log.txt ; exit 1 ; }
 ninja -j${CPU_COUNT} -v
 

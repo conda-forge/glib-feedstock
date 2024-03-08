@@ -138,6 +138,10 @@ outputs:
         - python *
         - gettext
         - {{ compiler('cxx') }}
+        - libiconv
+        - libffi
+        - pcre2
+        - zlib
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:

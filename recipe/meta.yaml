@@ -62,6 +62,8 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
+        - {{ compiler('cxx') }}
+        - gettext
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:
@@ -99,6 +101,8 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
+        - {{ compiler('cxx') }}
+        - zlib
     requirements:
       build:
         - {{ posix }}patch  # [win]
@@ -130,6 +134,8 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
+        - gettext
+        - {{ compiler('cxx') }}
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:
@@ -147,6 +153,9 @@ outputs:
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
         - gettext
+        - libffi
+        - libiconv
+        - pcre2
         - zlib
       run:
         - python *

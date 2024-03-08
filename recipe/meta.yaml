@@ -119,7 +119,7 @@ outputs:
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
         - gettext
-        - libconv
+        - libiconv
         - zlib
       run:
         - {{ pin_subpackage("libglib", exact=True) }}

@@ -62,7 +62,7 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
-        - {{ compiler('cxx') }}
+        - {{ compiler('cxx') }}  # [unix]
         - gettext  # [linux]
       run_exports:
         - {{ pin_subpackage("libglib") }}
@@ -102,7 +102,7 @@ outputs:
       ignore_run_exports_from:
         - python *
         - {{ compiler('cxx') }}
-        - gettext
+        - gettext  # [linux]
         - zlib
     requirements:
       build:

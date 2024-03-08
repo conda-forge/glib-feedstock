@@ -139,8 +139,8 @@ outputs:
       ignore_run_exports_from:
         - python *
         - gettext  # [not osx]
-        - {{ compiler('cxx') }}
-        - libiconv
+        - {{ compiler('cxx') }}  # [unix]
+        - libiconv  # [unix]
         - libffi
         - pcre2
         - zlib

@@ -63,7 +63,7 @@ outputs:
       ignore_run_exports_from:
         - python *
         - {{ compiler('cxx') }}  # [unix]
-        - gettext  # [linux]
+        - gettext  # [not osx]
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:
@@ -136,7 +136,7 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
-        - gettext
+        - gettext  # [not osx]
         - {{ compiler('cxx') }}
         - libiconv
         - libffi

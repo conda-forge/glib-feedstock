@@ -102,7 +102,7 @@ outputs:
       ignore_run_exports_from:
         - python *
         - {{ compiler('cxx') }}  # [unix]
-        - gettext  # [linux]
+        - gettext  # [not osx]
         - libiconv  # [unix]
         - zlib
     requirements:

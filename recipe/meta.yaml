@@ -102,6 +102,7 @@ outputs:
       ignore_run_exports_from:
         - python *
         - {{ compiler('cxx') }}
+        - gettext
         - zlib
     requirements:
       build:
@@ -116,6 +117,7 @@ outputs:
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
+        - gettext
         - zlib
       run:
         - {{ pin_subpackage("libglib", exact=True) }}

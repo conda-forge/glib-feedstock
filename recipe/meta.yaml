@@ -101,8 +101,9 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
-        - {{ compiler('cxx') }}
+        - {{ compiler('cxx') }}  # [unix]
         - gettext  # [linux]
+        - libiconv  # [unix]
         - zlib
     requirements:
       build:
@@ -118,6 +119,7 @@ outputs:
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
         - gettext
+        - libconv
         - zlib
       run:
         - {{ pin_subpackage("libglib", exact=True) }}

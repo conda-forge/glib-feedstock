@@ -63,7 +63,7 @@ outputs:
       ignore_run_exports_from:
         - python *
         - {{ compiler('cxx') }}
-        - gettext
+        - gettext  # [linux]
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:

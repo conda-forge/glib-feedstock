@@ -103,7 +103,7 @@ outputs:
         - python *
         - {{ compiler('cxx') }}  # [unix]
         - gettext  # [not osx]
-        - libiconv  # [unix]
+        - libiconv
         - zlib
     requirements:
       build:

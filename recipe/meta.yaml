@@ -141,7 +141,7 @@ outputs:
         - python *
         - gettext  # [not osx]
         - {{ compiler('cxx') }}  # [unix]
-        - libiconv  # [unix]
+        - libiconv
         - libffi
         - pcre2
         - zlib

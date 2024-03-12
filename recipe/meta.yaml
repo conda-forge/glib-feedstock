@@ -1,4 +1,4 @@
-{% set version = "2.78.4" %}
+{% set version = "2.80.0" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://download.gnome.org/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 24b8e0672dca120cc32d394bccb85844e732e04fe75d18bb0573b2dbc7548f63
+  sha256: 8228a92f92a412160b139ae68b6345bd28f24434a7b5af150ebe21ff587a561d
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -27,11 +27,9 @@ source:
     # Windows:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
     - 0002-Increase-some-test-timeouts.patch                          # [win]
-    # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/3945
-    - 3945.patch
 
 build:
-  number: 4
+  number: 0
   ignore_run_exports_from:
     - python *
 
@@ -45,6 +43,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - python >=2.7
+    - packaging
     - setuptools
   host:
     - libffi
@@ -76,6 +75,7 @@ outputs:
         - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
+        - packaging
         - setuptools
       host:
         - libffi
@@ -103,7 +103,7 @@ outputs:
         - python *
         - {{ compiler('cxx') }}  # [unix]
         - gettext  # [not osx]
-        - libiconv  # [unix]
+        - libiconv
         - zlib
     requirements:
       build:
@@ -115,6 +115,7 @@ outputs:
         - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
+        - packaging
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
@@ -140,7 +141,7 @@ outputs:
         - python *
         - gettext  # [not osx]
         - {{ compiler('cxx') }}  # [unix]
-        - libiconv  # [unix]
+        - libiconv
         - libffi
         - pcre2
         - zlib
@@ -156,6 +157,7 @@ outputs:
         - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
+        - packaging
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}

@@ -7,10 +7,10 @@ Date: Sat, 2 Mar 2019 17:34:43 -0500
 Subject: [PATCH] Attempt to mask out qemu failing tests
 
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index 8a8584c..3a705da 100644
+index a543b6e..6a79264 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
-@@ -35,7 +35,7 @@ glib_tests = {
+@@ -50,7 +50,7 @@ glib_tests = {
    },
    'guuid' : {},
    'gvariant' : {
@@ -19,16 +19,16 @@ index 8a8584c..3a705da 100644
    },
    'gwakeup' : {
      'source' : ['gwakeuptest.c', '../gwakeup.c'],
-@@ -127,7 +127,7 @@ glib_tests = {
+@@ -146,7 +146,7 @@ glib_tests = {
    'spawn-test' : {
      'extra_programs' : host_machine.system() == 'windows' ? ['spawn-test-win32-gui'] : [],
    },
 -  'strfuncs' : {},
 +  'strfuncs' : {'suite': ['flaky']},
-   'string' : {},
-   'string-macro' : {
-     'source' : 'string.c',
-@@ -175,12 +175,12 @@ glib_tests = {
+   'string' : {
+     'c_args' : cc.get_id() == 'gcc' ? ['-Werror=sign-conversion'] : [],
+   },
+@@ -185,12 +185,12 @@ glib_tests = {
      'suite' : ['slow'],
    },
    '642026' : {
@@ -44,22 +44,22 @@ index 8a8584c..3a705da 100644
  }
  
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 17ed971..a8df9d5 100644
+index 74d069c..6ff2d54 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -119,6 +119,7 @@ gio_tests = {
-   'socket' : {
+@@ -128,6 +128,7 @@ gio_tests = {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
-     'can_fail' : host_system == 'darwin',
+     # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
+     'can_fail' : host_system in ['darwin', 'gnu'],
 +    'suite': ['flaky'],
    },
    'socket-listener' : {},
    'socket-service' : {},
 diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
-index 23f131b..9f587b8 100644
+index 713c1d7..9b3a9b4 100644
 --- a/gobject/tests/meson.build
 +++ b/gobject/tests/meson.build
-@@ -225,7 +225,7 @@ endforeach
+@@ -226,7 +226,7 @@ endforeach
  
  foreach test_name, extra_args : python_tests
    depends = [extra_args.get('depends', [])]

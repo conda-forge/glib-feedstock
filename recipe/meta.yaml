@@ -45,6 +45,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - python >=2.7
+    - packaging
     - setuptools
   host:
     - libffi
@@ -76,6 +77,7 @@ outputs:
         - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
+        - packaging
         - setuptools
       host:
         - libffi
@@ -115,6 +117,7 @@ outputs:
         - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
+        - packaging
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
@@ -156,6 +159,7 @@ outputs:
         - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
+        - packaging
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}

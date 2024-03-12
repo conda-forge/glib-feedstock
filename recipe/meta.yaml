@@ -27,8 +27,6 @@ source:
     # Windows:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
     - 0002-Increase-some-test-timeouts.patch                          # [win]
-    # https://gitlab.gnome.org/GNOME/glib/-/merge_requests/3945
-    - 3945.patch
 
 build:
   number: 0

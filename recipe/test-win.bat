@@ -1,7 +1,7 @@
 @echo on
 
-for /f "delims=" %%a in ('pkg-config --cflags --libs --msvc-syntax glib-2.0') do (
-    %CC% "%%a" /Fe:output.exe test.c 
+for /f "delims=" %%a in ('pkg-config --libs --msvc-syntax glib-2.0') do (
+    %CC% "%%a" /I "%LIBRARY_PREFIX%\include" /Fe:output.exe test.c
     if errorlevel 1 exit 1
 )
 

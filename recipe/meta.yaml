@@ -183,7 +183,7 @@ outputs:
         - glib-compile-resources --help
         - gobject-query --help
         - gtester --help  # [not win]
-        - ${CC} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib  # [unix]
+        - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib  # [unix]
         - test-win.bat  # [win]
 
 about:

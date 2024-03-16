@@ -1,7 +1,7 @@
 @echo on
 
 for /f "delims=" %%a in ('pkg-config --libs --msvc-syntax glib-2.0') do (
-    %CC% /I "%LIBRARY_PREFIX%\include\glib-2.0" /I %LIBRARY_PREFIX%\lib\glib-2.0\include /Fe:output.exe test.c /link "%%a"
+    %CC% /I "%LIBRARY_PREFIX%\include\glib-2.0" /I %LIBRARY_PREFIX%\lib\glib-2.0\include "/utf-8" "-D_GNU_SOURCE" "-DUNICODE" "-D_UNICODE" "-DG_DISABLE_CAST_CHECKS" "/wo4057" "/wd4068" "/wo4090" "/wd4100" "/wd4116" "/wo4125" "/wd4127" "/wd4146" "/wd4152" "/wd4201" "/wd4232" "/wo4245" "/wo4267" "/wd4334" "/wo4389" "/wo4702" "/wd4706" /Fe:output.exe test.c /link "%%a"
     if errorlevel 1 exit 1
 )
 

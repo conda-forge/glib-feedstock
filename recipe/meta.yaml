@@ -146,6 +146,7 @@ outputs:
         - libffi
         - pcre2
         - zlib
+        - m2-sed  # [win]
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:

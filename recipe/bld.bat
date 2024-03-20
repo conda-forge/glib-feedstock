@@ -25,6 +25,9 @@ set "CPPFLAGS=%CPPFLAGS% -D^"%LIBRARY_PREFIX_M%^""
 meson setup --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dselinux=disabled -Dxattr=false -Dlibmount=disabled -Dnls=enabled ..
 if errorlevel 1 exit 1
 
+type meson-logs\meson-log.txt
+if errorlevel 1 exit 1
+
 ninja -v
 if errorlevel 1 exit 1
 

@@ -29,7 +29,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports_from:
     - python *
 
@@ -145,6 +145,7 @@ outputs:
         - libffi
         - pcre2
         - zlib
+        - m2-sed  # [win]
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:
@@ -172,11 +173,19 @@ outputs:
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
     test:
+      requires:
+        - {{ compiler('c') }}
+        - pkg-config
+      files:
+        - test.c
+        - test-win.bat
       commands:
         - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}  # [not win]
         - glib-compile-resources --help
         - gobject-query --help
         - gtester --help  # [not win]
+        - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib  # [unix]
+        - test-win.bat  # [win]
 
 about:
   home: https://developer.gnome.org/glib/

@@ -66,6 +66,7 @@ outputs:
         - {{ pin_subpackage("libglib") }}
     requirements:
       build:
+        - gettext-tools
         - {{ posix }}patch  # [win]
         - meson
         - ninja
@@ -105,6 +106,7 @@ outputs:
         - zlib
     requirements:
       build:
+        - gettext-tools
         - {{ posix }}patch  # [win]
         - meson
         - ninja
@@ -147,6 +149,7 @@ outputs:
         - {{ pin_subpackage("libglib") }}
     requirements:
       build:
+        - gettext-tools
         - {{ posix }}patch  # [win]
         - meson
         - ninja

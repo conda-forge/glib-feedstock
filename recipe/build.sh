@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -exuo pipefail
 
 # There are a couple of places in the source that hardcode a system prefix;
 # in hardcoded-paths.patch we edit them to refer to the Conda prefix so
@@ -9,14 +9,13 @@ export CPPFLAGS="$CPPFLAGS -DCONDA_PREFIX=\\\"$PREFIX\\\""
 
 # @PYTHON@ is used in the build scripts and that breaks with the long prefix.
 # we need to redefine that to `python`.
-_PY=$PYTHON
 export PYTHON="python"
 unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 
 mkdir -p forgebuild
 cd forgebuild
 
-if [[ "$target_platform" == "osx-arm64" && "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]]; then
+if [[ "$target_platform" == "osx-arm64" && "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
     # TODO: create this in the compiler activation recipe
     echo "[host_machine]" > cross_file.txt
     echo "system = 'darwin'" >> cross_file.txt
@@ -28,12 +27,7 @@ if [[ "$target_platform" == "osx-arm64" && "$CONDA_BUILD_CROSS_COMPILATION" == "
     export OBJC=$CC
     export OBJC_FOR_BUILD=$CC_FOR_BUILD
     export PKG_CONFIG=$BUILD_PREFIX/bin/pkg-config
-    # Remove the executables in PREFIX to use the ones in BUILD_PREFIX
-    rm $PREFIX/bin/xgettext
-    rm $PREFIX/bin/msgfmt
-    rm $PREFIX/bin/msginit
-    rm $PREFIX/bin/msgmerge
-elif [[ "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]]; then
+elif [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
     # One of the tests uses objcopy to set up a special data file that can lead
     # to cross errors if we use the wrong program. Note that the way our setup
     # works, we actually pretend to Meson that we're doing a native build,
@@ -50,8 +44,6 @@ meson setup --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib 
       -Dlibmount=disabled -Dselinux=disabled -Dxattr=false -Dnls=enabled $MESON_ARGS .. \
       || { cat meson-logs/meson-log.txt ; exit 1 ; }
 
-cat meson-logs/meson-log.txt
-
 ninja -j${CPU_COUNT} -v
 
 if [ "${target_platform}" == 'linux-aarch64' ] || [ "${target_platform}" == "linux-ppc64le" ]; then
@@ -60,7 +52,7 @@ else
     export MESON_TEST_TIMEOUT_MULTIPLIER=2
 fi
 
-if [[ "$target_platform" != osx-* && "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]] ; then  # too many tests fail on macOS
+if [[ "$target_platform" != osx-* && "${CONDA_BUILD_CROSS_COMPILATION:-0}" != "1" ]] ; then  # too many tests fail on macOS
     # Disable this test as it fails if gdb is installed system-wide, otherwise it will be skipped.
     echo 'exit(0)' > ../glib/tests/assert-msg-test.py
     meson test --no-suite flaky --timeout-multiplier ${MESON_TEST_TIMEOUT_MULTIPLIER}

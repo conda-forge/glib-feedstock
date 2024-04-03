@@ -29,13 +29,13 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1
+  number: 2
   ignore_run_exports_from:
     - python *
 
 requirements:
   build:
-    - gettext  # [osx and arm64]
+    - gettext-tools
     - {{ posix }}patch  # [win]
     - meson
     - ninja
@@ -47,7 +47,7 @@ requirements:
     - setuptools
   host:
     - libffi
-    - gettext
+    - libintl-devel  # [not linux]
     - zlib
     - pcre2
     - libiconv
@@ -62,7 +62,6 @@ outputs:
       ignore_run_exports_from:
         - python *
         - {{ compiler('cxx') }}  # [unix]
-        - gettext  # [not osx]
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:
@@ -79,7 +78,7 @@ outputs:
         - setuptools
       host:
         - libffi
-        - gettext
+        - libintl-devel  # [not linux]
         - zlib
         - pcre2
         - libiconv
@@ -102,7 +101,6 @@ outputs:
       ignore_run_exports_from:
         - python *
         - {{ compiler('cxx') }}  # [unix]
-        - gettext  # [not osx]
         - libiconv
         - zlib
     requirements:
@@ -119,7 +117,7 @@ outputs:
         - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
-        - gettext
+        - libintl-devel  # [not linux]
         - libiconv
         - zlib
       run:
@@ -139,7 +137,6 @@ outputs:
     build:
       ignore_run_exports_from:
         - python *
-        - gettext  # [not osx]
         - {{ compiler('cxx') }}  # [unix]
         - libiconv
         - libffi
@@ -163,7 +160,7 @@ outputs:
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
-        - gettext
+        - libintl-devel  # [not linux]
         - libffi
         - libiconv
         - pcre2

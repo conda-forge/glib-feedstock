@@ -29,7 +29,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 2
+  number: 3
   ignore_run_exports_from:
     - python *
 
@@ -145,6 +145,9 @@ outputs:
         - pcre2
         - zlib
         - m2-sed  # [win]
+      ignore_run_exports:
+        # This is intentional to workaround conda-build's overdependening checks.
+        - libintl-devel
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:
@@ -172,6 +175,8 @@ outputs:
         - python *
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
+        # glib headers depend on libintl headers
+        - libintl-devel  # [not linux]
     test:
       requires:
         - {{ compiler('c') }}

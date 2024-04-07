@@ -1,16 +1,8 @@
 #!/bin/bash
 
-set -ex
+set -exuo pipefail
 
 unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
-
-if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" && "${CROSSCOMPILING_EMULATOR:-}" == "" ]]; then
-  # Remove the executables in PREFIX to use the ones in BUILD_PREFIX
-  rm $PREFIX/bin/xgettext
-  rm $PREFIX/bin/msgfmt
-  rm $PREFIX/bin/msginit
-  rm $PREFIX/bin/msgmerge
-fi
 
 cd forgebuild
 ninja install || (cat meson-logs/meson-log.txt; false)

@@ -29,7 +29,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 2
+  number: 3
   ignore_run_exports_from:
     - python *
 
@@ -172,6 +172,8 @@ outputs:
         - python *
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
+        # glib headers depend on libintl headers
+        - libintl-devel  # [not linux]
     test:
       requires:
         - {{ compiler('c') }}

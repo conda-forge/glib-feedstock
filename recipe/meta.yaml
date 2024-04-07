@@ -145,6 +145,9 @@ outputs:
         - pcre2
         - zlib
         - m2-sed  # [win]
+      ignore_run_exports:
+        # This is intentional to workaround conda-build's overdependening checks.
+        - libintl-devel
       run_exports:
         - {{ pin_subpackage("libglib") }}
     requirements:

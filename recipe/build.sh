@@ -27,7 +27,7 @@ if [[ "$target_platform" == "osx-arm64" && "${CONDA_BUILD_CROSS_COMPILATION:-0}"
     export OBJC=$CC
     export OBJC_FOR_BUILD=$CC_FOR_BUILD
     export PKG_CONFIG=$BUILD_PREFIX/bin/pkg-config
-elif [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
+elif [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
     # One of the tests uses objcopy to set up a special data file that can lead
     # to cross errors if we use the wrong program. Note that the way our setup
     # works, we actually pretend to Meson that we're doing a native build,

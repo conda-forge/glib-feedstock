@@ -29,7 +29,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 4
+  number: 5
   ignore_run_exports_from:
     - python *
 
@@ -185,7 +185,8 @@ outputs:
         - test.c
         - test-win.bat
       commands:
-        - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}  # [not win]
+        - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir   # [unix]
+        - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}  # [unix]
         - glib-compile-resources --help
         - gobject-query --help
         - gtester --help  # [not win]

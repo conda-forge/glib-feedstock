@@ -15,6 +15,21 @@ unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 mkdir -p forgebuild
 cd forgebuild
 
+
+# There is currently a cyclic dependency between glib and gobject-introspection:
+# * https://discourse.gnome.org/t/dealing-with-glib-and-gobject-introspection-circular-dependency/18701
+# * https://gitlab.gnome.org/GNOME/gobject-introspection/-/merge_requests/433
+# * https://gitlab.gnome.org/GNOME/glib/-/issues/2616
+conda create -p $(pwd)/g-ir-prefix -y g-ir-build-tools gobject-introspection
+
+cat <<EOF > $BUILD_PREFIX/bin/g-ir-scanner
+#!/bin/bash
+
+exec $(pwd)/g-ir-prefix/bin/g-ir-scanner \$*
+EOF
+chmod +x $BUILD_PREFIX/bin/g-ir-scanner
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$(pwd)/g-ir-prefix/lib/pkgconfig"
+
 if [[ "$target_platform" == "osx-arm64" && "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
     # TODO: create this in the compiler activation recipe
     echo "[host_machine]" > cross_file.txt
@@ -41,7 +56,7 @@ EOF
 fi
 
 meson setup --buildtype=release --prefix="$PREFIX" --backend=ninja -Dlibdir=lib -Dlocalstatedir="$PREFIX/var" \
-      -Dlibmount=disabled -Dselinux=disabled -Dxattr=false -Dnls=enabled $MESON_ARGS .. \
+      -Dlibmount=disabled -Dselinux=disabled -Dxattr=false -Dnls=enabled -Dintrospection=enabled $MESON_ARGS .. \
       || { cat meson-logs/meson-log.txt ; exit 1 ; }
 
 ninja -j${CPU_COUNT} -v

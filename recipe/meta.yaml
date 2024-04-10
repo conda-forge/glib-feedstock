@@ -45,6 +45,11 @@ requirements:
     - python >=2.7
     - packaging
     - setuptools
+    - libffi         # [build_platform != target_platfrom]
+    - libintl-devel  # [(build_platform != target_platform) and (not linux)]
+    - zlib           # [build_platform != target_platfrom]
+    - pcre2          # [build_platform != target_platfrom]
+    - libiconv       # [build_platform != target_platfrom]
   host:
     - libffi
     - libintl-devel  # [not linux]

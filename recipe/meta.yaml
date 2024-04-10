@@ -146,7 +146,6 @@ outputs:
         - python *
         - {{ compiler('cxx') }}  # [unix]
         - libiconv
-        - libffi
         - pcre2
         - zlib
         - m2-sed  # [win]

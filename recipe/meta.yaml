@@ -190,8 +190,9 @@ outputs:
         - test.c
         - test-win.bat
       commands:
-        - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir   # [unix]
-        - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}  # [unix]
+        - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir              # [unix]
+        - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib   # [unix]
+        - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}             # [unix]
         - glib-compile-resources --help
         - gobject-query --help
         - gtester --help  # [not win]

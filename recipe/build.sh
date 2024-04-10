@@ -10,7 +10,6 @@ meson_config_args=(
      -Dselinux=disabled
      -Dxattr=false
      -Dnls=enabled
-     -Dintrospection=enabled
 )
 
 # There are a couple of places in the source that hardcode a system prefix;
@@ -29,9 +28,6 @@ unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 # * https://gitlab.gnome.org/GNOME/glib/-/issues/2616
 export GIR_PREFIX=$(pwd)/g-ir-prefix
 conda create -p ${GIR_PREFIX} -y g-ir-build-tools gobject-introspection
-# Internal introspection code needs to link to girepository-1.0
-export GINTRO_PREFIX=$(pwd)/gintro-prefix
-conda create -p ${GINTRO_PREFIX} -y --subdir $target_platform gobject-introspection
 
 cat <<EOF > $BUILD_PREFIX/bin/g-ir-scanner
 #!/bin/bash
@@ -63,7 +59,8 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
 
     meson setup native-build \
         "${meson_config_args[@]}" \
-        --prefix="$BUILD_PREFIX" \
+	--prefix="$BUILD_PREFIX" \
+	-Dintrospection=enabled \
         -Dlocalstatedir="$BUILD_PREFIX/var" \
         || { cat native-build/meson-logs/meson-log.txt ; exit 1 ; }
 
@@ -73,36 +70,19 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
     export GI_CROSS_LAUNCHER=$GIR_PREFIX/libexec/gi-cross-launcher-save.sh
     ninja -C native-build -j${CPU_COUNT}
     ninja -C native-build install
+
+    # Store generated introspection information
+    mkdir -p introspection/lib
+    cp -ap $BUILD_PREFIX/lib/girepository-1.0 introspection/lib
+    mkdir -p introspection/share
+    cp -ap $BUILD_PREFIX/share/gir-1.0 introspection/share
   )
   export GI_CROSS_LAUNCHER=$GIR_PREFIX/libexec/gi-cross-launcher-load.sh
+  export MESON_ARGS="${MESON_ARGS} -Dintrospection=disabled"
+else
+  export MESON_ARGS="${MESON_ARGS} -Dintrospection=enabled"
 fi
 
-if [[ "$target_platform" == "osx-arm64" && "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
-    # TODO: create this in the compiler activation recipe
-    echo "[host_machine]" > cross_file.txt
-    echo "system = 'darwin'" >> cross_file.txt
-    echo "cpu_family = 'aarch64'" >> cross_file.txt
-    echo "cpu = 'arm64'" >> cross_file.txt
-    echo "endian = 'little'" >> cross_file.txt
-    MESON_ARGS="$MESON_ARGS --cross-file cross_file.txt"
-    # TODO: do this in the compiler activation recipe as well
-    export OBJC=$CC
-    export OBJC_FOR_BUILD=$CC_FOR_BUILD
-    export PKG_CONFIG=$BUILD_PREFIX/bin/pkg-config
-elif [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
-    # One of the tests uses objcopy to set up a special data file that can lead
-    # to cross errors if we use the wrong program. Note that the way our setup
-    # works, we actually pretend to Meson that we're doing a native build,
-    # though.
-    cat >machine_file.txt <<EOF
-[binaries]
-ld = '$LD'
-objcopy = '$OBJCOPY'
-EOF
-    MESON_ARGS="$MESON_ARGS --native-file machine_file.txt"
-fi
-
-export LDFLAGS="$LDFLAGS -L${GINTRO_PREFIX}/lib"
 meson setup builddir \
     ${MESON_ARGS} \
     "${meson_config_args[@]}" \

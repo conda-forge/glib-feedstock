@@ -46,6 +46,9 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
   (
     export CC=$CC_FOR_BUILD
     export CXX=$CXX_FOR_BUILD
+    if [[ "${target_platform}" == osx-* ]]; then
+      export OBJC=$OBJC_FOR_BUILD
+    fi
     export AR="$($CC_FOR_BUILD -print-prog-name=ar)"
     export NM="$($CC_FOR_BUILD -print-prog-name=nm)"
     export OBJCOPY="$($CC_FOR_BUILD -print-prog-name=objcopy)"
@@ -101,10 +104,11 @@ fi
 
 export LDFLAGS="$LDFLAGS -L${GINTRO_PREFIX}/lib"
 meson setup builddir \
+    ${MESON_ARGS} \
     "${meson_config_args[@]}" \
     --prefix="$PREFIX" \
     -Dlocalstatedir="$PREFIX/var" \
-    || { cat meson-logs/meson-log.txt ; exit 1 ; }
+    || { cat builddir/meson-logs/meson-log.txt ; exit 1 ; }
 
 ninja -C builddir -j${CPU_COUNT} -v
 

@@ -10,7 +10,7 @@ echo none /tmp usertemp binary,posix=0 0 0 >>%BUILD_PREFIX%\Library\etc\fstab
 
 set "GIR_PREFIX=%cd%\g-ir-prefix"
 
-conda create -p %GIR_PREFIX% -y g-ir-build-tools gobject-introspection
+call conda create -p %GIR_PREFIX% -y g-ir-build-tools gobject-introspection
 if errorlevel 1 exit 1
 
 echo @echo off > %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat

@@ -116,6 +116,8 @@ fi
 
 if [[ "$target_platform" != osx-* && "${CONDA_BUILD_CROSS_COMPILATION:-0}" != "1" ]] ; then  # too many tests fail on macOS
     # Disable this test as it fails if gdb is installed system-wide, otherwise it will be skipped.
-    echo 'exit(0)' > ../glib/tests/assert-msg-test.py
-    meson test builddir --no-suite flaky --timeout-multiplier ${MESON_TEST_TIMEOUT_MULTIPLIER}
+    echo 'exit(0)' > glib/tests/assert-msg-test.py
+    pushd builddir
+    meson test --no-suite flaky --timeout-multiplier ${MESON_TEST_TIMEOUT_MULTIPLIER}
+    popd
 fi

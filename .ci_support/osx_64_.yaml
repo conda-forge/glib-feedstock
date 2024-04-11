@@ -1,7 +1,7 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '10.9'
 c_compiler:
-- vs2022
+- clang
 c_compiler_version:
 - '16'
 c_stdlib:
@@ -13,7 +13,7 @@ channel_sources:
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2022
+- clangxx
 cxx_compiler_version:
 - '16'
 libffi:

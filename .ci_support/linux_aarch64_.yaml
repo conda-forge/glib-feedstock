@@ -1,7 +1,7 @@
 BUILD:
 - aarch64-conda_cos7-linux-gnu
 c_compiler:
-- gcc
+- vs2022
 c_compiler_version:
 - '12'
 c_stdlib:
@@ -17,7 +17,7 @@ channel_sources:
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- gxx
+- vs2022
 cxx_compiler_version:
 - '12'
 docker_image:

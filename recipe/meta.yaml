@@ -27,6 +27,7 @@ source:
     # Windows:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
     - 0002-Increase-some-test-timeouts.patch                          # [win]
+    - 0001-Remove-broken-private-statement-from-comment.patch         # [win]
 
 build:
   number: 5

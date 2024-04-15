@@ -15,10 +15,10 @@ if errorlevel 1 exit 1
 
 set "PATH=%PATH%;%GIR_PREFIX%\Library;%GIR_PREFIX%\Library\bin"
 
-echo @echo on > %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
-echo set PATH="%%PATH%%;%GIR_PREFIX%\Library;%GIR_PREFIX%\Library\bin" >> %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
-echo call %GIR_PREFIX%\bin\g-ir-scanner %%* --verbose >> %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
-type %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
+@rem echo @echo on > %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
+@rem echo set PATH="%%PATH%%;%GIR_PREFIX%\Library;%GIR_PREFIX%\Library\bin" >> %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
+@rem echo call %GIR_PREFIX%\bin\g-ir-scanner %%* --verbose >> %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
+@rem type %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
 
 mkdir forgebuild
 cd forgebuild
@@ -38,10 +38,7 @@ set "CPPFLAGS=%CPPFLAGS% -D^"%LIBRARY_PREFIX_M%^""
 meson setup --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dselinux=disabled -Dxattr=false -Dlibmount=disabled -Dnls=enabled -Dintrospection=enabled ..
 if errorlevel 1 exit 1
 
-type meson-logs\meson-log.txt
-if errorlevel 1 exit 1
-
-ninja -v -j1
+ninja
 if errorlevel 1 exit 1
 
 @REM Lots of tests fail right now

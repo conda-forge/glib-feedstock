@@ -30,6 +30,7 @@ source:
     - 0001-Remove-broken-private-statement-from-comment.patch         # [win]
 
 build:
+  skip: true  # [not win]
   number: 5
   ignore_run_exports_from:
     - python *

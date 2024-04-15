@@ -4,8 +4,7 @@ set -exuo pipefail
 
 unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 
-cd forgebuild
-ninja install || (cat meson-logs/meson-log.txt; false)
+ninja -C builddir install || (cat meson-logs/meson-log.txt; false)
 # remove libtool files
 find $PREFIX -name '*.la' -delete
 
@@ -36,7 +35,7 @@ if [[ "$PKG_NAME" != glib ]]; then
             cp "${RECIPE_DIR}/scripts/${CHANGE}.sh" "${PREFIX}/etc/conda/${CHANGE}.d/${PKG_NAME}_${CHANGE}.sh"
         done
     fi
-    rm $PREFIX/bin/{gdbus*,glib-*,gobject*,gtester*}
+    rm $PREFIX/bin/{gdbus*,glib-*,gobject*,gtester*,gi-*}
     if [[ "$PKG_NAME" == glib-tools ]]; then
         mv .keep/* $PREFIX/bin
     fi
@@ -46,4 +45,11 @@ if [[ "$PKG_NAME" != glib ]]; then
     rm -r $PREFIX/share/aclocal/{glib-*,gsettings*}
     rm -r $PREFIX/share/gettext/its
     rm -r $PREFIX/share/glib-*
+else
+  # Manually install introspection data during cross-compilation
+  # These files are the only difference when running with a different setting of -Dintrospection
+  if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
+    cp -ap introspection/lib/girepository-1.0 $PREFIX/lib
+    cp -ap introspection/share/gir-1.0 $PREFIX/share
+  fi
 fi

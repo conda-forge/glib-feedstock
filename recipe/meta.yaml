@@ -29,7 +29,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 4
+  number: 5
   ignore_run_exports_from:
     - python *
 
@@ -45,6 +45,11 @@ requirements:
     - python >=2.7
     - packaging
     - setuptools
+    - libffi         # [build_platform != target_platfrom]
+    - libintl-devel  # [(build_platform != target_platform) and (not linux)]
+    - zlib           # [build_platform != target_platfrom]
+    - pcre2          # [build_platform != target_platfrom]
+    - libiconv       # [build_platform != target_platfrom]
   host:
     - libffi
     - libintl-devel  # [not linux]
@@ -141,7 +146,6 @@ outputs:
         - python *
         - {{ compiler('cxx') }}  # [unix]
         - libiconv
-        - libffi
         - pcre2
         - zlib
         - m2-sed  # [win]
@@ -185,7 +189,11 @@ outputs:
         - test.c
         - test-win.bat
       commands:
-        - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}  # [not win]
+        - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir              # [unix]
+        - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib   # [unix]
+        - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}             # [unix]
+        - if not exist %LIBRARY_PREFIX%\share\gir-1.0\GLib-2.0.gir exit 1             # [win]
+        - if not exist %LIBRARY_PREFIX%\lib\girepository-1.0\GLib-2.0.typelib exit 1  # [win]
         - glib-compile-resources --help
         - gobject-query --help
         - gtester --help  # [not win]

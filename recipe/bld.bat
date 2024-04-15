@@ -15,11 +15,6 @@ if errorlevel 1 exit 1
 
 set "PATH=%PATH%;%GIR_PREFIX%\Library;%GIR_PREFIX%\Library\bin"
 
-@rem echo @echo on > %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
-@rem echo set PATH="%%PATH%%;%GIR_PREFIX%\Library;%GIR_PREFIX%\Library\bin" >> %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
-@rem echo call %GIR_PREFIX%\bin\g-ir-scanner %%* --verbose >> %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
-@rem type %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
-
 mkdir forgebuild
 cd forgebuild
 

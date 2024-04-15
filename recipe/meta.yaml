@@ -150,7 +150,6 @@ outputs:
         - libiconv
         - pcre2
         - zlib
-        - libffi  # [win]
         - m2-sed  # [win]
       ignore_run_exports:
         # This is intentional to workaround conda-build's overdependening checks.

@@ -29,6 +29,12 @@ if NOT [%PKG_NAME%] == [glib] (
   if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\bin\gobject-query.exe
   if errorlevel 1 exit 1
+  del %LIBRARY_PREFIX%\bin\gi-compile-repository.exe
+  if errorlevel 1 exit 1
+  del %LIBRARY_PREFIX%\bin\gi-inspect-typelib.exe
+  if errorlevel 1 exit 1
+  del %LIBRARY_PREFIX%\bin\gi-decompile-typelib.exe
+  if errorlevel 1 exit 1
   del %LIBRARY_PREFIX%\bin\gtester*
   if errorlevel 1 exit 1
 

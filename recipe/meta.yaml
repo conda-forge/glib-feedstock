@@ -150,6 +150,7 @@ outputs:
         - libiconv
         - pcre2
         - zlib
+        - libffi  # [win]
         - m2-sed  # [win]
       ignore_run_exports:
         # This is intentional to workaround conda-build's overdependening checks.
@@ -194,6 +195,8 @@ outputs:
         - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir              # [unix]
         - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib   # [unix]
         - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}             # [unix]
+        - if not exist %LIBRARY_PREFIX%\share\gir-1.0\GLib-2.0.gir exit 1             # [win]
+        - if not exist %LIBRARY_PREFIX%\lib\girepository-1.0\GLib-2.0.typelib exit 1  # [win]
         - glib-compile-resources --help
         - gobject-query --help
         - gtester --help  # [not win]

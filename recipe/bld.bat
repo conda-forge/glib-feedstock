@@ -13,6 +13,8 @@ set "GIR_PREFIX=%cd%\g-ir-prefix"
 call conda create -p %GIR_PREFIX% -y g-ir-build-tools gobject-introspection glib
 if errorlevel 1 exit 1
 
+set PATH="%PATH%;%GIR_PREFIX%\Library;%GIR_PREFIX%\Library\bin"
+
 echo @echo on > %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
 echo set PATH="%%PATH%%;%GIR_PREFIX%\Library;%GIR_PREFIX%\Library\bin" >> %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat
 echo call %GIR_PREFIX%\bin\g-ir-scanner %%* --verbose >> %BUILD_PREFIX%\Library\bin\g-ir-scanner.bat

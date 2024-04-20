@@ -29,7 +29,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 5
+  number: 6
   ignore_run_exports_from:
     - python *
 
@@ -100,6 +100,11 @@ outputs:
         - test -f ${PREFIX}/lib/pkgconfig/glib-2.0.pc  # [unix]
         - test -f ${PREFIX}/etc/conda/activate.d/libglib_activate.sh  # [not win]
         - test -f ${PREFIX}/etc/conda/deactivate.d/libglib_deactivate.sh  # [not win]
+        # Introspection data is needed at runtime
+        - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir              # [unix]
+        - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib   # [unix]
+        - if not exist %LIBRARY_PREFIX%\share\gir-1.0\GLib-2.0.gir exit 1             # [win]
+        - if not exist %LIBRARY_PREFIX%\lib\girepository-1.0\GLib-2.0.typelib exit 1  # [win]
   - name: glib-tools
     script: install.sh  # [unix]
     script: install.bat  # [not unix]
@@ -189,11 +194,7 @@ outputs:
         - test.c
         - test-win.bat
       commands:
-        - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir              # [unix]
-        - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib   # [unix]
         - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}             # [unix]
-        - if not exist %LIBRARY_PREFIX%\share\gir-1.0\GLib-2.0.gir exit 1             # [win]
-        - if not exist %LIBRARY_PREFIX%\lib\girepository-1.0\GLib-2.0.typelib exit 1  # [win]
         - glib-compile-resources --help
         - gobject-query --help
         - gtester --help  # [not win]

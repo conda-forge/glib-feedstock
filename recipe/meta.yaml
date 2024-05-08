@@ -1,4 +1,4 @@
-{% set version = "2.80.0" %}
+{% set version = "2.80.1" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://download.gnome.org/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: 8228a92f92a412160b139ae68b6345bd28f24434a7b5af150ebe21ff587a561d
+  sha256: bcfc8c2fab64fc9dcb91011375422159f1440502257fb90219215079d8716705
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -29,7 +29,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 6
+  number: 0
   ignore_run_exports_from:
     - python *
 
@@ -41,6 +41,7 @@ requirements:
     - ninja
     - {{ native }}pkg-config
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - python >=2.7
     - packaging
@@ -77,6 +78,7 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
+        - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
@@ -122,6 +124,7 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
+        - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
         - python >=2.7
@@ -167,6 +170,7 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
+        - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
         - python >=2.7

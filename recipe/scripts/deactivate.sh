@@ -8,4 +8,3 @@ unset GI_TYPELIB_PATH_CONDA_BACKUP
 if [ -z $GI_TYPELIB_PATH ]; then
     unset GI_TYPELIB_PATH
 fi
-

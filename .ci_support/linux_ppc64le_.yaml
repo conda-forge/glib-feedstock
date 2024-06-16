@@ -23,7 +23,7 @@ libffi:
 libiconv:
 - '1'
 pcre2:
-- '10.43'
+- '10.44'
 target_platform:
 - linux-ppc64le
 zip_keys:
@@ -32,4 +32,4 @@ zip_keys:
 - - c_stdlib_version
   - cdt_name
 zlib:
-- '1.2'
+- '1'

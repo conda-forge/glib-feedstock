@@ -13,8 +13,8 @@ libffi:
 libiconv:
 - '1'
 pcre2:
-- '10.43'
+- '10.44'
 target_platform:
 - win-64
 zlib:
-- '1.2'
+- '1'

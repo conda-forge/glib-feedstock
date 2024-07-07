@@ -1,4 +1,4 @@
-{% set version = "2.80.2" %}
+{% set version = "2.80.3" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://download.gnome.org/sources/glib/{{ major_minor }}/glib-{{ version }}.tar.xz
-  sha256: b9cfb6f7a5bd5b31238fd5d56df226b2dda5ea37611475bf89f6a0f9400fe8bd
+  sha256: 3947a0eaddd0f3613d0230bb246d0c69e46142c19022f5c4b1b2e3cba236d417
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -24,6 +24,7 @@ source:
     - crossplatform-test-tweaks.patch
 
     - 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
+    - 0001-Skip-Linux-specific-test-on-osx.patch
     # Windows:
     - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
     - 0002-Increase-some-test-timeouts.patch                          # [win]

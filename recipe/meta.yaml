@@ -30,7 +30,7 @@ source:
     - 0002-Increase-some-test-timeouts.patch                          # [win]
 
 build:
-  number: 1
+  number: 2
   ignore_run_exports_from:
     - python *
 
@@ -187,6 +187,12 @@ outputs:
         - zlib
       run:
         - python *
+        # The `packaging` Python module is needed by gdbus-codegen. In certain
+        # build scenarios, that script is unavoidably executed by a Python
+        # interpreter different from the one installed into the "run"
+        # environment, so you may need to explicitly add a dep on `packaging`
+        # elsewhere. See https://github.com/conda-forge/glib-feedstock/pull/182
+        - packaging
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
         # glib headers depend on libintl headers
@@ -203,6 +209,7 @@ outputs:
         - glib-compile-resources --help
         - gobject-query --help
         - gtester --help  # [not win]
+        - gdbus-codegen --help  # [not win]
         - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib  # [unix]
         - test-win.bat  # [win]
 

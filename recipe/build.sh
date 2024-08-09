@@ -3,7 +3,6 @@
 set -exuo pipefail
 
 meson_config_args=(
-     --buildtype=release
      --backend=ninja
      -Dlibdir=lib
      -Dlibmount=disabled

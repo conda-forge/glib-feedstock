@@ -17,17 +17,13 @@ source:
     # We are essentially using that copy, but with some tweaks. Info at the link below.
     #
     # https://github.com/Homebrew/legacy-homebrew/blob/21ce7a56cb3fc40fe93d731cc654c69268796772/Library/Formula/glib.rb#L33-L39
-    #
-    - hardcoded-paths.patch  # [unix]
-
-    # "Fixes" for tests that apply to all platforms:
-    - crossplatform-test-tweaks.patch
-
-    - 0001-Attempt-to-mask-out-qemu-failing-tests.patch               # [ppc64le or aarch64]
-    - 0001-Skip-Linux-specific-test-on-osx.patch
-    # Windows:
-    - 0001-Manually-link-with-libiconv-whenever-we-use-libintl.patch  # [win]
-    - 0002-Increase-some-test-timeouts.patch                          # [win]
+    - patches/0001-Remove-hard-coded-paths.patch
+    ## "Fixes" for tests that apply to all platforms:
+    - patches/0002-crossplatform-test-tweaks.patch
+    - patches/0003-Attempt-to-mask-out-qemu-failing-tests.patch                # [ppc64le or aarch64
+    ## Windows:
+    - patches/0004-Manually-link-with-libiconv-whenever-we-use-libintl..patch  # [win]
+    - patches/0005-Increase-some-test-timeouts.patch                           # [win]
 
 build:
   number: 0

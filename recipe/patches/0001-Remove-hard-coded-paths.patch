@@ -1,0 +1,39 @@
+From 48368eb711d68e0a148512fd54282ef54c5672ad Mon Sep 17 00:00:00 2001
+From: Uwe Korn <uwelk@xhochy.com>
+Date: Mon, 26 Aug 2024 13:55:19 +0000
+Subject: [PATCH 1/5] Remove hard-coded paths
+
+Co-authored-by: Peter Williams <peter@newton.cx>
+Co-authored-by: John Kirkham <kirkhamj@janelia.hhmi.org>
+Co-authored-by: Isuru Fernando <isuruf@gmail.com>
+---
+ gio/xdgmime/xdgmime.c | 2 +-
+ glib/gutils.c         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gio/xdgmime/xdgmime.c b/gio/xdgmime/xdgmime.c
+index 0909581..fa16e04 100644
+--- a/gio/xdgmime/xdgmime.c
++++ b/gio/xdgmime/xdgmime.c
+@@ -228,7 +228,7 @@ xdg_init_dirs (void)
+   xdg_data_dirs = getenv ("XDG_DATA_DIRS");
+ 
+   if (xdg_data_dirs == NULL)
+-    xdg_data_dirs = "/usr/local/share/:/usr/share/";
++    xdg_data_dirs = CONDA_PREFIX "/share/:/usr/share/";
+ 
+   /* Work out how many dirs we’re dealing with. */
+   if (xdg_data_home != NULL || home != NULL)
+diff --git a/glib/gutils.c b/glib/gutils.c
+index 057e2bc..82066c2 100644
+--- a/glib/gutils.c
++++ b/glib/gutils.c
+@@ -2695,7 +2695,7 @@ g_build_system_data_dirs (void)
+    */
+ #ifndef G_OS_WIN32
+   if (!data_dirs || !data_dirs[0])
+-    data_dirs = "/usr/local/share/:/usr/share/";
++    data_dirs = CONDA_PREFIX "/share/:/usr/share/";
+ 
+   data_dir_vector = g_strsplit (data_dirs, G_SEARCHPATH_SEPARATOR_S, 0);
+ #else

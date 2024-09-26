@@ -1,0 +1,13 @@
+diff --git a/gio/gdbus-2.0/codegen/meson.build b/gio/gdbus-2.0/codegen/meson.build
+index 67ea9f2..427f2a4 100644
+--- a/gio/gdbus-2.0/codegen/meson.build
++++ b/gio/gdbus-2.0/codegen/meson.build
+@@ -31,7 +31,7 @@ gdbus_codegen_conf = configuration_data()
+ gdbus_codegen_conf.set('VERSION', glib_version)
+ gdbus_codegen_conf.set('MAJOR_VERSION', major_version)
+ gdbus_codegen_conf.set('MINOR_VERSION', minor_version)
+-gdbus_codegen_conf.set('PYTHON', python.full_path())
++gdbus_codegen_conf.set('PYTHON', '/usr/bin/env python3')
+ gdbus_codegen_conf.set('DATADIR', glib_datadir)
+ 
+ # Install gdbus-codegen executable

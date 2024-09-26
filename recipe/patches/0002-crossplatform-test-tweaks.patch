@@ -132,3 +132,16 @@ index ffa9314..1719968 100644
    },
    'dir' : {},
    'environment' : {
+diff --git a/glib/tests/unix.c b/glib/tests/unix.c
+index d3ef514..d2fc628 100644
+--- a/glib/tests/unix.c
++++ b/glib/tests/unix.c
+@@ -588,7 +588,7 @@ test_signal_alternate_stack (int signal)
+ #ifndef SA_ONSTACK
+   g_test_skip ("alternate stack is not supported");
+ #else
+-  size_t minsigstksz = MINSIGSTKSZ;
++  size_t minsigstksz = 16384;
+   guint8 *stack_memory = NULL;
+   guint8 *zero_mem = NULL;
+   stack_t stack = { 0 };

@@ -3,6 +3,10 @@
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
+# Keep in sync with
+# https://gitlab.gnome.org/GNOME/glib/-/blob/main/meson.build?ref_type=heads#L2468
+{% set minimum_python_version = "3.7" %}
+
 package:
   name: glib-split
   version: {{ version }}
@@ -27,7 +31,7 @@ source:
     - patches/0005-Increase-some-test-timeouts.patch                           # [win]
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports_from:
     - python *
 
@@ -39,24 +43,26 @@ requirements:
     - ninja
     - {{ native }}pkg-config
     - {{ compiler('c') }}
-    - {{ stdlib("c") }}
+    - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
-    - python >=2.7
+    - python >={{ minimum_python_version }}
     - packaging
-    - setuptools <=71
+    - setuptools
     - libffi         # [build_platform != target_platfrom]
     - libintl-devel  # [(build_platform != target_platform) and (not linux)]
     - zlib           # [build_platform != target_platfrom]
     - pcre2          # [build_platform != target_platfrom]
     - libiconv       # [build_platform != target_platfrom]
   host:
+    - python >={{ minimum_python_version }}
+    - setuptools
     - libffi
     - libintl-devel  # [not linux]
     - zlib
     - pcre2
     - libiconv
   run:
-    - python >=2.7
+    - python >={{ minimum_python_version }}
 
 outputs:
   - name: libglib
@@ -79,9 +85,9 @@ outputs:
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
-        - python >=2.7
+        - python >={{ minimum_python_version }}
         - packaging
-        - setuptools <=71
+        - setuptools
       host:
         - libffi
         - libintl-devel  # [not linux]
@@ -125,9 +131,9 @@ outputs:
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
-        - python >=2.7
+        - python >={{ minimum_python_version }}
         - packaging
-        - setuptools <=71
+        - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
         - libintl-devel  # [not linux]
@@ -173,7 +179,7 @@ outputs:
         - ninja
         - python >=2.7
         - packaging
-        - setuptools <=71
+        - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
@@ -205,6 +211,9 @@ outputs:
         - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}             # [unix]
         - glib-compile-resources --help
         - gobject-query --help
+        - grep ${PREFIX} ${PREFIX}/bin/glib-mkenums     # [unix]
+        - grep ${PREFIX} ${PREFIX}/bin/glib-genmarshal  # [unix]
+        - grep ${PREFIX} ${PREFIX}/bin/gtester-report   # [unix]
         - gtester --help  # [not win]
         - gdbus-codegen --help  # [not win]
         - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib  # [unix]

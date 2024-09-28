@@ -58,8 +58,8 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
 
     meson setup native-build \
         "${meson_config_args[@]}" \
-	--prefix="$BUILD_PREFIX" \
-	-Dintrospection=enabled \
+        --prefix="$BUILD_PREFIX" \
+        -Dintrospection=enabled \
         -Dlocalstatedir="$BUILD_PREFIX/var" \
         || { cat native-build/meson-logs/meson-log.txt ; exit 1 ; }
 

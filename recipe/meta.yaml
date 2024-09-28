@@ -214,6 +214,9 @@ outputs:
         - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}             # [unix]
         - glib-compile-resources --help
         - gobject-query --help
+        - head ${PREFIX}/bin/glib-mkenums               # [unix]
+        - head ${PREFIX}/bin/glib-genmarshal            # [unix]
+        - head ${PREFIX}/bin/gtester-report             # [unix]
         - grep ${PREFIX} ${PREFIX}/bin/glib-mkenums     # [unix]
         - grep ${PREFIX} ${PREFIX}/bin/glib-genmarshal  # [unix]
         - grep ${PREFIX} ${PREFIX}/bin/gtester-report   # [unix]

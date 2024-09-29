@@ -13,15 +13,26 @@ find $PREFIX -name '*.la' -delete
 rm -rf $PREFIX/share/gdb
 
 if [[ "${PKG_NAME}" == "glib" ]]; then
+
+    echo ${PREFIX}
+    echo BEFORE
+    head -n 1 ${PREFIX}/bin/glib-mkenums
+    head -n 1 ${PREFIX}/bin/glib-genmarshal
+    head -n 1 ${PREFIX}/bin/gtester-report
     # unsured about why the build prefix of the split package is appearing
     # in there, but we must remove it
-    # sed -i.bak '1s|^#!.*|#!${PREFIX}/bin/python|' ${PREFIX}/bin/glib-mkenums
-    # sed -i.bak '1s|^#!.*|#!${PREFIX}/bin/python|' ${PREFIX}/bin/glib-genmarshal
-    # sed -i.bak '1s|^#!.*|#!${PREFIX}/bin/python|' ${PREFIX}/bin/gtester-report
+    sed -i.bak "1s|^#!.*|#!${PREFIX}/bin/python|" "${PREFIX}/bin/glib-mkenums"
+    sed -i.bak "1s|^#!.*|#!${PREFIX}/bin/python|" "${PREFIX}/bin/glib-genmarshal"
+    sed -i.bak "1s|^#!.*|#!${PREFIX}/bin/python|" "${PREFIX}/bin/gtester-report"
 
-    # rm ${PREFIX}/bin/glib-mkenums.bak
-    # rm ${PREFIX}/bin/glib-genmarshal.bak
-    # rm ${PREFIX}/bin/gtester-report.bak
+    rm ${PREFIX}/bin/glib-mkenums.bak
+    rm ${PREFIX}/bin/glib-genmarshal.bak
+    rm ${PREFIX}/bin/gtester-report.bak
+
+    echo AFTER
+    head -n 1 ${PREFIX}/bin/glib-mkenums
+    head -n 1 ${PREFIX}/bin/glib-genmarshal
+    head -n 1 ${PREFIX}/bin/gtester-report
     exit 0
 elif [[ "$PKG_NAME" == glib-tools ]]; then
     mkdir .keep

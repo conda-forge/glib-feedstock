@@ -160,6 +160,8 @@ outputs:
       ignore_run_exports_from:
         - python *
         - {{ compiler('cxx') }}  # [unix]
+        - {{ compiler('c') }}  # [unix]
+        - {{ stdlib('c') }}  # [unix]
         - libiconv
         - pcre2
         - zlib
@@ -217,9 +219,9 @@ outputs:
         - head ${PREFIX}/bin/glib-mkenums               # [unix]
         - head ${PREFIX}/bin/glib-genmarshal            # [unix]
         - head ${PREFIX}/bin/gtester-report             # [unix]
-        - grep ${PREFIX} ${PREFIX}/bin/glib-mkenums     # [unix]
-        - grep ${PREFIX} ${PREFIX}/bin/glib-genmarshal  # [unix]
-        - grep ${PREFIX} ${PREFIX}/bin/gtester-report   # [unix]
+        - head -n 1 ${PREFIX}/bin/glib-mkenums | grep -E "(${PREFIX}|/usr/bin/env python)"      # [unix]
+        - head -n 1 ${PREFIX}/bin/glib-genmarshal | grep -E "(${PREFIX}|/usr/bin/env python)"   # [unix]
+        - head -n 1 ${PREFIX}/bin/gtester-report | grep -E "(${PREFIX}|/usr/bin/env python)"    # [unix]
         - gtester --help  # [not win]
         - gdbus-codegen --help  # [not win]
         - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib  # [unix]

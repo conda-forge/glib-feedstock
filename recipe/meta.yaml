@@ -216,7 +216,6 @@ outputs:
         - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}             # [unix]
         - glib-compile-resources --help
         - gobject-query --help
- ```suggestion
         # I'm not sure why the PREFIX ends up becoming the /usr/bin/env python
         # but it might be due to some conda replacements
         # hmaarrfk - 2024/10/03

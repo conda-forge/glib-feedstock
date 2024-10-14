@@ -13,16 +13,15 @@ find $PREFIX -name '*.la' -delete
 rm -rf $PREFIX/share/gdb
 
 if [[ "${PKG_NAME}" == "glib" ]]; then
-
     # unsured about why the build prefix of the split package is appearing
     # in there, but we must remove it
-    sed -i.bak "1s|^#!.*|#!${PREFIX}/bin/python|" "${PREFIX}/bin/glib-mkenums"
-    sed -i.bak "1s|^#!.*|#!${PREFIX}/bin/python|" "${PREFIX}/bin/glib-genmarshal"
-    sed -i.bak "1s|^#!.*|#!${PREFIX}/bin/python|" "${PREFIX}/bin/gtester-report"
+    # sed -i.bak "1s|^#!.*|#!${PREFIX}/bin/python|" "${PREFIX}/bin/glib-mkenums"
+    # sed -i.bak "1s|^#!.*|#!${PREFIX}/bin/python|" "${PREFIX}/bin/glib-genmarshal"
+    # sed -i.bak "1s|^#!.*|#!${PREFIX}/bin/python|" "${PREFIX}/bin/gtester-report"
 
-    rm ${PREFIX}/bin/glib-mkenums.bak
-    rm ${PREFIX}/bin/glib-genmarshal.bak
-    rm ${PREFIX}/bin/gtester-report.bak
+    # rm ${PREFIX}/bin/glib-mkenums.bak
+    # rm ${PREFIX}/bin/glib-genmarshal.bak
+    # rm ${PREFIX}/bin/gtester-report.bak
 
     # The remainder of the script is only for other packages. exit here with success.
     exit 0
@@ -64,5 +63,5 @@ rm -r $PREFIX/share/glib-*
 # These files are the only difference when running with a different setting of -Dintrospection
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
     cp -ap introspection/lib/girepository-1.0 $PREFIX/lib
-cp -ap introspection/share/gir-1.0 $PREFIX/share
+    cp -ap introspection/share/gir-1.0 $PREFIX/share
 fi

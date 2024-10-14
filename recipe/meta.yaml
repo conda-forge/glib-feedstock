@@ -3,6 +3,10 @@
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
+# Keep in sync with
+# https://gitlab.gnome.org/GNOME/glib/-/blob/main/meson.build?ref_type=heads#L2468
+{% set minimum_python_version = "3.7" %}
+
 package:
   name: glib-split
   version: {{ version }}
@@ -27,7 +31,7 @@ source:
     - patches/0005-Increase-some-test-timeouts.patch                           # [win]
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports_from:
     - python *
 
@@ -39,24 +43,29 @@ requirements:
     - ninja
     - {{ native }}pkg-config
     - {{ compiler('c') }}
-    - {{ stdlib("c") }}
+    - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
-    - python >=2.7
-    - packaging
-    - setuptools <=71
-    - libffi         # [build_platform != target_platfrom]
-    - libintl-devel  # [(build_platform != target_platform) and (not linux)]
-    - zlib           # [build_platform != target_platfrom]
-    - pcre2          # [build_platform != target_platfrom]
-    - libiconv       # [build_platform != target_platfrom]
+    # While python is purely a build tool, the name of the python executable
+    # seems to appear in some shebang lines in the installed code.
+    - python >={{ minimum_python_version }}  # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - packaging                              # [build_platform != target_platform]
+    - setuptools                             # [build_platform != target_platform]
+    - libffi                                 # [build_platform != target_platfrom]
+    - libintl-devel                          # [(build_platform != target_platform) and (not linux)]
+    - zlib                                   # [build_platform != target_platfrom]
+    - pcre2                                  # [build_platform != target_platfrom]
+    - libiconv                               # [build_platform != target_platfrom]
   host:
+    - python >={{ minimum_python_version }}
+    - setuptools
     - libffi
     - libintl-devel  # [not linux]
     - zlib
     - pcre2
     - libiconv
   run:
-    - python >=2.7
+    - python >={{ minimum_python_version }}
 
 outputs:
   - name: libglib
@@ -79,9 +88,9 @@ outputs:
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
-        - python >=2.7
+        - python >={{ minimum_python_version }}
         - packaging
-        - setuptools <=71
+        - setuptools
       host:
         - libffi
         - libintl-devel  # [not linux]
@@ -125,9 +134,9 @@ outputs:
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - ninja
-        - python >=2.7
+        - python >={{ minimum_python_version }}
         - packaging
-        - setuptools <=71
+        - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
         - libintl-devel  # [not linux]
@@ -151,6 +160,8 @@ outputs:
       ignore_run_exports_from:
         - python *
         - {{ compiler('cxx') }}  # [unix]
+        - {{ compiler('c') }}  # [unix]
+        - {{ stdlib('c') }}  # [unix]
         - libiconv
         - pcre2
         - zlib
@@ -173,7 +184,7 @@ outputs:
         - ninja
         - python >=2.7
         - packaging
-        - setuptools <=71
+        - setuptools
       host:
         - {{ pin_subpackage("libglib", exact=True) }}
         - {{ pin_subpackage("glib-tools", exact=True) }}
@@ -205,6 +216,12 @@ outputs:
         - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}             # [unix]
         - glib-compile-resources --help
         - gobject-query --help
+        # hmaarrfk - 2024/10 -- The PREFIX may end up becoming "/usr/bin/env python"
+        # due to the way that conda handles very long shebang lines
+        # https://github.com/conda-forge/glib-feedstock/pull/192#discussion_r1786546999
+        - head -n 1 ${PREFIX}/bin/glib-mkenums | grep -E "^.!(${PREFIX}|/usr/bin/env python)"      # [unix]
+        - head -n 1 ${PREFIX}/bin/glib-genmarshal | grep -E "^.!(${PREFIX}|/usr/bin/env python)"   # [unix]
+        - head -n 1 ${PREFIX}/bin/gtester-report | grep -E "^.!(${PREFIX}|/usr/bin/env python)"    # [unix]
         - gtester --help  # [not win]
         - gdbus-codegen --help  # [not win]
         - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib  # [unix]

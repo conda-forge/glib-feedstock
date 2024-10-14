@@ -219,9 +219,9 @@ outputs:
         # I'm not sure why the PREFIX ends up becoming the /usr/bin/env python
         # but it might be due to some conda replacements
         # hmaarrfk - 2024/10/03
-        - head -n 1 ${PREFIX}/bin/glib-mkenums | grep -E "^#(${PREFIX}|/usr/bin/env python)"      # [unix]
-        - head -n 1 ${PREFIX}/bin/glib-genmarshal | grep -E "^#(${PREFIX}|/usr/bin/env python)"   # [unix]
-        - head -n 1 ${PREFIX}/bin/gtester-report | grep -E "^#(${PREFIX}|/usr/bin/env python)"    # [unix]
+        - head -n 1 ${PREFIX}/bin/glib-mkenums | grep -E "^\#!(${PREFIX}|/usr/bin/env python)"      # [unix]
+        - head -n 1 ${PREFIX}/bin/glib-genmarshal | grep -E "^\#!(${PREFIX}|/usr/bin/env python)"   # [unix]
+        - head -n 1 ${PREFIX}/bin/gtester-report | grep -E "^\#!(${PREFIX}|/usr/bin/env python)"    # [unix]
         - gtester --help  # [not win]
         - gdbus-codegen --help  # [not win]
         - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib  # [unix]

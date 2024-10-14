@@ -216,9 +216,9 @@ outputs:
         - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}             # [unix]
         - glib-compile-resources --help
         - gobject-query --help
-        # I'm not sure why the PREFIX ends up becoming the /usr/bin/env python
-        # but it might be due to some conda replacements
-        # hmaarrfk - 2024/10/03
+        # hmaarrfk - 2024/10 -- The PREFIX may end up becoming "/usr/bin/env python"
+        # due to the way that conda handles very long shebang lines
+        # https://github.com/conda-forge/glib-feedstock/pull/192#discussion_r1786546999
         - head -n 1 ${PREFIX}/bin/glib-mkenums | grep -E "^\#!(${PREFIX}|/usr/bin/env python)"      # [unix]
         - head -n 1 ${PREFIX}/bin/glib-genmarshal | grep -E "^\#!(${PREFIX}|/usr/bin/env python)"   # [unix]
         - head -n 1 ${PREFIX}/bin/gtester-report | grep -E "^\#!(${PREFIX}|/usr/bin/env python)"    # [unix]

@@ -64,6 +64,7 @@ requirements:
     - zlib
     - pcre2
     - libiconv
+    - dbus
   run:
     - python >={{ minimum_python_version }}
 

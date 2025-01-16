@@ -11,3 +11,31 @@ index 67ea9f2..427f2a4 100644
  gdbus_codegen_conf.set('DATADIR', glib_datadir)
  
  # Install gdbus-codegen executable
+
+diff --git a/glib/meson.build b/glib/meson.build
+index 9f1515b820..8733f08745 100644
+--- a/glib/meson.build
++++ b/glib/meson.build
+@@ -505,7 +505,7 @@ endif
+ 
+ report_conf = configuration_data()
+ report_conf.set('GLIB_VERSION', glib_version)
+-report_conf.set('PYTHON', python.full_path())
++report_conf.set('PYTHON', '/usr/bin/env python3')
+ configure_file(
+   input: 'gtester-report.in',
+   output: 'gtester-report',
+
+diff --git a/gobject/meson.build b/gobject/meson.build
+index 78b732bf397..b5bedececd2 100644
+--- a/gobject/meson.build
++++ b/gobject/meson.build
+@@ -87,7 +87,7 @@ python_tools = [
+ 
+ python_tools_conf = configuration_data()
+ python_tools_conf.set('VERSION', glib_version)
+-python_tools_conf.set('PYTHON', python.full_path())
++python_tools_conf.set('PYTHON', '/usr/bin/env python3')
+ 
+ foreach tool: python_tools
+   tool_bin = configure_file(

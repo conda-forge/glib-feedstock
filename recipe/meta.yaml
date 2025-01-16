@@ -26,12 +26,15 @@ source:
     ## "Fixes" for tests that apply to all platforms:
     - patches/0002-crossplatform-test-tweaks.patch
     - patches/0003-Attempt-to-mask-out-qemu-failing-tests.patch                # [ppc64le or aarch64]
+    ## Seems like our CIs are likely incompatible with some dbus tests
+    ## https://github.com/conda-forge/glib-feedstock/pull/199#issuecomment-2578085726
+    - patches/0007-Skip-flaky-tests-on-linux64-CI.patch                        # [linux64]
     ## Windows:
     - patches/0004-Manually-link-with-libiconv-whenever-we-use-libintl..patch  # [win]
     - patches/0005-Increase-some-test-timeouts.patch                           # [win]
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports_from:
     - python *
 

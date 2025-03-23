@@ -9,6 +9,7 @@ meson_config_args=(
      -Dselinux=disabled
      -Dxattr=false
      -Dnls=enabled
+     -Dglib_debug=disabled
 )
 
 # There are a couple of places in the source that hardcode a system prefix;

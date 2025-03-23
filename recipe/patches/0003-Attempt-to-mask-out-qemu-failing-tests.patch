@@ -10,10 +10,10 @@ Subject: [PATCH 3/5] Attempt to mask out qemu failing tests
  3 files changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index b37c47d..9d8d1a7 100644
+index c5ec789..dd1ee06 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -129,6 +129,7 @@ gio_tests = {
+@@ -126,6 +126,7 @@ gio_tests = {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
      'can_fail' : host_system in ['darwin', 'gnu'],
@@ -22,7 +22,7 @@ index b37c47d..9d8d1a7 100644
    'socket-listener' : {},
    'socket-service' : {},
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index 1719968..32580b1 100644
+index 4d2d94b..4e536bd 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -50,7 +50,7 @@ glib_tests = {
@@ -43,7 +43,7 @@ index 1719968..32580b1 100644
    'string' : {
      'c_args' : cc.get_id() == 'gcc' ? ['-Werror=sign-conversion'] : [],
    },
-@@ -193,12 +193,12 @@ glib_tests = {
+@@ -196,12 +196,12 @@ glib_tests = {
      'suite' : ['slow'],
    },
    '642026' : {
@@ -59,10 +59,10 @@ index 1719968..32580b1 100644
  }
  
 diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
-index a163e5f..df7d0c9 100644
+index 268dd5d..2096e5c 100644
 --- a/gobject/tests/meson.build
 +++ b/gobject/tests/meson.build
-@@ -229,7 +229,7 @@ endforeach
+@@ -238,7 +238,7 @@ python_test_env.prepend('PYTHONPATH', python_test_libraries_built)
  
  foreach test_name, extra_args : python_tests
    depends = [extra_args.get('depends', [])]

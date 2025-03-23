@@ -25,10 +25,10 @@ index 0909581..fa16e04 100644
    /* Work out how many dirs we’re dealing with. */
    if (xdg_data_home != NULL || home != NULL)
 diff --git a/glib/gutils.c b/glib/gutils.c
-index 057e2bc..82066c2 100644
+index 8628a56..f88661e 100644
 --- a/glib/gutils.c
 +++ b/glib/gutils.c
-@@ -2695,7 +2695,7 @@ g_build_system_data_dirs (void)
+@@ -2698,7 +2698,7 @@ g_build_system_data_dirs (void)
     */
  #ifndef G_OS_WIN32
    if (!data_dirs || !data_dirs[0])

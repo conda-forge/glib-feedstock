@@ -30,7 +30,7 @@ set "PYTHONIOENCODING=UTF-8"
 @REM See hardcoded-paths.patch
 set "CPPFLAGS=%CPPFLAGS% -D^"%LIBRARY_PREFIX_M%^""
 
-meson setup --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dselinux=disabled -Dxattr=false -Dlibmount=disabled -Dnls=enabled -Dintrospection=enabled ..
+meson setup --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dselinux=disabled -Dxattr=false -Dlibmount=disabled -Dnls=enabled -Dglib_debug=disabled -Dintrospection=enabled ..
 if errorlevel 1 exit 1
 
 ninja

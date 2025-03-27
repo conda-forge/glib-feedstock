@@ -2,9 +2,24 @@
 
 set -exuo pipefail
 
+# Reproduce the environment from `build.sh` since the Ninja command below
+# will cause Meson to rerun its configuration checks.
+export CPPFLAGS="$CPPFLAGS -DCONDA_PREFIX=\\\"$PREFIX\\\""
+export PYTHON="python"
 unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
+export GIR_PREFIX=$(pwd)/g-ir-prefix
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:${GIR_PREFIX}/lib/pkgconfig"
+
+# The _build_env is recreated for the different output packages,
+# so we need to recreate this too:
+cat <<EOF >$BUILD_PREFIX/bin/g-ir-scanner
+#!/bin/bash
+exec ${GIR_PREFIX}/bin/g-ir-scanner \$*
+EOF
+chmod +x $BUILD_PREFIX/bin/g-ir-scanner
 
 ninja -C builddir install || (cat meson-logs/meson-log.txt; false)
+
 # remove libtool files
 find $PREFIX -name '*.la' -delete
 

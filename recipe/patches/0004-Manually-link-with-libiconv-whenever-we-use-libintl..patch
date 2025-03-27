@@ -29,10 +29,10 @@ index 6699f10..1011270 100644
    pic : true,
    c_args : [gio_c_args, gio_c_args_internal])
 diff --git a/glib/gconvert.c b/glib/gconvert.c
-index e0cbdcf..c109111 100644
+index c6a2441..1ef2bb3 100644
 --- a/glib/gconvert.c
 +++ b/glib/gconvert.c
-@@ -23,18 +23,12 @@
+@@ -23,19 +23,12 @@
  #include "config.h"
  #include "glibconfig.h"
  
@@ -45,17 +45,18 @@ index e0cbdcf..c109111 100644
  #include <stdlib.h>
  
 -#ifdef G_OS_WIN32
+-#include <windows.h>
 -#include "win_iconv.c"
 -#endif
 -
- #ifdef G_PLATFORM_WIN32
- #define STRICT
- #include <windows.h>
+ #include "gconvert.h"
+ #include "gconvertprivate.h"
+ 
 diff --git a/meson.build b/meson.build
-index c659096..695f8b1 100644
+index ddd0998..6d24906 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2191,7 +2191,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
+@@ -2216,7 +2216,7 @@ glibconfig_conf.set10('G_HAVE_GROWING_STACK', growing_stack)
  # We should never use the MinGW C library's iconv because it may not be
  # available in the actual runtime environment. On Windows, we always use
  # the built-in implementation
@@ -64,7 +65,7 @@ index c659096..695f8b1 100644
    # We have a #include "win_iconv.c" in gconvert.c on Windows, so we don't need
    # any external library for it
    libiconv = []
-@@ -2274,8 +2274,8 @@ if libintl.found() and libintl.type_name() != 'internal'
+@@ -2303,8 +2303,8 @@ if libintl.found() and libintl.type_name() != 'internal'
    #
    # Meson's builtin dependency lookup as of 0.60.0 doesn't check for
    # pthread, so we do this manually here.

@@ -13,7 +13,7 @@ Co-authored-by: Peter Williams <peter@newton.cx>
  5 files changed, 5 insertions(+), 45 deletions(-)
 
 diff --git a/gio/tests/file.c b/gio/tests/file.c
-index 2967406..4a46d4b 100644
+index 0ef75df..17c9901 100644
 --- a/gio/tests/file.c
 +++ b/gio/tests/file.c
 @@ -4399,11 +4399,15 @@ main (int argc, char *argv[])
@@ -33,10 +33,10 @@ index 2967406..4a46d4b 100644
    g_test_add_func ("/file/from-uri/ignores-query-string", test_from_uri_ignores_query_string);
    g_test_add_func ("/file/from-uri/ignores-fragment", test_from_uri_ignores_fragment);
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index f2c11e3..b37c47d 100644
+index 26091b6..c5ec789 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -343,24 +343,6 @@ if host_machine.system() != 'windows'
+@@ -346,24 +346,6 @@ if host_machine.system() != 'windows'
      }
    endif
  
@@ -61,7 +61,7 @@ index f2c11e3..b37c47d 100644
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
-@@ -590,23 +572,6 @@ if host_machine.system() != 'windows'
+@@ -620,23 +602,6 @@ if host_machine.system() != 'windows'
        'extra_sources' : ['gdbus-tests.c', 'test-io-stream.c', 'test-pipe-unix.c'],
      },
    }
@@ -98,10 +98,10 @@ index 56be804..d658c6b 100644
    g_test_add_func ("/fileutils/clear-fd", test_clear_fd);
    g_test_add_func ("/fileutils/clear-fd/subprocess/ebadf", test_clear_fd_ebadf);
 diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
-index d46f653..cf411e6 100644
+index b061c91..96ed709 100644
 --- a/glib/tests/gdatetime.c
 +++ b/glib/tests/gdatetime.c
-@@ -3492,18 +3492,9 @@ main (gint   argc,
+@@ -3534,18 +3534,9 @@ main (gint   argc,
    g_test_add_func ("/GDateTime/non_utf8_printf", test_non_utf8_printf);
    g_test_add_func ("/GDateTime/format_unrepresentable", test_format_unrepresentable);
    g_test_add_func ("/GDateTime/format_iso8601", test_format_iso8601);
@@ -121,7 +121,7 @@ index d46f653..cf411e6 100644
    g_test_add_func ("/GDateTime/strftime/error_handling", test_GDateTime_strftime_error_handling);
    g_test_add_func ("/GDateTime/modifiers", test_modifiers);
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index ffa9314..1719968 100644
+index b101b06..4d2d94b 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -31,6 +31,7 @@ glib_tests = {

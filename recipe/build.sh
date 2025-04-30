@@ -27,7 +27,7 @@ unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 # * https://gitlab.gnome.org/GNOME/gobject-introspection/-/merge_requests/433
 # * https://gitlab.gnome.org/GNOME/glib/-/issues/2616
 export GIR_PREFIX=$(pwd)/g-ir-prefix
-conda create -p ${GIR_PREFIX} -y g-ir-build-tools gobject-introspection
+conda create -p ${GIR_PREFIX} -y g-ir-build-tools gobject-introspection setuptools
 
 cat <<EOF > $BUILD_PREFIX/bin/g-ir-scanner
 #!/bin/bash

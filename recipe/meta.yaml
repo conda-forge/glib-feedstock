@@ -49,10 +49,11 @@ requirements:
     - {{ compiler('cxx') }}
     # While python is purely a build tool, the name of the python executable
     # seems to appear in some shebang lines in the installed code.
-    - python >={{ minimum_python_version }}  # [build_platform != target_platform]
+    # We omit the cross-guard here as the build python is also used in g-ir-scanner
+    - python >={{ minimum_python_version }}
+    - setuptools
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - packaging                              # [build_platform != target_platform]
-    - setuptools                             # [build_platform != target_platform]
     - libffi                                 # [build_platform != target_platfrom]
     - libintl-devel                          # [(build_platform != target_platform) and (not linux)]
     - zlib                                   # [build_platform != target_platfrom]

@@ -9,6 +9,8 @@ Package license: LGPL-2.1-or-later
 
 Summary: Provides core application building blocks for libraries and applications written in C.
 
+Development: https://gitlab.gnome.org/GNOME/glib/
+
 Current build status
 ====================
 

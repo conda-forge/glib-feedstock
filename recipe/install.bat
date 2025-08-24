@@ -40,7 +40,7 @@ if NOT [%PKG_NAME%] == [glib] (
   del %LIBRARY_PREFIX%\bin\gtester*
   if errorlevel 1 exit 1
 
-  if NOT [%PKG_NAME%] == [libglib] (
+  if NOT [%PKG_NAME%] == [libglib] if NOT [%PKG_NAME%] == [glib-tools] (
     rmdir /s /q %LIBRARY_PREFIX%\include\gio-win32-2.0
     if errorlevel 1 exit 1
     rmdir /s /q %LIBRARY_PREFIX%\include\glib-2.0
@@ -49,29 +49,33 @@ if NOT [%PKG_NAME%] == [glib] (
 
   rmdir /s /q %LIBRARY_PREFIX%\lib\glib-2.0\include
   if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\lib\pkgconfig\gio-*
-  if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\lib\pkgconfig\glib-*
-  if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\lib\pkgconfig\gmodule-*
-  if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\lib\pkgconfig\gobject-*
-  if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\lib\pkgconfig\gthread-*
-  if errorlevel 1 exit 1
-  if NOT [%PKG_NAME%] == [libglib] (
+  if NOT [%PKG_NAME%] == [glib-tools] (
+    del %LIBRARY_PREFIX%\lib\pkgconfig\gio-*
+    if errorlevel 1 exit 1
+    del %LIBRARY_PREFIX%\lib\pkgconfig\glib-*
+    if errorlevel 1 exit 1
+    del %LIBRARY_PREFIX%\lib\pkgconfig\gmodule-*
+    if errorlevel 1 exit 1
+    del %LIBRARY_PREFIX%\lib\pkgconfig\gobject-*
+    if errorlevel 1 exit 1
+    del %LIBRARY_PREFIX%\lib\pkgconfig\gthread-*
+    if errorlevel 1 exit 1
+  )
+  if NOT [%PKG_NAME%] == [glib-tools] if NOT [%PKG_NAME%] == [libglib] (
     del %LIBRARY_PREFIX%\lib\pkgconfig\girepository-*
     if errorlevel 1 exit 1
   )
 
-  del %LIBRARY_PREFIX%\share\aclocal\glib-*
-  if errorlevel 1 exit 1
-  del %LIBRARY_PREFIX%\share\aclocal\gsettings.m4
-  if errorlevel 1 exit 1
-  rmdir /s /q %LIBRARY_PREFIX%\share\gettext\its
-  if errorlevel 1 exit 1
-  rmdir /s /q %LIBRARY_PREFIX%\share\glib-2.0
-  if errorlevel 1 exit 1
+  if NOT [%PKG_NAME%] == [glib-tools] (
+    del %LIBRARY_PREFIX%\share\aclocal\glib-*
+    if errorlevel 1 exit 1
+    del %LIBRARY_PREFIX%\share\aclocal\gsettings.m4
+    if errorlevel 1 exit 1
+    rmdir /s /q %LIBRARY_PREFIX%\share\gettext\its
+    if errorlevel 1 exit 1
+    rmdir /s /q %LIBRARY_PREFIX%\share\glib-2.0
+    if errorlevel 1 exit 1
+  )
 ) else (
   @rem intl.lib is currently statically linked and thus should not be mentioned as a hard dependency.
   @rem Remove this once we are linking it dynamically.

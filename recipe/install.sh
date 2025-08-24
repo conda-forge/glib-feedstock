@@ -70,18 +70,17 @@ fi
 if [[ "$PKG_NAME" == glib-tools ]]; then
     mv .keep/* $PREFIX/bin
 fi
-if [[ "$PKG_NAME" != libglib ]]; then
-    rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*
-fi
 rm -r $PREFIX/lib/glib-*
-if [[ "$PKG_NAME" != libglib ]]; then
-    rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio,girepository}-2.0${SHLIB_EXT}
-else
+
+if [[ "$PKG_NAME" == "libglib" ]]; then
     rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio}-2.0${SHLIB_EXT}
+elif [[ "$PKG_NAME" != "glib-tools" ]]; then
+    rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*
+    rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio,girepository}-2.0${SHLIB_EXT}
+    rm -r $PREFIX/share/aclocal/{glib-*,gsettings*}
+    rm -r $PREFIX/share/gettext/its
+    rm -r $PREFIX/share/glib-*
 fi
-rm -r $PREFIX/share/aclocal/{glib-*,gsettings*}
-rm -r $PREFIX/share/gettext/its
-rm -r $PREFIX/share/glib-*
 
 # Manually install introspection data during cross-compilation
 # These files are the only difference when running with a different setting of -Dintrospection

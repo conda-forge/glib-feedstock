@@ -40,11 +40,13 @@ if NOT [%PKG_NAME%] == [glib] (
   del %LIBRARY_PREFIX%\bin\gtester*
   if errorlevel 1 exit 1
 
-  if NOT [%PKG_NAME%] == [libglib] if NOT [%PKG_NAME%] == [glib-tools] (
-    rmdir /s /q %LIBRARY_PREFIX%\include\gio-win32-2.0
-    if errorlevel 1 exit 1
-    rmdir /s /q %LIBRARY_PREFIX%\include\glib-2.0
-    if errorlevel 1 exit 1
+  if NOT [%PKG_NAME%] == [libglib] (
+    if NOT [%PKG_NAME%] == [glib-tools] (
+      rmdir /s /q %LIBRARY_PREFIX%\include\gio-win32-2.0
+      if errorlevel 1 exit 1
+      rmdir /s /q %LIBRARY_PREFIX%\include\glib-2.0
+      if errorlevel 1 exit 1
+    )
   )
 
   rmdir /s /q %LIBRARY_PREFIX%\lib\glib-2.0\include
@@ -60,13 +62,12 @@ if NOT [%PKG_NAME%] == [glib] (
     if errorlevel 1 exit 1
     del %LIBRARY_PREFIX%\lib\pkgconfig\gthread-*
     if errorlevel 1 exit 1
-  )
-  if NOT [%PKG_NAME%] == [glib-tools] if NOT [%PKG_NAME%] == [libglib] (
-    del %LIBRARY_PREFIX%\lib\pkgconfig\girepository-*
-    if errorlevel 1 exit 1
-  )
-
-  if NOT [%PKG_NAME%] == [glib-tools] (
+    
+    if NOT [%PKG_NAME%] == [libglib] (
+      del %LIBRARY_PREFIX%\lib\pkgconfig\girepository-*
+      if errorlevel 1 exit 1
+    )
+    
     del %LIBRARY_PREFIX%\share\aclocal\glib-*
     if errorlevel 1 exit 1
     del %LIBRARY_PREFIX%\share\aclocal\gsettings.m4

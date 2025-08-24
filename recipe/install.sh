@@ -63,13 +63,22 @@ else
     done
 fi
 
-rm $PREFIX/bin/{gdbus*,glib-*,gobject*,gtester*,gi-*}
+rm $PREFIX/bin/{gdbus*,glib-*,gobject*,gtester*}
+if [[ "$PKG_NAME" != glib-tools ]]; then
+    rm $PREFIX/bin/gi-* || true
+fi
 if [[ "$PKG_NAME" == glib-tools ]]; then
     mv .keep/* $PREFIX/bin
 fi
-rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*
+if [[ "$PKG_NAME" != libglib ]]; then
+    rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*
+fi
 rm -r $PREFIX/lib/glib-*
-rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio}-2.0${SHLIB_EXT}
+if [[ "$PKG_NAME" != libglib ]]; then
+    rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio,girepository}-2.0${SHLIB_EXT}
+else
+    rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio}-2.0${SHLIB_EXT}
+fi
 rm -r $PREFIX/share/aclocal/{glib-*,gsettings*}
 rm -r $PREFIX/share/gettext/its
 rm -r $PREFIX/share/glib-*

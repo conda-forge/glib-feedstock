@@ -33,7 +33,7 @@ source:
     - patches/0005-Increase-some-test-timeouts.patch                           # [win]
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports_from:
     - python *
 
@@ -117,6 +117,14 @@ outputs:
         - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib   # [unix]
         - if not exist %LIBRARY_PREFIX%\share\gir-1.0\GLib-2.0.gir exit 1             # [win]
         - if not exist %LIBRARY_PREFIX%\lib\girepository-1.0\GLib-2.0.typelib exit 1  # [win]
+        # libgirepository-2.0 library and pkg-config
+        - test -f ${PREFIX}/lib/libgirepository-2.0{{ SHLIB_EXT }}  # [unix]
+        - test -f ${PREFIX}/lib/pkgconfig/girepository-2.0.pc  # [unix]
+        - if not exist %LIBRARY_PREFIX%\lib\girepository-2.0.lib exit 1  # [win]
+        - if not exist %LIBRARY_PREFIX%\lib\pkgconfig\girepository-2.0.pc exit 1  # [win]
+        # libgirepository-2.0 headers
+        - test -f ${PREFIX}/include/glib-2.0/girepository/girepository.h  # [unix]
+        - if not exist %LIBRARY_PREFIX%\include\glib-2.0\girepository\girepository.h exit 1  # [win]
   - name: glib-tools
     script: install.sh  # [unix]
     script: install.bat  # [not unix]
@@ -156,6 +164,9 @@ outputs:
         - gio-querymodules .
         - glib-compile-schemas --help
         - gresource help
+        - gi-compile-repository --help
+        - gi-decompile-typelib --help
+        - gi-inspect-typelib --help
   - name: glib
     script: install.sh  # [unix]
     script: install.bat  # [not unix]

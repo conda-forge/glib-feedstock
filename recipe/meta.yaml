@@ -155,6 +155,7 @@ outputs:
         - zlib
       run:
         - {{ pin_subpackage("libglib", exact=True) }}
+        - libffi
     test:
       commands:
         # Check that binaries can run -- instigated by Meson Linux rpath issue
@@ -179,6 +180,7 @@ outputs:
         - libiconv
         - pcre2
         - zlib
+        - libffi
         - m2-sed  # [win]
       ignore_run_exports:
         # This is intentional to workaround conda-build's overdependening checks.

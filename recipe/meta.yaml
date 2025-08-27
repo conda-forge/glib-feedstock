@@ -88,7 +88,7 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
-        - {{ stdlib("c") }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
         - ninja
         - python >={{ minimum_python_version }}
@@ -134,7 +134,7 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
-        - {{ stdlib("c") }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
         - ninja
         - python >={{ minimum_python_version }}
@@ -182,7 +182,7 @@ outputs:
         - ninja
         - {{ native }}pkg-config
         - {{ compiler('c') }}
-        - {{ stdlib("c") }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
         - ninja
         - python >=2.7

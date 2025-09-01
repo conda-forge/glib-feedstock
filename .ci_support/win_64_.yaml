@@ -15,7 +15,7 @@ libffi:
 libiconv:
 - '1'
 pcre2:
-- '10.45'
+- '10.46'
 target_platform:
 - win-64
 zlib:

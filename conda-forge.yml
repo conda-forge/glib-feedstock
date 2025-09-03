@@ -11,3 +11,6 @@ github:
   branch_name: main
   tooling_branch_name: main
 test: native_and_emulated
+bot:
+  version_updates:
+    even_odd_versions: true

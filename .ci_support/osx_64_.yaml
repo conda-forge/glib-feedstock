@@ -21,7 +21,7 @@ cxx_compiler_version:
 glib:
 - '2'
 libffi:
-- '3.4'
+- '3.5'
 libiconv:
 - '1'
 macos_machine:

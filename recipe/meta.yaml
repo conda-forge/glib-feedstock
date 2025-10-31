@@ -31,7 +31,6 @@ source:
     ## Windows:
     - patches/0004-Manually-link-with-libiconv-whenever-we-use-libintl..patch  # [win]
     - patches/0005-Increase-some-test-timeouts.patch                           # [win]
-    - patches/0006-gio-tests-socket-listener-Depend-on-libdl.patch
 
 build:
   number: 0

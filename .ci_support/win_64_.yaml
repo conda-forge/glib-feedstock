@@ -9,11 +9,11 @@ channel_targets:
 cxx_compiler:
 - vs2022
 libffi:
-- '3.4'
+- '3.5'
 libiconv:
 - '1'
 pcre2:
-- '10.45'
+- '10.47'
 target_platform:
 - win-64
 zlib:

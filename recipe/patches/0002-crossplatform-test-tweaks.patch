@@ -13,10 +13,10 @@ Co-authored-by: Peter Williams <peter@newton.cx>
  5 files changed, 5 insertions(+), 45 deletions(-)
 
 diff --git a/gio/tests/file.c b/gio/tests/file.c
-index 0ef75df..17c9901 100644
+index 6df726e..d546b8b 100644
 --- a/gio/tests/file.c
 +++ b/gio/tests/file.c
-@@ -4399,11 +4399,15 @@ main (int argc, char *argv[])
+@@ -4418,11 +4418,15 @@ main (int argc, char *argv[])
    g_test_add_func ("/file/build-attribute-list-for-copy", test_build_attribute_list_for_copy);
    g_test_add_func ("/file/move_async", test_move_async);
    g_test_add_func ("/file/move-async-with-closures", test_move_async_with_closures);
@@ -33,10 +33,10 @@ index 0ef75df..17c9901 100644
    g_test_add_func ("/file/from-uri/ignores-query-string", test_from_uri_ignores_query_string);
    g_test_add_func ("/file/from-uri/ignores-fragment", test_from_uri_ignores_fragment);
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 26091b6..c5ec789 100644
+index 0044121..5094d59 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -346,24 +346,6 @@ if host_machine.system() != 'windows'
+@@ -362,24 +362,6 @@ if host_machine.system() != 'windows'
      }
    endif
  
@@ -61,7 +61,7 @@ index 26091b6..c5ec789 100644
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
-@@ -620,23 +602,6 @@ if host_machine.system() != 'windows'
+@@ -636,23 +618,6 @@ if host_machine.system() != 'windows'
        'extra_sources' : ['gdbus-tests.c', 'test-io-stream.c', 'test-pipe-unix.c'],
      },
    }
@@ -86,10 +86,10 @@ index 26091b6..c5ec789 100644
  
  #  Test programs buildable on Windows only
 diff --git a/glib/tests/fileutils.c b/glib/tests/fileutils.c
-index 56be804..d658c6b 100644
+index b0f9994..112a0d1 100644
 --- a/glib/tests/fileutils.c
 +++ b/glib/tests/fileutils.c
-@@ -2772,7 +2772,6 @@ main (int   argc,
+@@ -2808,7 +2808,6 @@ main (int   argc,
    g_test_add_func ("/fileutils/set-contents-full/read-only-file", test_set_contents_full_read_only_file);
    g_test_add_func ("/fileutils/set-contents-full/read-only-directory", test_set_contents_full_read_only_directory);
    g_test_add_func ("/fileutils/read-link", test_read_link);
@@ -121,7 +121,7 @@ index b061c91..96ed709 100644
    g_test_add_func ("/GDateTime/strftime/error_handling", test_GDateTime_strftime_error_handling);
    g_test_add_func ("/GDateTime/modifiers", test_modifiers);
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index b101b06..4d2d94b 100644
+index 564497c..f856dc8 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -31,6 +31,7 @@ glib_tests = {

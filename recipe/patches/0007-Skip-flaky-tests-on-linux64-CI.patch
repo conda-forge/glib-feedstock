@@ -9,18 +9,18 @@ Subject: [PATCH] Skip flaky tests on linux64 CI
  2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index dd1ee06..f8992d5 100644
+index 8715870..b57a374 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -97,6 +97,7 @@ gio_tests = {
+@@ -98,6 +98,7 @@ gio_tests = {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
      'can_fail' : host_system in ['darwin', 'windows', 'gnu'],
 +    'suite': ['flaky'],
    },
+   'file-enumerator' : {},
    'inet-address' : {},
-   'io-stream' : {},
-@@ -151,6 +152,7 @@ gio_tests = {
+@@ -155,6 +156,7 @@ gio_tests = {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
      'can_fail' : host_system in ['darwin', 'gnu'],
@@ -29,7 +29,7 @@ index dd1ee06..f8992d5 100644
    'win32-appinfo' : {},
  }
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index 4e536bd..7175ad5 100644
+index 4089d1d..42583ac 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -42,7 +42,7 @@ glib_tests = {

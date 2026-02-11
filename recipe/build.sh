@@ -58,7 +58,15 @@ exec ${GIR_PREFIX}/bin/python3 ${GIR_PREFIX}/bin/g-ir-scanner "\$@"
 EOF
 chmod +x $BUILD_PREFIX/bin/g-ir-scanner
 
-# Ensure that pkg-config checks for gobject-introspection-1.0 will work.
+# The glib build system currently finds g-ir-scanner *both* by searching $PATH
+# and by asking pkg-config. We need to override the pkg-config mechanism in
+# order to ensure that the wrapper script is used.
+sed -e "s|g_ir_scanner=.*|g_ir_scanner=${BUILD_PREFIX}/bin/g-ir-scanner|" \
+  <${GIR_PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc \
+  >${PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc
+
+# ... but, we still need to add the GIR environment to the pkg-config search
+# path, to pull in deps of the gobject-introspection (namely, glib)
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:${GIR_PREFIX}/lib/pkgconfig"
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
@@ -73,6 +81,9 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
     export NM="$($CC_FOR_BUILD -print-prog-name=nm)"
     export OBJCOPY="$($CC_FOR_BUILD -print-prog-name=objcopy)"
     export LDFLAGS="${LDFLAGS//$PREFIX/$BUILD_PREFIX} -liconv"
+
+    # We need to reproduce the introspection/pkg-config fiddling here.
+    cp ${PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc ${BUILD_PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc
     export PKG_CONFIG_PATH="${BUILD_PREFIX}/lib/pkgconfig:${GIR_PREFIX}/lib/pkgconfig"
 
     # Unset them as we're ok with builds that are either slow or non-portable

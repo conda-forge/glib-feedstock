@@ -2,7 +2,19 @@
 
 set "GIR_PREFIX=%cd%\g-ir-prefix"
 
+@REM See `build.sh` for a general description of how we handle the circular
+@REM dependency between glib and gobject-introspection.
 call conda create -p %GIR_PREFIX% -y g-ir-build-tools gobject-introspection glib
+if errorlevel 1 exit 1
+
+@REM As on Linux/Mac, we need to make sure that g-ir-scanner is invoked by the Python
+@REM interpreter associated with its environment. Our approach here is to replace
+@REM the pure-Python script with a simple batch wrapper.
+ren %GIR_PREFIX%\Library\bin\g-ir-scanner g-ir-scanner.py
+if errorlevel 1 exit 1
+
+@REM `%%^*` works out to `%*` in the final batch file, which forwards the input arguments
+echo %GIR_PREFIX%\python.exe %GIR_PREFIX%\Library\bin\g-ir-scanner.py %%^* >%GIR_PREFIX%\Library\bin\g-ir-scanner.bat
 if errorlevel 1 exit 1
 
 set "PATH=%PATH%;%GIR_PREFIX%\Library;%GIR_PREFIX%\Library\bin"

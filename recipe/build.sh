@@ -23,18 +23,50 @@ export PYTHON="python"
 unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 
 # There is currently a cyclic dependency between glib and gobject-introspection:
+#
 # * https://discourse.gnome.org/t/dealing-with-glib-and-gobject-introspection-circular-dependency/18701
 # * https://gitlab.gnome.org/GNOME/gobject-introspection/-/merge_requests/433
 # * https://gitlab.gnome.org/GNOME/glib/-/issues/2616
+#
+# If we were doing this build in isolation, we'd have to build glib without
+# introspection, then build gobject-introspection against that glib, then
+# rebuild glib *with* introspection. But because we're plugged into the Conda
+# ecosystem, we can save some effort by installing an existing
+# gobject-introspection package (which depends on an existing glib package) in a
+# separate environment.
+#
+# The g-ir-scanner tool needs to be able to execute our compilers, so we have to
+# do some work to be able to run it inside the current build environment even
+# though it is installed into a different environment.
+#
+# Note: the `libgirepository` package built in the gobject-introspection
+# feedstock provides the `libgirepository-1.0` library. Our `libglib` output
+# package now provides `libgirepository-2.0`. This is a necessary part of the
+# effort to break the dependency cycle but is certainly confusing.
+
 export GIR_PREFIX=$(pwd)/g-ir-prefix
+
 conda create -p ${GIR_PREFIX} -y g-ir-build-tools gobject-introspection
 
-cat <<EOF > $BUILD_PREFIX/bin/g-ir-scanner
+# We don't want to add the GIR environment entirely to our path, to avoid
+# confusing our build environment, but g-ir-scanner needs to be findable, and it
+# needs to be launched by its own Python interpreter. So we need a wrapper
+# script.
+cat <<EOF >$BUILD_PREFIX/bin/g-ir-scanner
 #!/bin/bash
-
-exec ${GIR_PREFIX}/bin/g-ir-scanner \$*
+exec ${GIR_PREFIX}/bin/python3 ${GIR_PREFIX}/bin/g-ir-scanner "\$@"
 EOF
 chmod +x $BUILD_PREFIX/bin/g-ir-scanner
+
+# The glib build system currently finds g-ir-scanner *both* by searching $PATH
+# and by asking pkg-config. We need to override the pkg-config mechanism in
+# order to ensure that the wrapper script is used.
+sed -e "s|g_ir_scanner=.*|g_ir_scanner=${BUILD_PREFIX}/bin/g-ir-scanner|" \
+  <${GIR_PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc \
+  >${PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc
+
+# ... but, we still need to add the GIR environment to the pkg-config search
+# path, to pull in deps of the gobject-introspection (namely, glib)
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:${GIR_PREFIX}/lib/pkgconfig"
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
@@ -49,6 +81,9 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
     export NM="$($CC_FOR_BUILD -print-prog-name=nm)"
     export OBJCOPY="$($CC_FOR_BUILD -print-prog-name=objcopy)"
     export LDFLAGS="${LDFLAGS//$PREFIX/$BUILD_PREFIX} -liconv"
+
+    # We need to reproduce the introspection/pkg-config fiddling here.
+    cp ${PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc ${BUILD_PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc
     export PKG_CONFIG_PATH="${BUILD_PREFIX}/lib/pkgconfig:${GIR_PREFIX}/lib/pkgconfig"
 
     # Unset them as we're ok with builds that are either slow or non-portable

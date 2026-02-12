@@ -10,15 +10,15 @@ unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 export GIR_PREFIX=$(pwd)/g-ir-prefix
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:${GIR_PREFIX}/lib/pkgconfig"
 
-# The _build_env is recreated for the different output packages,
-# so we need to recreate this too:
+# The build environment is recreated for the different output packages,
+# so we need to recreate this too (see `build.sh` for details):
 cat <<EOF >$BUILD_PREFIX/bin/g-ir-scanner
 #!/bin/bash
-exec ${GIR_PREFIX}/bin/g-ir-scanner \$*
+exec ${GIR_PREFIX}/bin/python3 ${GIR_PREFIX}/bin/g-ir-scanner "\$@"
 EOF
 chmod +x $BUILD_PREFIX/bin/g-ir-scanner
 
-ninja -C builddir install || (cat meson-logs/meson-log.txt; false)
+ninja -C builddir install || (cat builddir/meson-logs/meson-log.txt; false)
 
 # remove libtool files
 find $PREFIX -name '*.la' -delete
@@ -63,16 +63,24 @@ else
     done
 fi
 
-rm $PREFIX/bin/{gdbus*,glib-*,gobject*,gtester*,gi-*}
+rm $PREFIX/bin/{gdbus*,glib-*,gobject*,gtester*}
+if [[ "$PKG_NAME" != glib-tools ]]; then
+    rm $PREFIX/bin/gi-* || true
+fi
 if [[ "$PKG_NAME" == glib-tools ]]; then
     mv .keep/* $PREFIX/bin
 fi
-rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*
 rm -r $PREFIX/lib/glib-*
-rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio}-2.0${SHLIB_EXT}
-rm -r $PREFIX/share/aclocal/{glib-*,gsettings*}
-rm -r $PREFIX/share/gettext/its
-rm -r $PREFIX/share/glib-*
+
+if [[ "$PKG_NAME" == "libglib" ]]; then
+    rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio}-2.0${SHLIB_EXT}
+elif [[ "$PKG_NAME" != "glib-tools" ]]; then
+    rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*
+    rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio,girepository}-2.0${SHLIB_EXT}
+    rm -r $PREFIX/share/aclocal/{glib-*,gsettings*}
+    rm -r $PREFIX/share/gettext/its
+    rm -r $PREFIX/share/glib-*
+fi
 
 # Manually install introspection data during cross-compilation
 # These files are the only difference when running with a different setting of -Dintrospection

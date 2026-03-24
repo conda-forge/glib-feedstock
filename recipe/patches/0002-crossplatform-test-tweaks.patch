@@ -1,22 +1,23 @@
-From 6b9ea34f80593a7138e606bc25306620f5c21834 Mon Sep 17 00:00:00 2001
+From 100c0b40711a2bb413769a547df71a44227e6d7e Mon Sep 17 00:00:00 2001
 From: Uwe Korn <uwelk@xhochy.com>
 Date: Mon, 26 Aug 2024 14:02:52 +0000
-Subject: [PATCH 2/5] crossplatform test tweaks
+Subject: [PATCH 2/6] crossplatform test tweaks
 
 Co-authored-by: Peter Williams <peter@newton.cx>
 ---
  gio/tests/file.c       |  4 ++++
- gio/tests/meson.build  | 35 -----------------------------------
+ gio/tests/meson.build  | 36 ------------------------------------
  glib/tests/fileutils.c |  1 -
  glib/tests/gdatetime.c |  9 ---------
  glib/tests/meson.build |  1 +
- 5 files changed, 5 insertions(+), 45 deletions(-)
+ glib/tests/unix.c      |  2 +-
+ 6 files changed, 6 insertions(+), 47 deletions(-)
 
 diff --git a/gio/tests/file.c b/gio/tests/file.c
-index 6df726e..d546b8b 100644
+index 57d71f7..adf8320 100644
 --- a/gio/tests/file.c
 +++ b/gio/tests/file.c
-@@ -4418,11 +4418,15 @@ main (int argc, char *argv[])
+@@ -4532,11 +4532,15 @@ main (int argc, char *argv[])
    g_test_add_func ("/file/build-attribute-list-for-copy", test_build_attribute_list_for_copy);
    g_test_add_func ("/file/move_async", test_move_async);
    g_test_add_func ("/file/move-async-with-closures", test_move_async_with_closures);
@@ -33,10 +34,10 @@ index 6df726e..d546b8b 100644
    g_test_add_func ("/file/from-uri/ignores-query-string", test_from_uri_ignores_query_string);
    g_test_add_func ("/file/from-uri/ignores-fragment", test_from_uri_ignores_fragment);
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 0044121..5094d59 100644
+index 9bd0d30..8e35143 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -362,24 +362,6 @@ if host_machine.system() != 'windows'
+@@ -368,17 +368,6 @@ if host_machine.system() != 'windows'
      }
    endif
  
@@ -48,20 +49,28 @@ index 0044121..5094d59 100644
 -        'install' : false,
 -        'extra_programs' : ['appinfo-test'],
 -      },
--      'desktop-app-info' : {
--        'install' : false,
--        'depends' : gio_launch_desktop,
--        'extra_programs' : ['apps', 'appinfo-test'],
--        # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
--        'can_fail' : host_system == 'gnu',
--      },
 -    }
 -  endif
 -
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
-@@ -636,23 +618,6 @@ if host_machine.system() != 'windows'
+@@ -622,14 +611,6 @@ if host_machine.system() != 'windows'
+         'dbus-appinfo' : {
+           'extra_sources' : [extra_sources, fake_document_portal_sources],
+         },
+-        'desktop-app-info' : {
+-          'install' : false,
+-          'depends' : gio_launch_desktop,
+-          'extra_programs' : ['apps', 'appinfo-test', 'snapinfo-test'],
+-          # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
+-          'can_fail' : host_system == 'gnu',
+-          'extra_sources' : [extra_sources, fake_document_portal_sources],
+-        },
+       }
+     endif
+ 
+@@ -654,23 +635,6 @@ if host_machine.system() != 'windows'
        'extra_sources' : ['gdbus-tests.c', 'test-io-stream.c', 'test-pipe-unix.c'],
      },
    }
@@ -86,10 +95,10 @@ index 0044121..5094d59 100644
  
  #  Test programs buildable on Windows only
 diff --git a/glib/tests/fileutils.c b/glib/tests/fileutils.c
-index b0f9994..112a0d1 100644
+index e79b462..75df91e 100644
 --- a/glib/tests/fileutils.c
 +++ b/glib/tests/fileutils.c
-@@ -2808,7 +2808,6 @@ main (int   argc,
+@@ -2825,7 +2825,6 @@ main (int   argc,
    g_test_add_func ("/fileutils/set-contents-full/read-only-file", test_set_contents_full_read_only_file);
    g_test_add_func ("/fileutils/set-contents-full/read-only-directory", test_set_contents_full_read_only_directory);
    g_test_add_func ("/fileutils/read-link", test_read_link);
@@ -98,10 +107,10 @@ index b0f9994..112a0d1 100644
    g_test_add_func ("/fileutils/clear-fd", test_clear_fd);
    g_test_add_func ("/fileutils/clear-fd/subprocess/ebadf", test_clear_fd_ebadf);
 diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
-index b061c91..96ed709 100644
+index 08e4075..5d53d59 100644
 --- a/glib/tests/gdatetime.c
 +++ b/glib/tests/gdatetime.c
-@@ -3534,18 +3534,9 @@ main (gint   argc,
+@@ -3754,18 +3754,9 @@ main (gint   argc,
    g_test_add_func ("/GDateTime/non_utf8_printf", test_non_utf8_printf);
    g_test_add_func ("/GDateTime/format_unrepresentable", test_format_unrepresentable);
    g_test_add_func ("/GDateTime/format_iso8601", test_format_iso8601);
@@ -121,7 +130,7 @@ index b061c91..96ed709 100644
    g_test_add_func ("/GDateTime/strftime/error_handling", test_GDateTime_strftime_error_handling);
    g_test_add_func ("/GDateTime/modifiers", test_modifiers);
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index 564497c..f856dc8 100644
+index 0ffe59f..9fdf5cc 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -31,6 +31,7 @@ glib_tests = {
@@ -131,9 +140,9 @@ index 564497c..f856dc8 100644
 +    'suite': ['flaky'],
    },
    'dir' : {},
-   'environment' : {
+   'environment' : {},
 diff --git a/glib/tests/unix.c b/glib/tests/unix.c
-index d3ef514..d2fc628 100644
+index 6523c98..48273e0 100644
 --- a/glib/tests/unix.c
 +++ b/glib/tests/unix.c
 @@ -588,7 +588,7 @@ test_signal_alternate_stack (int signal)

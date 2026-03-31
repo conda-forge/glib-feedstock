@@ -54,13 +54,9 @@ else
     rm $PREFIX/bin/gsettings
     rm $PREFIX/share/bash-completion/completions/{gapplication,gdbus,gio,gresource,gsettings}
 
-    # Copy the [de]activate scripts to $PREFIX/etc/conda/[de]activate.d.
-    # This will allow them to be run on environment activation.
-    for CHANGE in "activate" "deactivate"
-    do
-        mkdir -p "${PREFIX}/etc/conda/${CHANGE}.d"
-        cp "${RECIPE_DIR}/scripts/${CHANGE}.sh" "${PREFIX}/etc/conda/${CHANGE}.d/${PKG_NAME}_${CHANGE}.sh"
-    done
+    # Set GSETTINGS_SCHEMA_DIR via env_vars.d JSON (handled by conda at activation time).
+    mkdir -p "${PREFIX}/etc/conda/env_vars.d"
+    printf '{"GSETTINGS_SCHEMA_DIR": "%s/share/glib-2.0/schemas"}\n' "${PREFIX}" > "${PREFIX}/etc/conda/env_vars.d/${PKG_NAME}.json"
 fi
 
 rm $PREFIX/bin/{gdbus*,glib-*,gobject*,gtester*}

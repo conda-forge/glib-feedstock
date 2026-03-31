@@ -111,8 +111,7 @@ outputs:
         - test ! -f ${PREFIX}/lib/libgobject-2.0.la  # [not win]
         - test ! -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}  # [not win]
         - test -f ${PREFIX}/lib/pkgconfig/glib-2.0.pc  # [unix]
-        - test -f ${PREFIX}/etc/conda/activate.d/libglib_activate.sh  # [not win]
-        - test -f ${PREFIX}/etc/conda/deactivate.d/libglib_deactivate.sh  # [not win]
+        - test -f ${PREFIX}/etc/conda/env_vars.d/libglib.json  # [not win]
         # Introspection data is needed at runtime
         - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir              # [unix]
         - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib   # [unix]

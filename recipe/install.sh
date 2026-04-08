@@ -73,6 +73,11 @@ fi
 rm -r $PREFIX/lib/glib-*
 
 if [[ "$PKG_NAME" == "libglib" ]]; then
+    # Remove Requires.private — unnecessary on conda-forge (no static linking,
+    # CFEP-18) and causes build failures when transitive .pc files are absent
+    # See: https://github.com/conda-forge/glib-feedstock/issues/205
+    sed -i.bak '/^Requires\.private:/d' ${PREFIX}/lib/pkgconfig/*.pc
+    rm ${PREFIX}/lib/pkgconfig/*.pc.bak
     rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio}-2.0${SHLIB_EXT}
 elif [[ "$PKG_NAME" != "glib-tools" ]]; then
     rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*

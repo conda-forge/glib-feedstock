@@ -103,7 +103,7 @@ outputs:
         - libiconv
       run_constrained:
         # Avoid colliding with older glib builds that didn't have a libglib output
-        - glib {{ version }} *_{{ PKG_BUILDNUM }}
+        - glib >2.66
     test:
       commands:
         - test -f ${PREFIX}/lib/libglib-2.0.0{{ SHLIB_EXT }}  # [osx]

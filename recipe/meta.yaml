@@ -150,12 +150,12 @@ outputs:
         - packaging
         - setuptools
       host:
-        - {{ pin_subpackage("libglib", exact=True) }}
+        - libglib ={{ version }}=*_{{ PKG_BUILDNUM }}
         - libintl-devel  # [not linux]
         - libiconv
         - zlib
       run:
-        - {{ pin_subpackage("libglib", exact=True) }}
+        - libglib ={{ version }}=*_{{ PKG_BUILDNUM }}
         - libffi
     test:
       commands:
@@ -203,8 +203,8 @@ outputs:
         - packaging
         - setuptools
       host:
-        - {{ pin_subpackage("libglib", exact=True) }}
-        - {{ pin_subpackage("glib-tools", exact=True) }}
+        - libglib ={{ version }}=*_{{ PKG_BUILDNUM }}
+        - glib-tools ={{ version }}=*_{{ PKG_BUILDNUM }}
         - libintl-devel  # [not linux]
         - libffi
         - libiconv
@@ -218,8 +218,8 @@ outputs:
         # environment, so you may need to explicitly add a dep on `packaging`
         # elsewhere. See https://github.com/conda-forge/glib-feedstock/pull/182
         - packaging
-        - {{ pin_subpackage("libglib", exact=True) }}
-        - {{ pin_subpackage("glib-tools", exact=True) }}
+        - libglib ={{ version }}=*_{{ PKG_BUILDNUM }}
+        - glib-tools ={{ version }}=*_{{ PKG_BUILDNUM }}
         # glib headers depend on libintl headers
         - libintl-devel  # [not linux]
     test:

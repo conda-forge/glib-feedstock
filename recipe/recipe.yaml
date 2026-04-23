@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   version: "2.88.0"
-  major_minor: "2.88"
+  major_minor: ${{ (version | split("."))[:2] | join(".") }}
   posix: ${{ "m2-" if win else "" }}
   native: ${{ "m2w64-" if win else "" }}
   # Keep in sync with

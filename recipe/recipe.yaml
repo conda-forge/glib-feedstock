@@ -1,0 +1,332 @@
+schema_version: 1
+
+context:
+  version: "2.88.0"
+  major_minor: ${{ ".".join(version.split(".")[:2]) }}
+  posix: ${{ 'm2-' if win else '' }}
+  native: ${{ 'm2w64-' if win else '' }}
+  # Keep in sync with
+  # https://gitlab.gnome.org/GNOME/glib/-/blob/main/meson.build?ref_type=heads#L2468
+  minimum_python_version: "3.7"
+
+recipe:
+  name: glib-split
+  version: ${{ version }}
+
+source:
+  url: https://download.gnome.org/sources/glib/${{ major_minor }}/glib-${{ version }}.tar.xz
+  sha256: 3546251ccbb3744d4bc4eb48354540e1f6200846572bab68e3a2b7b2b64dfd07
+  patches:
+    # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
+    # However, it was rejected by upstream. Homebrew decided to keep their own
+    # copy ( https://raw.githubusercontent.com/Homebrew/patches/59e4d32/glib/hardcoded-paths.diff ).
+    # We are essentially using that copy, but with some tweaks. Info at the link below.
+    #
+    # https://github.com/Homebrew/legacy-homebrew/blob/21ce7a56cb3fc40fe93d731cc654c69268796772/Library/Formula/glib.rb#L33-L39
+    - patches/0001-Remove-hard-coded-paths.patch
+    ## "Fixes" for tests that apply to all platforms:
+    - patches/0002-crossplatform-test-tweaks.patch
+    - patches/0003-Attempt-to-mask-out-qemu-failing-tests.patch                # [ppc64le or aarch64]
+    ## Windows:
+    - patches/0004-Manually-link-with-libiconv-whenever-we-use-libintl..patch  # [win]
+    - patches/0005-Increase-some-test-timeouts.patch                           # [win]
+    ## Seems like our CIs are likely incompatible with some dbus tests
+    ## https://github.com/conda-forge/glib-feedstock/pull/199#issuecomment-2578085726
+    - patches/0006-Skip-flaky-tests-on-linux64-CI.patch                        # [linux64]
+
+build:
+  number: 0
+
+outputs:
+  - staging:
+      name: glib-build
+    requirements:
+      ignore_run_exports:
+        from_package:
+          - python
+      build:
+        - gettext-tools
+        - if: win
+          then:
+            - m2-filesystem
+            - ${{ posix }}patch
+        - meson
+        - ninja
+        - ${{ native }}pkg-config
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - ${{ compiler('cxx') }}
+        # While python is purely a build tool, the name of the python executable
+        # seems to appear in some shebang lines in the installed code.
+        # We omit the cross-guard here as the build python is also used in g-ir-scanner
+        - python >=${{ minimum_python_version }}
+        - setuptools
+        - if: build_platform != target_platform
+          then:
+            - cross-python_${{ target_platform }}
+            - packaging
+            - libffi
+            - zlib
+            - pcre2
+            - libiconv
+            - if: not linux
+              then:
+                - libintl-devel
+      host:
+        - python >=${{ minimum_python_version }}
+        - setuptools
+        - libffi
+        - zlib
+        - pcre2
+        - libiconv
+        - if: not linux
+          then:
+            - libintl-devel
+
+  - package:
+      name: libglib
+    inherit: glib-build
+    build:
+      script:
+        - if: unix
+          then:
+            - install.sh
+          else:
+            - install.bat
+    requirements:
+      ignore_run_exports:
+        from_package:
+          - python
+          - if: unix
+            then:
+              - ${{ compiler('cxx') }}
+      build:
+        - gettext-tools
+        - if: win
+          then:
+            - ${{ posix }}patch
+        - meson
+        - ninja
+        - ${{ native }}pkg-config
+        - ${{ compiler('c') }}
+        - ${{ stdlib("c") }}
+        - ${{ compiler('cxx') }}
+        - ninja
+        - python >=${{ minimum_python_version }}
+        - packaging
+        - setuptools
+      host:
+        - libffi
+        - if: not linux
+          then:
+            - libintl-devel
+        - zlib
+        - pcre2
+        - libiconv
+      run_exports:
+        - ${{ pin_subpackage("libglib") }}
+      run_constraints:
+        # Avoid colliding with older glib builds that didn't have a libglib output
+        - glib >2.66
+    tests:
+      - script:
+        - if: osx
+          then:
+            - test -f ${PREFIX}/lib/libglib-2.0.0${{ SHLIB_EXT }}
+        - if: linux
+          then:
+            - test -f ${PREFIX}/lib/libglib-2.0${{ SHLIB_EXT }}.0
+        - if: win
+          then:
+            - if not exist %LIBRARY_PREFIX%\share\gir-1.0\GLib-2.0.gir exit 1
+            - if not exist %LIBRARY_PREFIX%\lib\girepository-1.0\GLib-2.0.typelib exit 1
+            - if not exist %LIBRARY_PREFIX%\lib\girepository-2.0.lib exit 1
+            - if not exist %LIBRARY_PREFIX%\lib\pkgconfig\girepository-2.0.pc exit 1
+            - if not exist %LIBRARY_PREFIX%\include\glib-2.0\girepository\girepository.h exit 1
+          else:
+            - test ! -f ${PREFIX}/lib/libgobject-2.0.la
+            - test ! -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}
+            - test -f ${PREFIX}/etc/conda/activate.d/libglib_activate.sh
+            - test -f ${PREFIX}/etc/conda/deactivate.d/libglib_deactivate.sh
+        - if: unix
+          then:
+            - test -f ${PREFIX}/lib/pkgconfig/glib-2.0.pc
+            - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir
+            - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib
+            - test -f ${PREFIX}/lib/libgirepository-2.0${{ SHLIB_EXT }}
+            - test -f ${PREFIX}/lib/pkgconfig/girepository-2.0.pc
+            - test -f ${PREFIX}/include/glib-2.0/girepository/girepository.h
+
+  - package:
+      name: glib-tools
+    inherit: glib-build
+    build:
+      script:
+        - if: unix
+          then:
+            - install.sh
+          else:
+            - install.bat
+    requirements:
+      ignore_run_exports:
+        from_package:
+          - python *
+          - if: unix
+            then:
+              - ${{ compiler('cxx') }}
+          - libiconv
+          - zlib
+      build:
+        - gettext-tools
+        - if: win
+          then:
+            - ${{ posix }}patch
+        - meson
+        - ninja
+        - ${{ native }}pkg-config
+        - ${{ compiler('c') }}
+        - ${{ stdlib("c") }}
+        - ${{ compiler('cxx') }}
+        - ninja
+        - python >=${{ minimum_python_version }}
+        - packaging
+        - setuptools
+      host:
+        - ${{ pin_subpackage("libglib", exact=True) }}
+        - if: not linux
+          then:
+            - libintl-devel
+        - libiconv
+        - zlib
+      run:
+        - ${{ pin_subpackage("libglib", exact=True) }}
+        - libffi
+    tests:
+      - script:
+          # Check that binaries can run -- instigated by Meson Linux rpath issue
+          - if: linux
+            then:
+              - gapplication help
+          - gdbus help
+          - gio version
+          - gio-querymodules .
+          - glib-compile-schemas --help
+          - gresource help
+          - gi-compile-repository --help
+          - gi-decompile-typelib --help
+          - gi-inspect-typelib --help
+
+  - package:
+      name: glib
+    inherit: glib-build
+    build:
+      script:
+        - if: unix
+          then:
+            - install.sh
+          else:
+            - install.bat
+    requirements:
+      ignore_run_exports:
+        from_package:
+          - python *
+          - if: unix
+            then:
+              - ${{ compiler('cxx') }}
+              - ${{ compiler('c') }}
+              - ${{ stdlib('c') }}
+          - libiconv
+          - pcre2
+          - zlib
+          - libffi
+          - if: win
+            then:
+              - m2-sed
+        by_name:
+          # This is intentional to workaround conda-build's overdependening checks.
+          - libintl-devel
+      build:
+        - gettext-tools
+        - if: win
+          then:
+            - ${{ posix }}patch
+        - meson
+        - ninja
+        - ${{ native }}pkg-config
+        - ${{ compiler('c') }}
+        - ${{ stdlib("c") }}
+        - ${{ compiler('cxx') }}
+        - ninja
+        - python >=2.7
+        - packaging
+        - setuptools
+      host:
+        - ${{ pin_subpackage("libglib", exact=True) }}
+        - ${{ pin_subpackage("glib-tools", exact=True) }}
+        - if: not linux
+          then:
+            - libintl-devel
+        - libffi
+        - libiconv
+        - pcre2
+        - zlib
+      run:
+        - python *
+        # The `packaging` Python module is needed by gdbus-codegen. In certain
+        # build scenarios, that script is unavoidably executed by a Python
+        # interpreter different from the one installed into the "run"
+        # environment, so you may need to explicitly add a dep on `packaging`
+        # elsewhere. See https://github.com/conda-forge/glib-feedstock/pull/182
+        - packaging
+        - ${{ pin_subpackage("libglib", exact=True) }}
+        - ${{ pin_subpackage("glib-tools", exact=True) }}
+        # glib headers depend on libintl headers
+        - if: not linux
+          then:
+            - libintl-devel
+      run_exports:
+        - ${{ pin_subpackage("libglib") }}
+    tests:
+      - script:
+          - glib-compile-resources --help
+          - gobject-query --help
+          - if: unix
+            then:
+              - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}
+              # hmaarrfk - 2024/10 -- The PREFIX may end up becoming "/usr/bin/env python"
+              # due to the way that conda handles very long shebang lines
+              # https://github.com/conda-forge/glib-feedstock/pull/192#discussion_r1786546999
+              - head -n 1 ${PREFIX}/bin/glib-mkenums | grep -E "^.!(${PREFIX}|/usr/bin/env python)"
+              - head -n 1 ${PREFIX}/bin/glib-genmarshal | grep -E "^.!(${PREFIX}|/usr/bin/env python)"
+              - head -n 1 ${PREFIX}/bin/gtester-report | grep -E "^.!(${PREFIX}|/usr/bin/env python)"
+              - gtester --help
+              - gdbus-codegen --help
+              - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib
+              - test-win.bat
+        requirements:
+          run:
+            - ${{ compiler('c') }}
+            - pkg-config
+        files:
+          source:
+            - test.c
+            - test-win.bat
+
+about:
+  homepage: https://developer.gnome.org/glib/
+  repository: https://gitlab.gnome.org/GNOME/glib/
+  license: LGPL-2.1-or-later
+  license_file: COPYING
+  summary: Provides core application building blocks for libraries and applications written in C.
+
+extra:
+  feedstock-name: glib
+  recipe-maintainers:
+    - ccordoba12
+    - jakirkham
+    - scopatz
+    - ocefpaf
+    - pkgw
+    - isuruf
+    - xhochy
+    - tschoonj

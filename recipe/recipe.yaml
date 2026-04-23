@@ -164,7 +164,9 @@ outputs:
 
   - package:
       name: glib-tools
-    inherit: glib-build
+    inherit:
+      from: glib-build
+      run_exports: false
     build:
       script:
         - if: unix
@@ -179,6 +181,7 @@ outputs:
           - if: unix
             then:
               - ${{ compiler("cxx") }}
+          - libglib  # override libglib's loose run_export pin with our specific one
           - libiconv
           - zlib
       build:
@@ -223,7 +226,9 @@ outputs:
 
   - package:
       name: glib
-    inherit: glib-build
+    inherit:
+      from: glib-build
+      run_exports: false
     build:
       script:
         - if: unix
@@ -244,6 +249,7 @@ outputs:
           - pcre2
           - zlib
           - libffi
+          - libglib  # override libglib's loose run_export pin with our specific one
           - if: win
             then:
               - m2-sed

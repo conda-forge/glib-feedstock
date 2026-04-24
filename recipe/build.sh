@@ -12,7 +12,9 @@ meson_config_args=(
      -Dglib_debug=disabled
 )
 
-export TERM=dumb
+# The test suite runs some of the tool programs and checks their
+# output for certain magic strings, and if this variable is set
+# the colorization breaks those tests.
 unset FORCE_COLOR
 
 # There are a couple of places in the source that hardcode a system prefix;

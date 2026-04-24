@@ -1,5 +1,8 @@
 @ECHO ON
 
+@REM Clear out these symlinks, which might possibly cause issues on Windows.
+del COPYING gmodule\COPYING
+
 set "GIR_PREFIX=%cd%\g-ir-prefix"
 
 @REM See `build.sh` for a general description of how we handle the circular

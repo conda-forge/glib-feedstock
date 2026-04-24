@@ -329,7 +329,7 @@ about:
   homepage: https://developer.gnome.org/glib/
   repository: https://gitlab.gnome.org/GNOME/glib/
   license: LGPL-2.1-or-later
-  license_file: COPYING
+  license_file: LICENSES/LGPL-2.1-or-later.txt
   summary: Provides core application building blocks for libraries and applications written in C.
 
 extra:

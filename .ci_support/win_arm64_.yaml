@@ -1,0 +1,20 @@
+c_compiler:
+- vs2022
+c_stdlib:
+- vs
+channel_sources:
+- conda-forge
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- vs2022
+libffi:
+- '3.5'
+libiconv:
+- '1'
+pcre2:
+- '10.47'
+target_platform:
+- win-arm64
+zlib:
+- '1'

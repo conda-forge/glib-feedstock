@@ -1,10 +1,13 @@
 @ECHO ON
 
+@REM Clear out these symlinks, which might possibly cause issues on Windows.
+del COPYING gmodule\COPYING
+
 set "GIR_PREFIX=%cd%\g-ir-prefix"
 
 @REM See `build.sh` for a general description of how we handle the circular
 @REM dependency between glib and gobject-introspection.
-call conda create -p %GIR_PREFIX% -y g-ir-build-tools gobject-introspection glib
+call conda create --console=classic -p %GIR_PREFIX% -y -c conda-forge g-ir-build-tools gobject-introspection glib
 if errorlevel 1 exit 1
 
 @REM As on Linux/Mac, we need to make sure that g-ir-scanner is invoked by the Python

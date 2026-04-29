@@ -12,6 +12,11 @@ meson_config_args=(
      -Dglib_debug=disabled
 )
 
+# The test suite runs some of the tool programs and checks their
+# output for certain magic strings, and if this variable is set
+# the colorization breaks those tests.
+unset FORCE_COLOR
+
 # There are a couple of places in the source that hardcode a system prefix;
 # in hardcoded-paths.patch we edit them to refer to the Conda prefix so
 # that they will get appropriately rewritten.
@@ -46,7 +51,7 @@ unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 
 export GIR_PREFIX=$(pwd)/g-ir-prefix
 
-conda create -p ${GIR_PREFIX} -y g-ir-build-tools gobject-introspection
+conda create --console=classic -p ${GIR_PREFIX} -y -c conda-forge g-ir-build-tools gobject-introspection
 
 # We don't want to add the GIR environment entirely to our path, to avoid
 # confusing our build environment, but g-ir-scanner needs to be findable, and it

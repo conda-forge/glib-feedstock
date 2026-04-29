@@ -73,7 +73,7 @@ fi
 rm -r $PREFIX/lib/glib-*
 
 if [[ "$PKG_NAME" == "libglib" ]]; then
-    rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio}-2.0${SHLIB_EXT}
+    rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio,girepository}-2.0${SHLIB_EXT}
 elif [[ "$PKG_NAME" != "glib-tools" ]]; then
     rm -r $PREFIX/include/gio-* $PREFIX/include/glib-*
     rm -r $PREFIX/lib/lib{gmodule,glib,gobject,gthread,gio,girepository}-2.0${SHLIB_EXT}

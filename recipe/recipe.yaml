@@ -149,6 +149,7 @@ outputs:
             - if not exist %LIBRARY_PREFIX%\lib\girepository-1.0\GLib-2.0.typelib exit 1
             - if not exist %LIBRARY_PREFIX%\lib\girepository-2.0.lib exit 1
             - if not exist %LIBRARY_PREFIX%\lib\pkgconfig\girepository-2.0.pc exit 1
+            - if exist %LIBRARY_PREFIX%\lib\pkgconfig\gobject-introspection-1.0.pc exit 1
             - if not exist %LIBRARY_PREFIX%\include\glib-2.0\girepository\girepository.h exit 1
           else:
             - test ! -f ${PREFIX}/lib/libgobject-2.0.la
@@ -161,6 +162,7 @@ outputs:
             - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir
             - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib
             - test -f ${PREFIX}/lib/pkgconfig/girepository-2.0.pc
+            - test ! -f ${PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc
             - test -f ${PREFIX}/include/glib-2.0/girepository/girepository.h
 
   - package:

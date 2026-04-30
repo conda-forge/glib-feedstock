@@ -74,6 +74,11 @@ sed -e "s|g_ir_scanner=.*|g_ir_scanner=${BUILD_PREFIX}/bin/g-ir-scanner|" \
 # path, to pull in deps of the gobject-introspection (namely, glib)
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:${GIR_PREFIX}/lib/pkgconfig"
 
+# We also need to make a backup of our fake pkg-config file. The install scripts
+# need it to freshen the build, but each invocation also needs to remove it from
+# $PREFIX so that the file doesn't make it into our final packages.
+cp ${PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc conda-private-gobject-introspection-1.0.pc
+
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == 1 ]]; then
   unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
   (

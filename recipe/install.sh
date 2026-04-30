@@ -18,10 +18,16 @@ exec ${GIR_PREFIX}/bin/python3 ${GIR_PREFIX}/bin/g-ir-scanner "\$@"
 EOF
 chmod +x $BUILD_PREFIX/bin/g-ir-scanner
 
+# this file may need to be recreated as well:
+cp conda-private-gobject-introspection-1.0.pc ${PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc
+
 ninja -C builddir install || (cat builddir/meson-logs/meson-log.txt; false)
 
 # remove libtool files
 find $PREFIX -name '*.la' -delete
+
+# make sure this doesn't make it into any of our packages
+rm -f ${PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc
 
 # gdb folder has a nested folder structure similar to our host prefix
 # (255 chars) which causes installation issues so remove it.

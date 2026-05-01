@@ -92,12 +92,7 @@ outputs:
       name: libglib
     inherit: glib-build
     build:
-      script:
-        - if: unix
-          then:
-            - install.sh
-          else:
-            - install.bat
+      script: install
     requirements:
       ignore_run_exports:
         from_package:
@@ -171,12 +166,7 @@ outputs:
       from: glib-build
       run_exports: false
     build:
-      script:
-        - if: unix
-          then:
-            - install.sh
-          else:
-            - install.bat
+      script: install
     requirements:
       ignore_run_exports:
         from_package:
@@ -233,12 +223,7 @@ outputs:
       from: glib-build
       run_exports: false
     build:
-      script:
-        - if: unix
-          then:
-            - install.sh
-          else:
-            - install.bat
+      script: install
     requirements:
       ignore_run_exports:
         from_package:

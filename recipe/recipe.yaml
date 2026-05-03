@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "2.88.0"
+  version: "2.88.1"
   major_minor: ${{ (version | split("."))[:2] | join(".") }}
   posix: ${{ "m2-" if win else "" }}
   native: ${{ "m2w64-" if win else "" }}
@@ -15,7 +15,7 @@ recipe:
 
 source:
   url: https://download.gnome.org/sources/glib/${{ major_minor }}/glib-${{ version }}.tar.xz
-  sha256: 3546251ccbb3744d4bc4eb48354540e1f6200846572bab68e3a2b7b2b64dfd07
+  sha256: 51ab804c56f6eab3e5045c774d1290ac5e4c923d4f9a3d8e33123bee45c1840e
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -40,7 +40,7 @@ source:
         - patches/0006-Skip-flaky-tests-on-linux64-CI.patch
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - staging:
@@ -135,35 +135,35 @@ outputs:
         - glib >2.66
     tests:
       - script:
-        - if: osx
-          then:
-            - test -f ${PREFIX}/lib/libglib-2.0.0${SHLIB_EXT}
-            - test -f ${PREFIX}/lib/libgirepository-2.0.0${SHLIB_EXT}
-        - if: linux
-          then:
-            - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}.0
-            - test -f ${PREFIX}/lib/libgirepository-2.0${SHLIB_EXT}.0
-        - if: win
-          then:
-            - if not exist %LIBRARY_PREFIX%\share\gir-1.0\GLib-2.0.gir exit 1
-            - if not exist %LIBRARY_PREFIX%\lib\girepository-1.0\GLib-2.0.typelib exit 1
-            - if not exist %LIBRARY_PREFIX%\lib\girepository-2.0.lib exit 1
-            - if not exist %LIBRARY_PREFIX%\lib\pkgconfig\girepository-2.0.pc exit 1
-            - if exist %LIBRARY_PREFIX%\lib\pkgconfig\gobject-introspection-1.0.pc exit 1
-            - if not exist %LIBRARY_PREFIX%\include\glib-2.0\girepository\girepository.h exit 1
-          else:
-            - test ! -f ${PREFIX}/lib/libgobject-2.0.la
-            - test ! -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}
-            - test -f ${PREFIX}/etc/conda/activate.d/libglib_activate.sh
-            - test -f ${PREFIX}/etc/conda/deactivate.d/libglib_deactivate.sh
-        - if: unix
-          then:
-            - test -f ${PREFIX}/lib/pkgconfig/glib-2.0.pc
-            - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir
-            - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib
-            - test -f ${PREFIX}/lib/pkgconfig/girepository-2.0.pc
-            - test ! -f ${PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc
-            - test -f ${PREFIX}/include/glib-2.0/girepository/girepository.h
+          - if: osx
+            then:
+              - test -f ${PREFIX}/lib/libglib-2.0.0${SHLIB_EXT}
+              - test -f ${PREFIX}/lib/libgirepository-2.0.0${SHLIB_EXT}
+          - if: linux
+            then:
+              - test -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}.0
+              - test -f ${PREFIX}/lib/libgirepository-2.0${SHLIB_EXT}.0
+          - if: win
+            then:
+              - if not exist %LIBRARY_PREFIX%\share\gir-1.0\GLib-2.0.gir exit 1
+              - if not exist %LIBRARY_PREFIX%\lib\girepository-1.0\GLib-2.0.typelib exit 1
+              - if not exist %LIBRARY_PREFIX%\lib\girepository-2.0.lib exit 1
+              - if not exist %LIBRARY_PREFIX%\lib\pkgconfig\girepository-2.0.pc exit 1
+              - if exist %LIBRARY_PREFIX%\lib\pkgconfig\gobject-introspection-1.0.pc exit 1
+              - if not exist %LIBRARY_PREFIX%\include\glib-2.0\girepository\girepository.h exit 1
+            else:
+              - test ! -f ${PREFIX}/lib/libgobject-2.0.la
+              - test ! -f ${PREFIX}/lib/libglib-2.0${SHLIB_EXT}
+              - test -f ${PREFIX}/etc/conda/activate.d/libglib_activate.sh
+              - test -f ${PREFIX}/etc/conda/deactivate.d/libglib_deactivate.sh
+          - if: unix
+            then:
+              - test -f ${PREFIX}/lib/pkgconfig/glib-2.0.pc
+              - test -f ${PREFIX}/share/gir-1.0/GLib-2.0.gir
+              - test -f ${PREFIX}/lib/girepository-1.0/GLib-2.0.typelib
+              - test -f ${PREFIX}/lib/pkgconfig/girepository-2.0.pc
+              - test ! -f ${PREFIX}/lib/pkgconfig/gobject-introspection-1.0.pc
+              - test -f ${PREFIX}/include/glib-2.0/girepository/girepository.h
 
   - package:
       name: glib-tools

@@ -40,7 +40,7 @@ source:
         - patches/0006-Skip-flaky-tests-on-linux64-CI.patch
 
 build:
-  number: 1
+  number: 2
 
 outputs:
   - staging:
@@ -49,6 +49,9 @@ outputs:
       ignore_run_exports:
         from_package:
           - python
+          - if: build_platform != target_platform
+            then:
+              - cross-python_${{ target_platform }}
       build:
         - gettext-tools
         - if: win
@@ -100,6 +103,9 @@ outputs:
           - if: unix
             then:
               - ${{ compiler("cxx") }}
+          - if: build_platform != target_platform
+            then:
+              - cross-python_${{ target_platform }}
       build:
         - gettext-tools
         - if: win

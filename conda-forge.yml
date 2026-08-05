@@ -2,7 +2,6 @@ bot:
   version_updates:
     even_odd_versions: true
 build_platform:
-  linux_aarch64: linux_64
   linux_ppc64le: linux_64
 conda_build:
   error_overdepending: true
@@ -14,5 +13,6 @@ github:
   branch_name: main
   tooling_branch_name: main
 provider:
-  osx_arm64: azure
+  linux_aarch64: default
+  osx_arm64: default
 test: native_and_emulated

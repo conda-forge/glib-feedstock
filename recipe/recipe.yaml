@@ -60,7 +60,9 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - ${{ native }}pkg-config
+        - if: target_platform == 'win-arm64'
+          then: m2-pkg-config
+          else: ${{ native }}pkg-config
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -113,7 +115,9 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - ${{ native }}pkg-config
+        - if: target_platform == 'win-arm64'
+          then: m2-pkg-config
+          else: ${{ native }}pkg-config
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -190,7 +194,9 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - ${{ native }}pkg-config
+        - if: target_platform == 'win-arm64'
+          then: m2-pkg-config
+          else: ${{ native }}pkg-config
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -257,7 +263,9 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - ${{ native }}pkg-config
+        - if: target_platform == 'win-arm64'
+          then: m2-pkg-config
+          else: ${{ native }}pkg-config
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -313,7 +321,9 @@ outputs:
         requirements:
           run:
             - ${{ compiler("c") }}
-            - pkg-config
+            - if: target_platform == 'win-arm64'
+              then: m2-pkg-config
+              else: pkg-config
         files:
           recipe:
             - test.c

@@ -40,7 +40,7 @@ source:
         - patches/0006-Skip-flaky-tests-on-linux64-CI.patch
 
 build:
-  number: 4
+  number: 5
   variant:
     # we don't want separate jobs if the newest python is in release candidate phase
     ignore_keys:
@@ -133,6 +133,8 @@ outputs:
         - zlib
         - pcre2
         - libiconv
+      run:
+        - zlib
       run_exports:
         - ${{ pin_subpackage("libglib") }}
       run_constraints:

@@ -12,7 +12,7 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/gio/xdgmime/xdgmime.c b/gio/xdgmime/xdgmime.c
-index 66f8f39..05aeb69 100644
+index 76807a2..4e94f95 100644
 --- a/gio/xdgmime/xdgmime.c
 +++ b/gio/xdgmime/xdgmime.c
 @@ -228,7 +228,7 @@ xdg_init_dirs (void)
@@ -25,10 +25,10 @@ index 66f8f39..05aeb69 100644
    /* Work out how many dirs we’re dealing with. */
    if (xdg_data_home != NULL || home != NULL)
 diff --git a/glib/gutils.c b/glib/gutils.c
-index 02da41b..0054ddb 100644
+index 42eb9fe..7fdb2f4 100644
 --- a/glib/gutils.c
 +++ b/glib/gutils.c
-@@ -2602,7 +2602,7 @@ g_build_system_data_dirs (void)
+@@ -2604,7 +2604,7 @@ g_build_system_data_dirs (void)
     */
  #ifndef G_OS_WIN32
    if (!data_dirs || !data_dirs[0])

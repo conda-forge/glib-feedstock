@@ -10,10 +10,10 @@ Subject: [PATCH 3/6] Attempt to mask out qemu failing tests
  3 files changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 8e35143..1172a1a 100644
+index fd4612c..a01c0a6 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -131,6 +131,7 @@ gio_tests = {
+@@ -134,6 +134,7 @@ gio_tests = {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
      'can_fail' : host_system in ['darwin', 'gnu'],
@@ -22,7 +22,7 @@ index 8e35143..1172a1a 100644
    'socket-listener' : {
      'dependencies': libdl_dep,
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index 9fdf5cc..ca80e84 100644
+index c1978d5..44054a8 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -47,7 +47,7 @@ glib_tests = {
@@ -43,7 +43,7 @@ index 9fdf5cc..ca80e84 100644
    'string' : {
      'c_args' : cc.get_id() == 'gcc' ? ['-Werror=sign-conversion'] : [],
    },
-@@ -199,12 +199,12 @@ glib_tests = {
+@@ -197,12 +197,12 @@ glib_tests = {
      'suite' : ['slow'],
    },
    '642026' : {

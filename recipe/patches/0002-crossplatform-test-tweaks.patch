@@ -34,10 +34,10 @@ index 57d71f7..adf8320 100644
    g_test_add_func ("/file/from-uri/ignores-query-string", test_from_uri_ignores_query_string);
    g_test_add_func ("/file/from-uri/ignores-fragment", test_from_uri_ignores_fragment);
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 9bd0d30..8e35143 100644
+index 8c36861..fd4612c 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -368,17 +368,6 @@ if host_machine.system() != 'windows'
+@@ -374,17 +374,6 @@ if host_machine.system() != 'windows'
      }
    endif
  
@@ -55,7 +55,7 @@ index 9bd0d30..8e35143 100644
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
-@@ -622,14 +611,6 @@ if host_machine.system() != 'windows'
+@@ -629,14 +618,6 @@ if host_machine.system() != 'windows'
          'dbus-appinfo' : {
            'extra_sources' : [extra_sources, fake_document_portal_sources],
          },
@@ -70,7 +70,7 @@ index 9bd0d30..8e35143 100644
        }
      endif
  
-@@ -654,23 +635,6 @@ if host_machine.system() != 'windows'
+@@ -661,23 +642,6 @@ if host_machine.system() != 'windows'
        'extra_sources' : ['gdbus-tests.c', 'test-io-stream.c', 'test-pipe-unix.c'],
      },
    }
@@ -107,10 +107,10 @@ index e79b462..75df91e 100644
    g_test_add_func ("/fileutils/clear-fd", test_clear_fd);
    g_test_add_func ("/fileutils/clear-fd/subprocess/ebadf", test_clear_fd_ebadf);
 diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
-index 08e4075..5d53d59 100644
+index 3e7e436..098b79e 100644
 --- a/glib/tests/gdatetime.c
 +++ b/glib/tests/gdatetime.c
-@@ -3754,18 +3754,9 @@ main (gint   argc,
+@@ -3832,18 +3832,9 @@ main (gint   argc,
    g_test_add_func ("/GDateTime/non_utf8_printf", test_non_utf8_printf);
    g_test_add_func ("/GDateTime/format_unrepresentable", test_format_unrepresentable);
    g_test_add_func ("/GDateTime/format_iso8601", test_format_iso8601);
@@ -130,7 +130,7 @@ index 08e4075..5d53d59 100644
    g_test_add_func ("/GDateTime/strftime/error_handling", test_GDateTime_strftime_error_handling);
    g_test_add_func ("/GDateTime/modifiers", test_modifiers);
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index 0ffe59f..9fdf5cc 100644
+index a66684a..c1978d5 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -31,6 +31,7 @@ glib_tests = {
@@ -142,15 +142,15 @@ index 0ffe59f..9fdf5cc 100644
    'dir' : {},
    'environment' : {},
 diff --git a/glib/tests/unix.c b/glib/tests/unix.c
-index 6523c98..48273e0 100644
+index 2403a1a..48ea5e2 100644
 --- a/glib/tests/unix.c
 +++ b/glib/tests/unix.c
-@@ -588,7 +588,7 @@ test_signal_alternate_stack (int signal)
- #ifndef SA_ONSTACK
-   g_test_skip ("alternate stack is not supported");
- #else
+@@ -593,7 +593,7 @@ test_signal_alternate_stack (int signal)
+    * SIGSTKSZ is the implementation's conventional allocation size.  Some
+    * non-XSI systems expose SA_ONSTACK without SIGSTKSZ, so keep the standard
+    * minimum as a portable fallback. */
 -  size_t minsigstksz = MINSIGSTKSZ;
 +  size_t minsigstksz = 16384;
-   guint8 *stack_memory = NULL;
-   guint8 *zero_mem = NULL;
-   stack_t stack = { 0 };
+ #ifdef SIGSTKSZ
+   minsigstksz = MAX (minsigstksz, (size_t) SIGSTKSZ);
+ #endif

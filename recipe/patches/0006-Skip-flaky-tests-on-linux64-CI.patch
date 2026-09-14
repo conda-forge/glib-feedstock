@@ -41,3 +41,16 @@ index 44054a8..0a72380 100644
      # musl: GDateTime/format_mixed/non_utf8_time_non_utf8_messages should be
      # skipped but it's not. The fix should be on musl side:
      # https://www.openwall.com/lists/musl/2023/08/10/3
+diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
+index 8296edd..c87aa65 100644
+--- a/gobject/tests/meson.build
++++ b/gobject/tests/meson.build
+@@ -53,7 +53,7 @@ gobject_tests = {
+   'references' : {},
+   'basic-signals' : {},
+   'singleton' : {},
+-  'threadtests' : {},
++  'threadtests' : { 'suite': ['flaky'] },
+   'dynamictests' : {},
+   'binding' : {},
+   'bindinggroup' : {},

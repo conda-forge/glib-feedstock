@@ -10,10 +10,10 @@ Subject: [PATCH 3/6] Attempt to mask out qemu failing tests
  3 files changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index fd4612c..a01c0a6 100644
+index 76414fe..ddfddf9 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -134,6 +134,7 @@ gio_tests = {
+@@ -145,6 +145,7 @@ gio_tests = {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1392
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
      'can_fail' : host_system in ['darwin', 'gnu'],
@@ -22,7 +22,7 @@ index fd4612c..a01c0a6 100644
    'socket-listener' : {
      'dependencies': libdl_dep,
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index c1978d5..44054a8 100644
+index cb3a4af..fa9ee59 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -47,7 +47,7 @@ glib_tests = {
@@ -34,16 +34,16 @@ index c1978d5..44054a8 100644
    },
    'gwakeup' : {
      'source' : ['gwakeuptest.c', '../gwakeup.c'],
-@@ -151,7 +151,7 @@ glib_tests = {
+@@ -162,7 +162,7 @@ glib_tests = {
      # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
      'can_fail' : host_system == 'gnu',
    },
 -  'strfuncs' : {},
 +  'strfuncs' : {'suite': ['flaky']},
    'string' : {
-     'c_args' : cc.get_id() == 'gcc' ? ['-Werror=sign-conversion'] : [],
+     'c_args' : cc.get_argument_syntax() == 'gcc' ? ['-Werror=sign-conversion'] : [],
    },
-@@ -197,12 +197,12 @@ glib_tests = {
+@@ -214,12 +214,12 @@ glib_tests = {
      'suite' : ['slow'],
    },
    '642026' : {
@@ -59,10 +59,10 @@ index c1978d5..44054a8 100644
  }
  
 diff --git a/gobject/tests/meson.build b/gobject/tests/meson.build
-index 199339e..9c784bf 100644
+index ef230a6..b80804d 100644
 --- a/gobject/tests/meson.build
 +++ b/gobject/tests/meson.build
-@@ -220,7 +220,7 @@ endif
+@@ -234,7 +234,7 @@ endif
  
  foreach test_name, extra_args : python_tests
    depends = [extra_args.get('depends', [])]

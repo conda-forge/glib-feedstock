@@ -34,10 +34,10 @@ index 57d71f7..adf8320 100644
    g_test_add_func ("/file/from-uri/ignores-query-string", test_from_uri_ignores_query_string);
    g_test_add_func ("/file/from-uri/ignores-fragment", test_from_uri_ignores_fragment);
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 8c36861..fd4612c 100644
+index 43bb148..76414fe 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -374,17 +374,6 @@ if host_machine.system() != 'windows'
+@@ -399,19 +399,6 @@ if host_machine.system() != 'windows'
      }
    endif
  
@@ -48,6 +48,8 @@ index 8c36861..fd4612c 100644
 -      'appinfo' : {
 -        'install' : false,
 -        'extra_programs' : ['appinfo-test'],
+-        # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1672
+-        'can_fail': 'thread' in glib_sanitizers,
 -      },
 -    }
 -  endif
@@ -55,7 +57,7 @@ index 8c36861..fd4612c 100644
    test_extra_programs += {
      'basic-application' : {},
      'dbus-launch' : {},
-@@ -629,14 +618,6 @@ if host_machine.system() != 'windows'
+@@ -680,16 +667,6 @@ if host_machine.system() != 'windows'
          'dbus-appinfo' : {
            'extra_sources' : [extra_sources, fake_document_portal_sources],
          },
@@ -63,15 +65,17 @@ index 8c36861..fd4612c 100644
 -          'install' : false,
 -          'depends' : gio_launch_desktop,
 -          'extra_programs' : ['apps', 'appinfo-test', 'snapinfo-test'],
--          # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
--          'can_fail' : host_system == 'gnu',
 -          'extra_sources' : [extra_sources, fake_document_portal_sources],
+-          # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/3148
+-          'can_fail' : (host_system == 'gnu' or
+-            # FIXME: https://gitlab.gnome.org/GNOME/glib/-/issues/1672
+-            'thread' in glib_sanitizers),
 -        },
        }
      endif
  
-@@ -661,23 +642,6 @@ if host_machine.system() != 'windows'
-       'extra_sources' : ['gdbus-tests.c', 'test-io-stream.c', 'test-pipe-unix.c'],
+@@ -718,23 +695,6 @@ if host_machine.system() != 'windows'
+       'can_fail': 'thread' in glib_sanitizers,
      },
    }
 -
@@ -107,10 +111,10 @@ index e79b462..75df91e 100644
    g_test_add_func ("/fileutils/clear-fd", test_clear_fd);
    g_test_add_func ("/fileutils/clear-fd/subprocess/ebadf", test_clear_fd_ebadf);
 diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
-index 3e7e436..098b79e 100644
+index e1cc397..9a1de90 100644
 --- a/glib/tests/gdatetime.c
 +++ b/glib/tests/gdatetime.c
-@@ -3832,18 +3832,9 @@ main (gint   argc,
+@@ -3838,18 +3838,9 @@ main (gint   argc,
    g_test_add_func ("/GDateTime/non_utf8_printf", test_non_utf8_printf);
    g_test_add_func ("/GDateTime/format_unrepresentable", test_format_unrepresentable);
    g_test_add_func ("/GDateTime/format_iso8601", test_format_iso8601);
@@ -130,7 +134,7 @@ index 3e7e436..098b79e 100644
    g_test_add_func ("/GDateTime/strftime/error_handling", test_GDateTime_strftime_error_handling);
    g_test_add_func ("/GDateTime/modifiers", test_modifiers);
 diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-index a66684a..c1978d5 100644
+index 9d051ca..cb3a4af 100644
 --- a/glib/tests/meson.build
 +++ b/glib/tests/meson.build
 @@ -31,6 +31,7 @@ glib_tests = {

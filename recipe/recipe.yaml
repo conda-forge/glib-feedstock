@@ -64,7 +64,7 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - pkg-config
+        - pkgconf
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -117,7 +117,7 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - pkg-config
+        - pkgconf
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -194,7 +194,7 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - pkg-config
+        - pkgconf
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -261,7 +261,7 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - pkg-config
+        - pkgconf
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -310,14 +310,14 @@ outputs:
               - head -n 1 ${PREFIX}/bin/gtester-report | grep -E "^.!(${PREFIX}|/usr/bin/env python)"
               - gtester --help
               - gdbus-codegen --help
-              - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib
+              - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkgconf --cflags --libs glib-2.0) -o test-glib && ./test-glib
           - if: win
             then:
               - test-win.bat
         requirements:
           run:
             - ${{ compiler("c") }}
-            - pkg-config
+            - pkgconf
         files:
           recipe:
             - test.c

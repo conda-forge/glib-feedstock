@@ -23,7 +23,7 @@ libffi:
 libiconv:
 - '1'
 pcre2:
-- '10.47'
+- '10.49'
 target_platform:
 - linux-ppc64le
 zip_keys:

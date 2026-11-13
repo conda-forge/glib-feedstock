@@ -40,7 +40,7 @@ source:
         - patches/0006-Skip-flaky-tests-on-linux64-CI.patch
 
 build:
-  number: 2
+  number: 3
   variant:
     # we don't want separate jobs if the newest python is in release candidate phase
     ignore_keys:
@@ -65,7 +65,7 @@ outputs:
         - micromamba
         - meson
         - ninja
-        - pkg-config
+        - pkgconf
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -118,7 +118,7 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - pkg-config
+        - pkgconf
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -195,7 +195,7 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - pkg-config
+        - pkgconf
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -262,7 +262,7 @@ outputs:
             - ${{ posix }}patch
         - meson
         - ninja
-        - pkg-config
+        - pkgconf
         - ${{ compiler("c") }}
         - ${{ stdlib("c") }}
         - ${{ compiler("cxx") }}
@@ -318,7 +318,7 @@ outputs:
         requirements:
           run:
             - ${{ compiler("c") }}
-            - pkg-config
+            - pkgconf
         files:
           recipe:
             - test.c

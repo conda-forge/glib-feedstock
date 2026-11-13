@@ -311,7 +311,7 @@ outputs:
               - head -n 1 ${PREFIX}/bin/gtester-report | grep -E "^.!(${PREFIX}|/usr/bin/env python)"
               - gtester --help
               - gdbus-codegen --help
-              - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkgconf --cflags --libs glib-2.0) -o test-glib && ./test-glib
+              - ${CC} ${LDFLAGS} ${CFLAGS} test.c $(pkg-config --cflags --libs glib-2.0) -o test-glib && ./test-glib
           - if: win
             then:
               - test-win.bat

@@ -62,6 +62,7 @@ outputs:
           then:
             - m2-filesystem
             - ${{ posix }}patch
+        - micromamba
         - meson
         - ninja
         - pkgconf

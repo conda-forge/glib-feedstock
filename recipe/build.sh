@@ -51,7 +51,7 @@ unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 
 export GIR_PREFIX=$(pwd)/g-ir-prefix
 
-conda create --console=classic -p ${GIR_PREFIX} -y -c conda-forge g-ir-build-tools gobject-introspection
+micromamba create -p ${GIR_PREFIX} -y -c conda-forge g-ir-build-tools gobject-introspection
 
 # We don't want to add the GIR environment entirely to our path, to avoid
 # confusing our build environment, but g-ir-scanner needs to be findable, and it

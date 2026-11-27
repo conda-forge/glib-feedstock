@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "2.90.1"
+  version: "2.90.2"
   major_minor: ${{ (version | split("."))[:2] | join(".") }}
   posix: ${{ "m2-" if win else "" }}
   native: ${{ "m2w64-" if win else "" }}
@@ -15,7 +15,7 @@ recipe:
 
 source:
   url: https://download.gnome.org/sources/glib/${{ major_minor }}/glib-${{ version }}.tar.xz
-  sha256: 93c941aa17d5eb1d53fe838365f29a8b4e539c222a256d974ec8f30fc413e396
+  sha256: edf473b4f5ee70a31d2410622ee605dc4a2c8c46dbc0ec53c9abbaf3960232fd
   patches:
     # Related to this patch https://bugzilla.gnome.org/show_bug.cgi?id=673135
     # However, it was rejected by upstream. Homebrew decided to keep their own
@@ -40,7 +40,7 @@ source:
         - patches/0006-Skip-flaky-tests-on-linux64-CI.patch
 
 build:
-  number: 4
+  number: 0
   variant:
     # we don't want separate jobs if the newest python is in release candidate phase
     ignore_keys:
